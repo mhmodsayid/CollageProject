@@ -10,6 +10,7 @@ public class ClientConsole extends Application {
 	String host = "";
 		//test
 		//add from pc
+		//added
 		try {
 			host = args[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
