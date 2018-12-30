@@ -9,7 +9,6 @@ public class ClientConsole extends Application {
 	public static void main(String[] args) throws Exception {
 	String host = "";
 		//test
-		//test3
 		try {
 			host = args[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
