@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class ClientConsole extends Application {
 
 	public static void main(String[] args) throws Exception {
-		String host = "";
+	String host = "";
 		try {
 			host = args[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
