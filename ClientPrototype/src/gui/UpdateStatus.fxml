@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UpdateStatusController">
+   <children>
+      <ImageView fx:id="background" fitHeight="561.0" fitWidth="927.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="gui/source/background.jpeg" />
+         </image></ImageView>
+      <AnchorPane layoutX="167.0" layoutY="169.0" prefHeight="222.0" prefWidth="558.0" style="-fx-background-color: #E6E6E6;">
+         <children>
+            <Separator layoutX="25.0" layoutY="44.0" opacity="0.35" prefHeight="30.0" prefWidth="764.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0" />
+            <TextField fx:id="readerName" layoutX="28.0" layoutY="81.0" prefHeight="26.0" prefWidth="177.0" promptText="Subscription number" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="81.0" />
+            <Button fx:id="updateStatus" layoutX="524.0" layoutY="399.0" mnemonicParsing="false" onAction="#updateStatus" prefHeight="32.0" prefWidth="177.0" text="update status" textFill="#0400ff" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Text fill="#0009ff" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="update Status" wrappingWidth="288.07391357421875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="statusmembership" layoutX="356.0" layoutY="81.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <ButtonBar fx:id="background" buttonMinWidth="100.0" cache="true" layoutX="1.0" layoutY="24.0" prefHeight="49.0" prefWidth="889.0">
+         <buttons>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="updateStatus" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="find" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#findReader" style="-fx-background-color: #202020;" text="find" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </buttons>
+      </ButtonBar>
+      <Text layoutX="313.0" layoutY="546.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
