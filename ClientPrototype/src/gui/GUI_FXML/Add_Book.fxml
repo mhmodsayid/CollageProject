@@ -39,7 +39,7 @@
             </Text>
             <ImageView fitHeight="68.0" fitWidth="67.0" layoutX="527.0" layoutY="11.0" AnchorPane.rightAnchor="6.0">
                <image>
-                  <Image url="@logo/add-bookmarks.png" />
+                  <Image url="@../source/add-bookmarks.png" />
                </image>
             </ImageView>
             <TextField layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
@@ -125,7 +125,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../ORT%20braude%20library/תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
