@@ -12,6 +12,7 @@ public class ClientConsole extends Application {
 		//add from pc
 		//added
 		//added 5
+	//fdgdfg
 		try {
 			host = args[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
