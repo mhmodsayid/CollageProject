@@ -62,7 +62,7 @@ public class AddBookController {
     void addBook(ActionEvent event) {
     	
     	
-    	ConnectionToServer.sendData(this, command);
+    	//ConnectionToServer.sendData(this, command);
     }
 
 }
