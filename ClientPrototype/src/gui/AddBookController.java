@@ -60,7 +60,7 @@ public class AddBookController {
     @FXML
     void addBook(ActionEvent event) {
     	
-    	
+    	//test
     	//ConnectionToServer.sendData(this, command);
     }
 
