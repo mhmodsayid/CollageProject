@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@lKeljXZ.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
+        <buttons>
+          <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" opacity="0.5" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+        </buttons>
+      </ButtonBar>
+      <AnchorPane blendMode="SRC_ATOP" layoutX="206.0" layoutY="215.0" prefHeight="238.0" prefWidth="485.0" style="-fx-background-color: #E6E6E6;">
+         <children>
+            <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="18.0" prefWidth="409.0" />
+            <Text fill="#55a6e0" fontSmoothingType="LCD" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reader Card">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="62.0" fitWidth="58.0" layoutX="423.0" layoutY="7.0">
+               <image>
+                  <Image url="@logo/curriculum%20(1).png" />
+               </image>
+            </ImageView>
+            <Text layoutX="14.0" layoutY="76.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Reader ID : 987654" wrappingWidth="231.4121082946658">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="110.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Reader Name : Example Example" wrappingWidth="231.4121082946658">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="146.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number : 0512345678" wrappingWidth="231.4121082946658">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="182.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Email : example@example.com" wrappingWidth="231.41210848093033">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="216.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Status :" wrappingWidth="58.00000041723251">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="103.0" fitWidth="103.0" layoutX="320.0" layoutY="68.0">
+               <image>
+                  <Image url="@logo/man%20(1).png" />
+               </image>
+            </ImageView>
+            <Text layoutX="412.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="edit">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Text>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="72.0" layoutY="197.0">
+               <image>
+                  <Image url="@logo/ok-appproval-acceptance.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="245.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="edit">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <Text layoutX="245.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="edit">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane blendMode="SRC_ATOP" layoutX="700.0" layoutY="215.0" prefHeight="238.0" prefWidth="210.0" style="-fx-background-color: #E6E6E6;">
+         <children>
+            <Text fill="#55a6e0" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loan History" wrappingWidth="118.6287841796875">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="167.0" layoutY="9.0">
+               <image>
+                  <Image url="@logo/history.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="14.0" layoutY="38.0" opacity="0.3" prefHeight="18.0" prefWidth="147.0" />
+            <DatePicker layoutX="15.0" layoutY="56.0" promptText="Search By Date" />
+            <TextField layoutX="15.0" layoutY="128.0" prefHeight="26.0" prefWidth="180.0" promptText="Search By Book Name" />
+            <TextField layoutX="15.0" layoutY="161.0" prefHeight="26.0" prefWidth="180.0" promptText="Search By Book ID" />
+            <Button layoutX="14.0" layoutY="197.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #55A6E0;" text="Clear All" />
+            <Button layoutX="110.0" layoutY="197.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #55A6E0;" text="Search" />
+            <TextField layoutX="15.0" layoutY="93.0" prefHeight="26.0" prefWidth="180.0" promptText="Reader ID" />
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@תמונה1.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
