@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddBookController">
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" smooth="false">
          <image>
@@ -25,8 +25,8 @@
          <children>
             <DatePicker layoutX="330.0" layoutY="208.0" promptText="Date purchased" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="208.0" />
             <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="30.0" prefWidth="516.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="30.0" />
-            <TextField layoutX="37.0" layoutY="68.0" prefHeight="26.0" prefWidth="177.0" promptText="Book name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="68.0" />
-            <TextField layoutX="37.0" layoutY="113.0" prefHeight="26.0" prefWidth="177.0" promptText="Publisher's name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="113.0" />
+            <TextField fx:id="bookName" layoutX="37.0" layoutY="68.0" prefHeight="26.0" prefWidth="177.0" promptText="Book name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="68.0" />
+            <TextField fx:id="publisherName" layoutX="37.0" layoutY="113.0" prefHeight="26.0" prefWidth="177.0" promptText="Publisher's name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="113.0" />
             <Button layoutX="468.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Add" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -42,11 +42,11 @@
                   <Image url="@../source/add-bookmarks.png" />
                </image>
             </ImageView>
-            <TextField layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
+            <TextField fx:id="bookEdite" layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
             <TextArea layoutX="330.0" layoutY="80.0" prefHeight="117.0" prefWidth="180.0" promptText="Book description" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="80.0" />
-            <TextField layoutX="37.0" layoutY="212.0" prefHeight="26.0" prefWidth="177.0" promptText="Catalog number" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="212.0" />
-            <TextField layoutX="37.0" layoutY="262.0" prefHeight="26.0" prefWidth="177.0" promptText="Number of copies" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="262.0" />
-            <TextField layoutX="37.0" layoutY="307.0" prefHeight="26.0" prefWidth="177.0" promptText="Position on the shelf" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="307.0" />
+            <TextField fx:id="CatalogNumber" layoutX="37.0" layoutY="212.0" prefHeight="26.0" prefWidth="177.0" promptText="Catalog number" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="212.0" />
+            <TextField fx:id="NumberOFCopies" layoutX="37.0" layoutY="262.0" prefHeight="26.0" prefWidth="177.0" promptText="Number of copies" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="262.0" />
+            <TextField fx:id="PositionOnTheShelf" layoutX="37.0" layoutY="307.0" prefHeight="26.0" prefWidth="177.0" promptText="Position on the shelf" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="307.0" />
             <DatePicker layoutX="330.0" layoutY="247.0" promptText="Date of print" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="247.0" />
             <Button layoutX="339.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear all" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="143.0">
                <font>
