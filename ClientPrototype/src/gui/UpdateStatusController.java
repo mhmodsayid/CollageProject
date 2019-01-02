@@ -82,11 +82,12 @@ public class UpdateStatusController implements Initializable, ChatIF {
 	}
 
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("UpdateStatus.fxml"));
+		System.out.println("t--------------------------------est before crash");
+		/*Parent root = FXMLLoader.load(getClass().getResource("UpdateStatus.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("OBL Prototype");
 		primaryStage.setScene(scene);
-		primaryStage.show();
+		primaryStage.show();*/
 
 	}
 
