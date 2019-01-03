@@ -1,5 +1,6 @@
 package controller;
 
+import gui.MainPage;
 import gui.UpdateStatusController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,7 +25,8 @@ public class ClientConsole extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		UpdateStatusController aFrame = new UpdateStatusController(); // create StudentFrame and start the gui
-		aFrame.start(arg0);
+		MainPage aframe= new MainPage();
+		//UpdateStatusController aFrame = new UpdateStatusController(); // create StudentFrame and start the gui
+		aframe.start(arg0);
 	}
 }

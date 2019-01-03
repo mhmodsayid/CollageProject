@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainPage">
    <children>
       <ImageView fitHeight="695.0" fitWidth="1122.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <ImageView fitHeight="291.0" fitWidth="525.0" layoutX="303.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
@@ -23,7 +23,7 @@
       </ImageView>
       <ImageView fitHeight="92.0" fitWidth="345.0" layoutX="179.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -31,9 +31,9 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
+      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="52.0" layoutY="15.0" prefHeight="48.0" prefWidth="1036.0">
          <buttons>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+            <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -41,54 +41,57 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button fx:id="searchbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+            <Button fx:id="addbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+            <Button fx:id="returnbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+            <Button fx:id="borrowbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+            <Button fx:id="registerbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+            <Button fx:id="orderbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToOrderScreen" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+            <Button fx:id="extendbutton" defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+            <Button fx:id="readercardbutton" defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+            <Button fx:id="logoutbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
          </buttons>
+         <padding>
+            <Insets left="-50.0" />
+         </padding>
       </ButtonBar>
-      <Text layoutX="183.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
+      <Text fx:id="readerinformation" layoutX="183.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
