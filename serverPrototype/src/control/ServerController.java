@@ -53,7 +53,24 @@ public class ServerController extends AbstractServer
 					  Files.write(path1,book.getBookphoto());
 					    if (in != null)
 					      in.close();
-					   
+					    Connection con=db.initalizeDataBase();
+					    PreparedStatement pstmt;
+					    String query;
+					    query="INSERT INTO book values(?,?,?,?,?,?,?,?,?,?,?)";
+						pstmt=con.prepareStatement(query);
+						pstmt.setString(1,book.getBookName());
+						pstmt.setString(2,book.getPublisherName());
+						pstmt.setString(3,book.getBookEdite());
+						pstmt.setString(4,book.getDateOfPrint());
+						pstmt.setString(5,book.getBookCatagory());
+						pstmt.setString(5,book.getBookDescription());
+						pstmt.setString(5,book.getCatalogNumber());
+						pstmt.setInt(5,book.getNumberOFCopies());
+						pstmt.setString(5,book.getDatePurchased());
+						pstmt.setString(5,book.getPositionOnTheShelf());
+						//pstmt.setString(5,book.getboo);
+						pstmt.executeUpdate();
+						client.sendToClient("addBookSuccess");
 				} catch (Exception e) {
 					
 					e.printStackTrace();

@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import controller.ConnectionToServer;
 import entity.Book;
 import javafx.event.ActionEvent;
@@ -77,7 +79,7 @@ public class AddBookController implements Initializable, ChatIF {
 
 	@FXML
 	private Button uploadContentTable;
-
+	JOptionPane frame;
 	@FXML
 	void uploadContentFile(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
@@ -139,7 +141,10 @@ public class AddBookController implements Initializable, ChatIF {
 
 	@Override
 	public void display(String message) {
-		// TODO Auto-generated method stub
+		if(message.equals("addBookSuccess")) 
+			JOptionPane.showMessageDialog(frame, "the book added successfuly");
+			else
+				JOptionPane.showMessageDialog(frame, "faild to add the book");
 		
 	}
 
