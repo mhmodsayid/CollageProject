@@ -5,9 +5,11 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -44,8 +46,14 @@ public class MainPage {
     private Text readerinformation;
 
     @FXML
-    void moveToAddScreen(ActionEvent event) {
-
+    void moveToAddScreen(ActionEvent event) throws IOException {
+    	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("GUI_FXML/Add_Book.fxml").openStream());
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.show();
     }
 
     @FXML

@@ -3,10 +3,21 @@ package control;
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 
+import entity.Book;
 import entity.Reader;
 import ocsf.server.*;
 
@@ -23,11 +34,42 @@ public class ServerController extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
-	  	getmessagecommand(msg,client);
-	    System.out.println("Message received: " + msg + " from " + client);
+	 
+	  try {
+		String s=(String) msg;
+		getmessagecommand(msg,client);
+	} catch (Exception e1) {//need file special care
+		    ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg);
+		    ObjectInput in = null;
+		      
+				//if this is a add book page
+				 try {
+					 in = new ObjectInputStream(bis);
+					Book book = (Book) in.readObject(); 
+					  new File("booksDataFolder/"+book.getBookName()).mkdirs();
+					  Path path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/Contant_table.pdf");
+					  Files.write(path1,book.getContentfile());
+					  path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/book_picture.jpg");
+					  Files.write(path1,book.getBookphoto());
+					    if (in != null)
+					      in.close();
+					   
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+			//if its another page 
+		
+		
+		
+		
+	}
+	  	
+	   
+	      
 	    
 	  }
-  
+ 
   public void createObject(ResultSet result,Object obj) throws SQLException {
 	  if(obj instanceof Reader){
 		  while(result.next()){
@@ -44,6 +86,12 @@ public class ServerController extends AbstractServer
 	 
   
   public void getmessagecommand(Object message, ConnectionToClient client) {
+	  try {
+		String str=(String) message;
+	} catch (Exception e1) {
+		System.out.println("not a string");
+	}
+	  
 	  Connection con=db.initalizeDataBase();
 	  PreparedStatement pstmt;
 	  String s=(String) message;
@@ -138,11 +186,11 @@ public class ServerController extends AbstractServer
     try
     {
      String test=args[3];
-      db=new DbContoller(args[0],args[1],args[2],args[3]);
+     // db=new DbContoller(args[0],args[1],args[2],args[3]);
     }
     catch(ArrayIndexOutOfBoundsException t)
     {
-    	db=new DbContoller(args[0],args[1],args[2]);
+    	//db=new DbContoller(args[0],args[1],args[2]);
     }
 	
     ServerController sv = new ServerController(port);
