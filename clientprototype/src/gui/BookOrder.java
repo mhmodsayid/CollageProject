@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
@@ -80,7 +81,12 @@ public class BookOrder implements Initializable, ChatIF {
 		dateOfPurchased.setText(Book.getTheBook().getDatePurchased());
 		dateOfPrint.setText(Book.getTheBook().getDateOfPrint());
 		ByteArrayInputStream bis = new ByteArrayInputStream(Book.getTheBook().getBookphoto());
-	      BufferedImage bImage2 = ImageIO.read(bis);
+	      try {
+			BufferedImage bImage2 = ImageIO.read(bis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	     
 	}
 
