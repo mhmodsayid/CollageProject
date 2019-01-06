@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class Book implements Serializable  {
-	
+	static Book book;
 		/**
 	 * 
 	 */
@@ -129,6 +129,12 @@ public class Book implements Serializable  {
 		}
 		public void setBookphoto(byte[] bookphoto) {
 			this.bookphoto = bookphoto;
+		}
+		public static Book getTheBook() {
+			return book;
+		}
+		public static void setTheBook(Book book) {
+			Book.book=book;
 		}
 		@Override
 		public String toString() {
