@@ -82,8 +82,6 @@ public class BookOrder implements Initializable, ChatIF {
 		ByteArrayInputStream bis = new ByteArrayInputStream(Book.getTheBook().getBookphoto());
 	      BufferedImage bImage2 = ImageIO.read(bis);
 	     
-		//bookPic.setImage(bImage2);
-		//Image
 	}
 
 }
