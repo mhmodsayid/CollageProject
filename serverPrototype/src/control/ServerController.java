@@ -63,12 +63,12 @@ public class ServerController extends AbstractServer
 						pstmt.setString(3,book.getBookEdite());
 						pstmt.setString(4,book.getDateOfPrint());
 						pstmt.setString(5,book.getBookCatagory());
-						pstmt.setString(5,book.getBookDescription());
-						pstmt.setString(5,book.getCatalogNumber());
-						pstmt.setInt(5,book.getNumberOFCopies());
-						pstmt.setString(5,book.getDatePurchased());
-						pstmt.setString(5,book.getPositionOnTheShelf());
-						//pstmt.setString(5,book.getboo);
+						pstmt.setString(6,book.getBookDescription());
+						pstmt.setString(7,book.getCatalogNumber());
+						pstmt.setInt(8,book.getNumberOFCopies());
+						pstmt.setString(9,book.getDatePurchased());
+						pstmt.setString(10,book.getPositionOnTheShelf());
+						pstmt.setInt(11,book.getBookStatus());
 						pstmt.executeUpdate();
 						client.sendToClient("addBookSuccess");
 				} catch (Exception e) {
@@ -202,12 +202,13 @@ public class ServerController extends AbstractServer
 
     try
     {
-     String test=args[3];
-     // db=new DbContoller(args[0],args[1],args[2],args[3]);
+    // String test=args[3];//tempt off 
+     //db=new DbContoller(args[0],args[1],args[2],args[3]);
+     db=new DbContoller("root","password","collageproject","77.138.40.146");
     }
     catch(ArrayIndexOutOfBoundsException t)
     {
-    	//db=new DbContoller(args[0],args[1],args[2]);
+     db=new DbContoller(args[0],args[1],args[2]);
     }
 	
     ServerController sv = new ServerController(port);

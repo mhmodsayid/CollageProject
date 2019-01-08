@@ -16,7 +16,7 @@ public class Book implements Serializable  {
 		private String publisherName;
 		private String bookEdite;
 		private String CatalogNumber;
-		private int NumberOFCopies;
+		private int NumberOFCopies=0;
 		private String PositionOnTheShelf;
 		private String bookCatagory;
 		private String bookDescription;
@@ -26,10 +26,13 @@ public class Book implements Serializable  {
 		private String bookPhotoFileLocation;
 		private byte[]contentfile;
 		private byte[]bookphoto;
-		public Book(String bookName, String publisherName, String bookEdite, String catalogNumber,
-				int numberOFCopies, String positionOnTheShelf, String bookCatagory, String bookDescription,
-				String datePurchased, String dateOfPrint, String contentTableFileLocation, String bookPhotoFileLocation,
-				byte[] contentfile, byte[] bookphoto) {
+		private int bookStatus=0;
+		
+		
+		public Book(String bookName, String publisherName, String bookEdite, String catalogNumber, int numberOFCopies,
+				String positionOnTheShelf, String bookCatagory, String bookDescription, String datePurchased,
+				String dateOfPrint, String contentTableFileLocation, String bookPhotoFileLocation, byte[] contentfile,
+				byte[] bookphoto, int bookStatus) {
 			super();
 			this.bookName = bookName;
 			this.publisherName = publisherName;
@@ -45,6 +48,7 @@ public class Book implements Serializable  {
 			this.bookPhotoFileLocation = bookPhotoFileLocation;
 			this.contentfile = contentfile;
 			this.bookphoto = bookphoto;
+			this.bookStatus = bookStatus;
 		}
 		public String getBookName() {
 			return bookName;
@@ -136,16 +140,24 @@ public class Book implements Serializable  {
 		public static void setTheBook(Book book) {
 			Book.book=book;
 		}
+		public int getBookStatus() {
+			return bookStatus;
+		}
+		public void setBookStatus(int bookStatus) {
+			this.bookStatus = bookStatus;
+		}
 		@Override
 		public String toString() {
-			return "AddBook [bookName=" + bookName + ", publisherName=" + publisherName + ", bookEdite=" + bookEdite
+			return "Book [bookName=" + bookName + ", publisherName=" + publisherName + ", bookEdite=" + bookEdite
 					+ ", CatalogNumber=" + CatalogNumber + ", NumberOFCopies=" + NumberOFCopies
 					+ ", PositionOnTheShelf=" + PositionOnTheShelf + ", bookCatagory=" + bookCatagory
 					+ ", bookDescription=" + bookDescription + ", datePurchased=" + datePurchased + ", dateOfPrint="
 					+ dateOfPrint + ", contentTableFileLocation=" + contentTableFileLocation
 					+ ", bookPhotoFileLocation=" + bookPhotoFileLocation + ", contentfile="
-					+ Arrays.toString(contentfile) + ", bookphoto=" + Arrays.toString(bookphoto) + "]";
+					+ Arrays.toString(contentfile) + ", bookphoto=" + Arrays.toString(bookphoto) + ", bookStatus="
+					+ bookStatus + "]";
 		}
+		
 		
 		
 	

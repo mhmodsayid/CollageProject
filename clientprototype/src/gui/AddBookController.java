@@ -10,6 +10,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -121,12 +123,14 @@ public class AddBookController implements Initializable, ChatIF {
 		book.setPublisherName(publisherName.getText());
 		book.setBookEdite(bookEdite.getText());
 		book.setCatalogNumber(catalogNumber.getText());
-		//book.setNumberOFCopies(Integer.parseInt(numberOFCopies.getText()));
+		book.setNumberOFCopies(Integer.parseInt(numberOFCopies.getText()));
 		book.setPositionOnTheShelf(positionOnTheShelf.getText());
 		book.setBookCatagory(bookCatagory.getText());
 		book.setBookDescription(bookDescription.getText());
-		book.setDatePurchased(datePurchased.getAccessibleText());
-		book.setDateOfPrint(dateOfPrint.getAccessibleText());
+		LocalDate dateofprint = dateOfPrint.getValue();
+		LocalDate datepurchased = datePurchased.getValue();
+		book.setDatePurchased(datepurchased.toString());
+		book.setDateOfPrint(dateofprint.toString());
 		book.setContentTableFileLocation(contentTableFileLocation.getAccessibleText());
 		book.setBookPhotoFileLocation(bookPhotoFileLocation.getAccessibleText());
 		
