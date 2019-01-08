@@ -1,23 +1,25 @@
 package gui;
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
+
 import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
-import javafx.scene.image.*;
 import entity.Book;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
-
+import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 public class BookOrder implements Initializable, ChatIF {
 
     @FXML
@@ -56,11 +58,21 @@ public class BookOrder implements Initializable, ChatIF {
     void OrderTheBook(ActionEvent event) {
 
     }
-
     @FXML
-    void loadTheContentFolder(MouseEvent event) {
-
+    void loadTheContentFolder(MouseEvent event) throws IOException {
+    	System.out.println("hoo");
+    	
+    	Path path = Paths.get("temp.pdf");
+    	Files.write(path, Book.getTheBook().getContentfile());
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +path);
+        
+    
+    	
     }
+    
+    
+	
+
 
 	@Override
 	public void display(Object message) {
@@ -80,13 +92,9 @@ public class BookOrder implements Initializable, ChatIF {
 		shelfNumber.setText(Book.getTheBook().getPositionOnTheShelf());
 		dateOfPurchased.setText(Book.getTheBook().getDatePurchased());
 		dateOfPrint.setText(Book.getTheBook().getDateOfPrint());
-		/*ByteArrayInputStream bis = new ByteArrayInputStream(Book.getTheBook().getBookphoto());
-	      try {
-			BufferedImage bImage2 = ImageIO.read(bis);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+			Image img = new Image(new ByteArrayInputStream(Book.getTheBook().getBookphoto()));
+			bookPic.setImage(img);
+
 	     
 	}
 

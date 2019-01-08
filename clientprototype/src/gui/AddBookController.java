@@ -1,9 +1,12 @@
 package gui;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.URL;
@@ -15,6 +18,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.SliderUI;
 
 import controller.ConnectionToServer;
 import entity.Book;
@@ -122,15 +126,19 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	
 	
 	@FXML
-	void goToOrder(ActionEvent event) throws IOException { 
+	void goToOrder(ActionEvent event) throws IOException, InterruptedException { 
 		//inisalize the book
 		
-		
+		//temp =================================================
 		String command = "04123";
 		
-			ConnectionToServer.sendData(this, command);
-			
-		Book.setTheBook(new Book());
+		ConnectionToServer.sendData(this, command);
+		while(Book.getTheBook()==null || !(Book.getTheBook().getBookName().equals("123"))) {
+			Thread.sleep(10);
+		}
+	//	Book.setTheBook(new Book());
+		
+		//temp+====================================================
 		 ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Book_Order.fxml"));
 		Scene scene = new Scene(ReturnScreen);
     	Stage primaryStage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -138,7 +146,6 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		System.out.println("worked");
-		
 		
 	}
 	
@@ -190,7 +197,28 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	public void display(Object message) {
 		if(message.equals("addBookSuccess")) 
 			JOptionPane.showMessageDialog(frame, "the book added successfuly");
+	//========================================================================
+		Book booke=new Book();
+			 
+			 
+			    try {
+			    	ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) message);
+				    ObjectInput in = new ObjectInputStream(bis);
+					booke = (Book) in.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			  
 		
+		  Book.setTheBook(booke);
+		
+		
+		
+	//========================================================================
 				
 		
 	}

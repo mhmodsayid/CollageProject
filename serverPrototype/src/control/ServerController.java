@@ -4,12 +4,12 @@ package control;
 // license found at www.lloseng.com 
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -181,7 +181,7 @@ public class ServerController extends AbstractServer
 			break;
 		case 4://book order
 			data=Arrays.asList(s.split(","));
-			query="select * from book where Book Name=?";
+			query="select * from book where `Book Name`=?";
 			pstmt=con.prepareStatement(query);
 			pstmt.setString(1,data.get(0));
 			Book book =new Book();
@@ -189,20 +189,25 @@ public class ServerController extends AbstractServer
 			
 			
 			
-		//	book.setBookphoto(bookphoto);
-		//	book.setContentfile(contentfile);
+		
+			 Path path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/Contant_table.pdf");
+			 byte[] content = Files.readAllBytes(path1);
+			  path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/book_picture.jpg");
+			  byte[] photo = Files.readAllBytes(path1);
+				book.setBookphoto(photo);
+				book.setContentfile(content);
+					
 			
-		//	 Path path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/Contant_table.pdf");
-		//	  Files.readAllBytes(path)(path1,book.getContentfile());
-		//	  path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/book_picture.jpg");
-		//	  Files.write(path1,book.getBookphoto());
-			
-			
-			
+			ObjectOutput out = null;
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			out = new ObjectOutputStream(bos);   
+			  out.writeObject(book);
+			  out.flush();
+			  byte[] objbyte = bos.toByteArray();
 			if(book.getBookName()==null)
 				client.sendToClient("-1");
 			else
-			//	client.sendToClient(book.toStringClient());
+				client.sendToClient(objbyte);
 			System.out.println("sending "+book+" to client");
 			break;
 		case 5:
