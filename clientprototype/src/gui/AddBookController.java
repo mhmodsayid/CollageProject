@@ -38,7 +38,7 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	private TextField bookName;
 
 	@FXML
-	private TextField publisherName;
+	private  TextField publisherName;
 
 	@FXML
 	private Button addBookButton;
