@@ -99,6 +99,24 @@ public class ServerController extends AbstractServer
 		  }
 	  }
 	  
+	  
+	  if(obj instanceof Book){
+		  while(result.next()){
+				Book book=(Book) obj;
+				book.setBookName(result.getString(1));
+				book.setPublisherName(result.getString(2));
+				book.setBookEdite(result.getString(3));
+				book.setDateOfPrint(result.getString(4));
+				book.setBookCatagory(result.getString(5));
+				book.setBookDescription(result.getString(6));
+				book.setCatalogNumber(result.getString(7));
+				book.setNumberOFCopies(Integer.parseInt(result.getString(8)));
+				book.setDatePurchased(result.getString(9));
+				book.setPositionOnTheShelf(result.getString(10));
+				book.setBookStatus(Integer.parseInt(result.getString(11)));
+		  }
+	  }
+	  
   }
 	 
   
@@ -162,6 +180,30 @@ public class ServerController extends AbstractServer
 				client.sendToClient(pstmt.executeUpdate());
 			break;
 		case 4://book order
+			data=Arrays.asList(s.split(","));
+			query="select * from book where Book Name=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			Book book =new Book();
+			createObject(pstmt.executeQuery(),book);
+			
+			
+			
+		//	book.setBookphoto(bookphoto);
+		//	book.setContentfile(contentfile);
+			
+		//	 Path path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/Contant_table.pdf");
+		//	  Files.readAllBytes(path)(path1,book.getContentfile());
+		//	  path1 = Paths.get("booksDataFolder/"+book.getBookName()+"/book_picture.jpg");
+		//	  Files.write(path1,book.getBookphoto());
+			
+			
+			
+			if(book.getBookName()==null)
+				client.sendToClient("-1");
+			else
+			//	client.sendToClient(book.toStringClient());
+			System.out.println("sending "+book+" to client");
 			break;
 		case 5:
 			break;
@@ -172,6 +214,7 @@ public class ServerController extends AbstractServer
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+  
   }
 
     
