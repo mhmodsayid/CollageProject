@@ -84,7 +84,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="46.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../bin/gui/source/header.png" />
+            <Image url="@../source/header.png" />
          </image>
       </ImageView>
       <Text layoutX="48.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
