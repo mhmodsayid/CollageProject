@@ -16,7 +16,7 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <Text layoutX="430.0" layoutY="690.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -83,7 +83,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="46.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="48.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
@@ -103,7 +103,7 @@
             <Separator layoutX="14.0" layoutY="35.0" opacity="0.2" prefHeight="18.0" prefWidth="266.0" />
             <ImageView fitHeight="72.0" fitWidth="60.0" layoutX="303.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/pencil-edit-button%20(1).png" />
+                  <Image url="@../source/pencil-edit-button%20(1).png" />
                </image>
             </ImageView>
             <TextField layoutX="55.0" layoutY="196.0" prefHeight="26.0" prefWidth="240.0" promptText="Username" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="55.0" />

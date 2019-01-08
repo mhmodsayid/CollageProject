@@ -14,14 +14,14 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <AnchorPane layoutX="368.0" layoutY="149.0" prefHeight="470.0" prefWidth="370.0" style="-fx-background-color: #E6E6E6;">
          <children>
             <ImageView fitHeight="104.0" fitWidth="106.0" layoutX="140.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/lock.png" />
+                  <Image url="@../source/lock.png" />
                </image>
             </ImageView>
             <Separator layoutX="14.0" layoutY="35.0" opacity="0.2" prefHeight="18.0" prefWidth="356.0" />
@@ -62,7 +62,7 @@
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="302.0" layoutX="454.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
    </children>

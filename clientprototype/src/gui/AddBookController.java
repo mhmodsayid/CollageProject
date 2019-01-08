@@ -29,7 +29,7 @@ import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import ocsf.client.ChatIF;
 
-public class AddBookController implements Initializable, ChatIF {
+public class AddBookController extends NavigationBar implements Initializable, ChatIF {
 	Book book;
 	@FXML
 	private DatePicker datePurchased;

@@ -17,7 +17,7 @@
    <children>
       <ImageView fx:id="background" fitHeight="561.0" fitWidth="927.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="gui/source/background.jpeg" />
+            <Image url="@../source/background.jpeg" />
          </image></ImageView>
       <AnchorPane layoutX="167.0" layoutY="169.0" prefHeight="222.0" prefWidth="558.0" style="-fx-background-color: #E6E6E6;">
          <children>

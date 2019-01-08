@@ -18,7 +18,7 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -85,7 +85,7 @@
             </Text>
             <ImageView fitHeight="62.0" fitWidth="58.0" layoutX="423.0" layoutY="7.0">
                <image>
-                  <Image url="@logo/curriculum%20(1).png" />
+                  <Image url="@../source/curriculum%20(1).png" />
                </image>
             </ImageView>
             <Text layoutX="14.0" layoutY="76.0" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" text="Reader ID : 987654" wrappingWidth="231.4121082946658">
@@ -115,7 +115,7 @@
             </Text>
             <ImageView fitHeight="103.0" fitWidth="103.0" layoutX="320.0" layoutY="68.0">
                <image>
-                  <Image url="@logo/man%20(1).png" />
+                  <Image url="@../source/man%20(1).png" />
                </image>
             </ImageView>
             <Text layoutX="412.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="edit">
@@ -124,7 +124,7 @@
                </cursor></Text>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="72.0" layoutY="197.0">
                <image>
-                  <Image url="@logo/ok-appproval-acceptance.png" />
+                  <Image url="@../source/ok-appproval-acceptance.png" />
                </image>
             </ImageView>
             <Text layoutX="245.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="edit">
@@ -148,7 +148,7 @@
             </Text>
             <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="167.0" layoutY="9.0">
                <image>
-                  <Image url="@logo/history.png" />
+                  <Image url="@../source/history.png" />
                </image>
             </ImageView>
             <Separator layoutX="14.0" layoutY="38.0" opacity="0.3" prefHeight="18.0" prefWidth="147.0" />
@@ -162,7 +162,7 @@
       </AnchorPane>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">

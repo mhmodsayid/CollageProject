@@ -18,7 +18,7 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="@/gui/source/background.jpeg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <AnchorPane blendMode="SRC_ATOP" layoutX="278.0" layoutY="151.0" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
@@ -39,7 +39,7 @@
             </Text>
             <ImageView fitHeight="68.0" fitWidth="67.0" layoutX="527.0" layoutY="11.0" AnchorPane.rightAnchor="6.0">
                <image>
-                  <Image url="@/gui/source/add-bookmarks.png" />
+                  <Image url="@../source/add-bookmarks.png" />
                </image>
             </ImageView>
             <TextField fx:id="bookEdite" layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
@@ -68,7 +68,7 @@
       </Text>
       <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
          <buttons>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToHome" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -76,7 +76,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -86,37 +86,37 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToOrderScreen" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -125,7 +125,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@/gui/source/header.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">

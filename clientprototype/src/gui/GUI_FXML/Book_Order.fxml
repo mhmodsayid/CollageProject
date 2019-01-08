@@ -14,7 +14,7 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@/gui/source/background.jpeg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
@@ -55,7 +55,10 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ImageView fx:id="bookPic" fitHeight="253.0" fitWidth="158.0" layoutX="397.0" layoutY="92.0" onMouseClicked="#loadTheContentFolder" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="bookPic" fitHeight="253.0" fitWidth="158.0" layoutX="397.0" layoutY="92.0" onMouseClicked="#loadTheContentFolder" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../source/agenda.png" />
+               </image></ImageView>
             <Text fx:id="bookCatagory" layoutX="160.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -73,7 +76,7 @@
             </Button>
             <ImageView fitHeight="60.0" fitWidth="70.0" layoutX="531.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/manual.png" />
+                  <Image url="@../source/manual.png" />
                </image>
             </ImageView>
             <Text fill="#796be1" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Information :" underline="true">

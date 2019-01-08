@@ -16,12 +16,12 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Pane blendMode="SRC_ATOP" layoutX="256.0" layoutY="123.0" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
@@ -29,7 +29,7 @@
             <Separator cache="true" layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="16.0" prefWidth="502.0" />
             <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="526.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/magnifier.png" />
+                  <Image url="@../source/magnifier.png" />
                </image>
             </ImageView>
             <Text fill="#55a6e0" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Book">
@@ -78,7 +78,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" disable="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" opacity="0.28" style="-fx-background-color: #202020;" text="Search" textFill="#f0f0f0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

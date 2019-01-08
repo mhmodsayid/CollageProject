@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <AnchorPane layoutX="257.0" layoutY="174.0" prefHeight="348.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
@@ -46,7 +46,7 @@
             </Text>
             <ImageView fitHeight="67.0" fitWidth="66.0" layoutX="534.0" layoutY="6.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <image>
-                  <Image url="@logo/add-event.png" />
+                  <Image url="@../source/add-event.png" />
                </image>
             </ImageView>
             <DatePicker disable="true" layoutX="337.0" layoutY="148.0" prefHeight="26.0" prefWidth="194.0" promptText="Return Date" AnchorPane.leftAnchor="337.0" AnchorPane.topAnchor="148.0" />
@@ -123,7 +123,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="36.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../ORT%20braude%20library/תמונה1.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Text layoutX="38.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
