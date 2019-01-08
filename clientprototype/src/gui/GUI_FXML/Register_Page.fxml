@@ -127,7 +127,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox layoutX="110.0" layoutY="337.0" prefWidth="150.0" promptText="user type" />
+            <ComboBox layoutX="110.0" layoutY="337.0" prefWidth="150.0" promptText="User Type" />
          </children>
       </AnchorPane>
    </children>
