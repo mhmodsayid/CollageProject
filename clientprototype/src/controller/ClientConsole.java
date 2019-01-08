@@ -25,7 +25,7 @@ public class ClientConsole extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		MainPage aframe= new MainPage();
+	MainPage aframe= new MainPage();
 		//UpdateStatusController aFrame = new UpdateStatusController(); // create StudentFrame and start the gui
 		aframe.start(arg0);
 	}
