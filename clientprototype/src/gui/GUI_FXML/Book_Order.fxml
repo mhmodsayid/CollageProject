@@ -19,7 +19,7 @@
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@/gui/source/header.png" />
+            <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
       <Pane layoutX="257.0" layoutY="123.0" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
@@ -55,7 +55,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <ImageView fx:id="bookPic" fitHeight="253.0" fitWidth="158.0" layoutX="397.0" layoutY="92.0" onMouseClicked="#loadTheContentFolder" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bookPic" fitHeight="253.0" fitWidth="158.0" layoutX="397.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../source/agenda.png" />
                </image></ImageView>
@@ -69,7 +69,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Button layoutX="472.0" layoutY="404.0" mnemonicParsing="false" onAction="#OrderTheBook" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Order">
+            <Button layoutX="472.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Order">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

@@ -64,7 +64,8 @@ public class FindReaderController implements ChatIF, Initializable {
 	}
 
 	@Override
-	public void display(String message) {//the answer from the sever
+	public void display(Object Omessage) {//the answer from the sever
+		String message=(String)Omessage;
 		if (message.equals("-1")) {
 			JOptionPane.showMessageDialog(frame, "The reader Id is not exists");
 		} else {

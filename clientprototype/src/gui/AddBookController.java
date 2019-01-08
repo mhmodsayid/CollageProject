@@ -20,13 +20,16 @@ import controller.ConnectionToServer;
 import entity.Book;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import ocsf.client.ChatIF;
 
 public class AddBookController extends NavigationBar implements Initializable, ChatIF {
@@ -116,7 +119,47 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		// VBox vBox = new VBox(contentUploadButton);
 
 	}
-
+	
+	
+	@FXML
+	void goToOrder(ActionEvent event) throws IOException { 
+		//inisalize the book
+		
+		
+		String command = "04123";
+		
+			ConnectionToServer.sendData(this, command);
+			
+		Book.setTheBook(new Book());
+		 ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Book_Order.fxml"));
+		Scene scene = new Scene(ReturnScreen);
+    	Stage primaryStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+    	primaryStage.hide();
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		System.out.println("worked");
+		
+		
+	}
+	
+	@FXML
+	void clearAll(ActionEvent event) throws IOException { 
+		
+		//datePurchased.setv;
+		bookName.setText("");
+		publisherName.setText("");
+		bookEdite.setText("");
+		bookDescription.setText("");
+		catalogNumber.setText("");
+		numberOFCopies.setText("");
+		positionOnTheShelf.setText("");
+		contentTableFileLocation.setText("");
+		bookPhotoFileLocation.setText("");
+		bookCatagory.setText("");
+		dateOfPrint.getEditor().clear();
+		datePurchased.getEditor().clear();
+	}
+	
 	@FXML
 	void addBook(ActionEvent event) throws IOException {  
 		book.setBookName(bookName.getText());
@@ -144,11 +187,11 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	}
 
 	@Override
-	public void display(String message) {
+	public void display(Object message) {
 		if(message.equals("addBookSuccess")) 
 			JOptionPane.showMessageDialog(frame, "the book added successfuly");
-			else
-				JOptionPane.showMessageDialog(frame, "faild to add the book");
+		
+				
 		
 	}
 

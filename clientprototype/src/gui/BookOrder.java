@@ -63,7 +63,7 @@ public class BookOrder implements Initializable, ChatIF {
     }
 
 	@Override
-	public void display(String message) {
+	public void display(Object message) {
 		
 		
 	}
@@ -80,13 +80,13 @@ public class BookOrder implements Initializable, ChatIF {
 		shelfNumber.setText(Book.getTheBook().getPositionOnTheShelf());
 		dateOfPurchased.setText(Book.getTheBook().getDatePurchased());
 		dateOfPrint.setText(Book.getTheBook().getDateOfPrint());
-		ByteArrayInputStream bis = new ByteArrayInputStream(Book.getTheBook().getBookphoto());
+		/*ByteArrayInputStream bis = new ByteArrayInputStream(Book.getTheBook().getBookphoto());
 	      try {
 			BufferedImage bImage2 = ImageIO.read(bis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	     
 	}
 

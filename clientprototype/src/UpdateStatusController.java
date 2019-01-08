@@ -92,7 +92,7 @@ public class UpdateStatusController implements Initializable, ChatIF {
 	}
 
 	@Override
-	public void display(String message) {//the message from the server
+	public void display(Object message) {//the message from the server
 		if (message.equals("1"))
 			JOptionPane.showMessageDialog(frame, "student updated successfully");
 		else
