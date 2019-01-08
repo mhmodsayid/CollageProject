@@ -13,11 +13,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.BorrowBookControler">
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0">
          <image>
-            <Image url="@lKeljXZ.jpg" />
+            <Image url="@../source/background.jpeg" />
          </image>
       </ImageView>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -25,7 +25,7 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <AnchorPane blendMode="SRC_ATOP" layoutX="294.0" layoutY="191.0" prefHeight="313.0" prefWidth="527.0" style="-fx-background-color: #E6E6E6;">
+      <AnchorPane blendMode="SRC_ATOP" layoutX="282.0" layoutY="191.0" prefHeight="313.0" prefWidth="527.0" style="-fx-background-color: #E6E6E6;">
          <children>
             <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="18.0" prefWidth="422.0" />
             <Text fill="#55a6e0" fontSmoothingType="LCD" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrow Book">
@@ -33,26 +33,25 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <TextField layoutX="29.0" layoutY="130.0" prefHeight="26.0" prefWidth="180.0" promptText="Reader Name" />
-            <Button layoutX="395.0" layoutY="267.0" mnemonicParsing="false" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Confirm" />
+            <TextField fx:id="ReaderName" layoutX="29.0" layoutY="130.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Reader Name" />
+            <Button fx:id="Confirm" layoutX="395.0" layoutY="267.0" mnemonicParsing="false" onAction="#Confirm_Massege" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Confirm" />
             <ImageView fitHeight="64.0" fitWidth="69.0" layoutX="444.0" layoutY="6.0">
                <image>
-                  <Image url="@logo/open-book.png" />
-               </image>
-            </ImageView>
-            <TextField layoutX="29.0" layoutY="189.0" prefHeight="26.0" prefWidth="180.0" promptText="Book Catalog Number" />
-            <TextField layoutX="29.0" layoutY="67.0" prefHeight="26.0" prefWidth="180.0" promptText="Reader ID" />
-            <DatePicker layoutX="309.0" layoutY="130.0" prefHeight="26.0" prefWidth="180.0" promptText="Borrow Date" />
-            <DatePicker layoutX="309.0" layoutY="189.0" prefHeight="26.0" prefWidth="180.0" promptText="Return Date" />
-            <Button blendMode="SRC_ATOP" layoutX="268.0" layoutY="267.0" mnemonicParsing="false" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear" />
+                  <Image url="@../source/open-book.png" />
+               </image></ImageView>
+            <TextField fx:id="BookCatalogNumber" layoutX="29.0" layoutY="189.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Book Catalog Number" />
+            <TextField fx:id="ReaderID" layoutX="29.0" layoutY="67.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Reader ID" />
+            <DatePicker fx:id="BorrowDate" layoutX="309.0" layoutY="130.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Borrow Date" />
+            <DatePicker fx:id="ReturnDate" layoutX="309.0" layoutY="189.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Return Date" />
+            <Button fx:id="ClearALL" blendMode="SRC_ATOP" layoutX="268.0" layoutY="267.0" mnemonicParsing="false" onAction="#ClearAll" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear" />
             <ImageView fitWidth="40.0" layoutX="221.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/danger.png" />
+                  <Image url="@../source/danger.png" />
                </image>
             </ImageView>
             <ImageView fitWidth="40.0" layoutX="221.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@logo/danger1.png" />
+                  <Image url="@../source/danger1.png" />
                </image>
             </ImageView>
          </children>
@@ -116,7 +115,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@תמונה1.png" />
+            <Image url="@../source/header.png" />
          </image>
       </ImageView>
       <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">

@@ -48,7 +48,7 @@ public class AddBookController implements Initializable, ChatIF {
 
 	@FXML
 	private TextArea bookDescription;
-//555
+
 	@FXML
 	private TextField catalogNumber;
 

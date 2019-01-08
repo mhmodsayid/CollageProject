@@ -1,5 +1,6 @@
 package gui;
 
+
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
@@ -57,8 +58,13 @@ public class MainPage {
     }
 
     @FXML
-    void moveToBorrowScreen(ActionEvent event) {
-
+    void moveToBorrowScreen(ActionEvent event) throws IOException {
+    	Parent ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Borrow_Book.fxml"));
+    	Scene scene = new Scene(ReturnScreen);
+    	Stage primaryStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+    	primaryStage.hide();
+		primaryStage.setScene(scene);
+		primaryStage.show();
     }
 
     @FXML
@@ -70,7 +76,7 @@ public class MainPage {
 
     @FXML
     void moveToLogInScreen(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -89,8 +95,13 @@ public class MainPage {
     }
 
     @FXML
-    void moveToReturnScreen(ActionEvent event) {
-
+    void moveToReturnScreen(ActionEvent event) throws IOException {
+    	Parent ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Return_Book.fxml"));
+    	Scene scene = new Scene(ReturnScreen);
+    	Stage primaryStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+    	primaryStage.hide();
+		primaryStage.setScene(scene);
+		primaryStage.show();
     }
 
     @FXML
