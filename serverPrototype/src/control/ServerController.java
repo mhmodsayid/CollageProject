@@ -161,7 +161,7 @@ public class ServerController extends AbstractServer
 				pstmt.setString(2,frozen);
 				client.sendToClient(pstmt.executeUpdate());
 			break;
-		case 4:
+		case 4://book order
 			break;
 		case 5:
 			break;
