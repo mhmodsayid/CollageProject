@@ -50,14 +50,7 @@ public class ReturnBookControler {
     public void Confirm_Massege(ActionEvent event) {
     	if (bookID==null || bookName == null||category==null||bookStatus==null)
 			JOptionPane.showMessageDialog(frame, "please fill the fields");
-		/*else {
-			try {
-				ConnectionToServer.sendData(this, command);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
+		
     }
 
 }
