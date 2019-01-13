@@ -142,7 +142,7 @@ public class ServerController extends AbstractServer
 				query="INSERT INTO student values(?,?,?,?,?)";
 				pstmt=con.prepareStatement(query);
 				pstmt.setString(1,data.get(0));
-				pstmt.setString(2,data.get(1));
+			    	pstmt.setString(2,data.get(1));
 				pstmt.setString(3,data.get(2));
 				pstmt.setString(4,data.get(3));
 				pstmt.setString(5,data.get(4));
