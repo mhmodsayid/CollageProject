@@ -40,54 +40,28 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	Book book;
 	@FXML
 	private DatePicker datePurchased;
-
 	@FXML
 	private TextField bookName;
-
 	@FXML
-	private  TextField publisherName;
-
-	@FXML
-	private Button addBookButton;
-
+	private TextField publisherName;
 	@FXML
 	private TextField bookEdite;
-
 	@FXML
 	private TextArea bookDescription;
-
 	@FXML
 	private TextField catalogNumber;
-
 	@FXML
 	private TextField numberOFCopies;
-
 	@FXML
 	private TextField positionOnTheShelf;
-
 	@FXML
 	private DatePicker dateOfPrint;
-
-	@FXML
-	private Button clearAllButton;
-
 	@FXML
 	private TextField contentTableFileLocation;
-
-	@FXML
-	private Button contentUploadButton;
-
-	@FXML
-	private Button bookPhotoButton;
-
 	@FXML
 	private TextField bookPhotoFileLocation;
-
 	@FXML
 	private TextField bookCatagory;
-
-	@FXML
-	private Button uploadContentTable;
 	JOptionPane frame;
 	@FXML
 	void uploadContentFile(ActionEvent event) throws IOException {
@@ -97,18 +71,6 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		Path pdfPath = Paths.get(contentTableFileLocation.getText());
 		byte[] pdf = Files.readAllBytes(pdfPath);
 		book.setContentfile(pdf);
-		//Path path1 = Paths.get("heer.pdf");
-		 // Files.write(path1, pdf);
-		
-		
-		/*  
-		  try {
-				ConnectionToServer.sendData(this,pdf);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
-
 	}
 
 	@FXML
@@ -120,8 +82,6 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		Path pdfPath = Paths.get(bookPhotoFileLocation.getText());
 		byte[] photo = Files.readAllBytes(pdfPath);
 		book.setBookphoto(photo);
-		// VBox vBox = new VBox(contentUploadButton);
-
 	}
 	
 	
@@ -168,29 +128,32 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	}
 	
 	@FXML
-	void addBook(ActionEvent event) throws IOException {  
-		book.setBookName(bookName.getText());
-		book.setPublisherName(publisherName.getText());
-		book.setBookEdite(bookEdite.getText());
-		book.setCatalogNumber(catalogNumber.getText());
-		book.setNumberOFCopies(Integer.parseInt(numberOFCopies.getText()));
-		book.setPositionOnTheShelf(positionOnTheShelf.getText());
-		book.setBookCatagory(bookCatagory.getText());
-		book.setBookDescription(bookDescription.getText());
-		LocalDate dateofprint = dateOfPrint.getValue();
-		LocalDate datepurchased = datePurchased.getValue();
-		book.setDatePurchased(datepurchased.toString());
-		book.setDateOfPrint(dateofprint.toString());
-		book.setContentTableFileLocation(contentTableFileLocation.getAccessibleText());
-		book.setBookPhotoFileLocation(bookPhotoFileLocation.getAccessibleText());
-		
-		ObjectOutput out = null;
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		out = new ObjectOutputStream(bos);   
-		  out.writeObject(book);
-		  out.flush();
-		  byte[] objbyte = bos.toByteArray();
-		 ConnectionToServer.sendData(this, objbyte);
+	void addBook(ActionEvent event){  
+		try {
+			book.setBookName(bookName.getText());
+			book.setPublisherName(publisherName.getText());
+			book.setBookEdite(bookEdite.getText());
+			book.setCatalogNumber(catalogNumber.getText());
+			book.setNumberOFCopies(numberOFCopies.getText());
+			book.setPositionOnTheShelf(positionOnTheShelf.getText());
+			book.setBookCatagory(bookCatagory.getText());
+			book.setBookDescription(bookDescription.getText());
+			LocalDate dateofprint = dateOfPrint.getValue();
+			LocalDate datepurchased = datePurchased.getValue();
+			book.setDatePurchased(datepurchased.toString());
+			book.setDateOfPrint(dateofprint.toString());
+			
+			ObjectOutput out = null;
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			out = new ObjectOutputStream(bos);   
+			  out.writeObject(book);
+			  out.flush();
+			  byte[] objbyte = bos.toByteArray();
+			 ConnectionToServer.sendData(this, objbyte);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(frame,e.getMessage());
+		}
 	}
 
 	@Override

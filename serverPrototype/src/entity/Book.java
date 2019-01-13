@@ -22,8 +22,6 @@ public class Book implements Serializable  {
 		private String bookDescription;
 		private String datePurchased;
 		private String dateOfPrint;
-		private String contentTableFileLocation;
-		private String bookPhotoFileLocation;
 		private byte[]contentfile;
 		private byte[]bookphoto;
 		private int bookStatus=0;
@@ -31,7 +29,7 @@ public class Book implements Serializable  {
 		
 		public Book(String bookName, String publisherName, String bookEdite, String catalogNumber, int numberOFCopies,
 				String positionOnTheShelf, String bookCatagory, String bookDescription, String datePurchased,
-				String dateOfPrint, String contentTableFileLocation, String bookPhotoFileLocation, byte[] contentfile,
+				String dateOfPrint, byte[] contentfile,
 				byte[] bookphoto, int bookStatus) {
 			super();
 			this.bookName = bookName;
@@ -44,8 +42,7 @@ public class Book implements Serializable  {
 			this.bookDescription = bookDescription;
 			this.datePurchased = datePurchased;
 			this.dateOfPrint = dateOfPrint;
-			this.contentTableFileLocation = contentTableFileLocation;
-			this.bookPhotoFileLocation = bookPhotoFileLocation;
+			
 			this.contentfile = contentfile;
 			this.bookphoto = bookphoto;
 			this.bookStatus = bookStatus;
@@ -53,49 +50,67 @@ public class Book implements Serializable  {
 		public String getBookName() {
 			return bookName;
 		}
-		public void setBookName(String bookName) {
+		public void setBookName(String bookName) throws Exception {
+			if(bookName==null)
+				throw new Exception("Please insert book name");
 			this.bookName = bookName;
 		}
 		public String getPublisherName() {
 			return publisherName;
 		}
-		public void setPublisherName(String publisherName) {
+		public void setPublisherName(String publisherName)throws Exception {
+			if(publisherName==null)
+				throw new Exception("Please insert publisher name");
 			this.publisherName = publisherName;
 		}
 		public String getBookEdite() {
 			return bookEdite;
 		}
-		public void setBookEdite(String bookEdite) {
+		public void setBookEdite(String bookEdite)throws Exception {
+			if(bookEdite==null)
+				throw new Exception("Please insert book edite");
 			this.bookEdite = bookEdite;
 		}
 		public String getCatalogNumber() {
 			return CatalogNumber;
 		}
-		public void setCatalogNumber(String catalogNumber) {
+		public void setCatalogNumber(String catalogNumber) throws Exception{
+			if(catalogNumber==null)
+				throw new Exception("Please insert catalog number");
 			CatalogNumber = catalogNumber;
 		}
 		public int getNumberOFCopies() {
 			return NumberOFCopies;
 		}
-		public void setNumberOFCopies(int numberOFCopies) {
-			NumberOFCopies = numberOFCopies;
+		public void setNumberOFCopies(String numberOFCopies) throws Exception {
+			try {
+				NumberOFCopies = Integer.parseInt(numberOFCopies);
+			} catch (NumberFormatException e) {
+				throw new Exception("please put a number in Number Of Copyes fild");
+			}
 		}
 		public String getPositionOnTheShelf() {
 			return PositionOnTheShelf;
 		}
-		public void setPositionOnTheShelf(String positionOnTheShelf) {
+		public void setPositionOnTheShelf(String positionOnTheShelf) throws Exception{
+			if(positionOnTheShelf==null)
+				throw new Exception("Please insert book position on the shelf");
 			PositionOnTheShelf = positionOnTheShelf;
 		}
 		public String getBookCatagory() {
 			return bookCatagory;
 		}
-		public void setBookCatagory(String bookCatagory) {
+		public void setBookCatagory(String bookCatagory)throws Exception {
+			if(bookCatagory==null)
+				throw new Exception("Please insert book catagory");
 			this.bookCatagory = bookCatagory;
 		}
 		public String getBookDescription() {
 			return bookDescription;
 		}
-		public void setBookDescription(String bookDescription) {
+		public void setBookDescription(String bookDescription)throws Exception {
+			if(bookDescription==null)
+				throw new Exception("Please insert book description");
 			this.bookDescription = bookDescription;
 		}
 		public String getDatePurchased() {
@@ -109,18 +124,6 @@ public class Book implements Serializable  {
 		}
 		public void setDateOfPrint(String dateOfPrint) {
 			this.dateOfPrint = dateOfPrint;
-		}
-		public String getContentTableFileLocation() {
-			return contentTableFileLocation;
-		}
-		public void setContentTableFileLocation(String contentTableFileLocation) {
-			this.contentTableFileLocation = contentTableFileLocation;
-		}
-		public String getBookPhotoFileLocation() {
-			return bookPhotoFileLocation;
-		}
-		public void setBookPhotoFileLocation(String bookPhotoFileLocation) {
-			this.bookPhotoFileLocation = bookPhotoFileLocation;
 		}
 		public byte[] getContentfile() {
 			return contentfile;
@@ -152,8 +155,7 @@ public class Book implements Serializable  {
 					+ ", CatalogNumber=" + CatalogNumber + ", NumberOFCopies=" + NumberOFCopies
 					+ ", PositionOnTheShelf=" + PositionOnTheShelf + ", bookCatagory=" + bookCatagory
 					+ ", bookDescription=" + bookDescription + ", datePurchased=" + datePurchased + ", dateOfPrint="
-					+ dateOfPrint + ", contentTableFileLocation=" + contentTableFileLocation
-					+ ", bookPhotoFileLocation=" + bookPhotoFileLocation + ", contentfile="
+					+ dateOfPrint + ", contentfile="
 					+ Arrays.toString(contentfile) + ", bookphoto=" + Arrays.toString(bookphoto) + ", bookStatus="
 					+ bookStatus + "]";
 		}
