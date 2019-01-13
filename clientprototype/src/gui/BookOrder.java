@@ -84,7 +84,7 @@ public class BookOrder implements Initializable, ChatIF {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		bookName.setText(Book.getTheBook().getBookName());
 		publisher.setText(Book.getTheBook().getPublisherName());
-		bookEdition.setText(Book.getTheBook().getBookEdite());
+		bookEdition.setText(Book.getTheBook().getBookEdite()+"");
 		catalogNumber.setText(Book.getTheBook().getCatalogNumber());
 		bookCatagory.setText(Book.getTheBook().getBookCatagory());
 		bookDiscription.setText(Book.getTheBook().getBookDescription());

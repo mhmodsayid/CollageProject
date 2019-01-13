@@ -60,7 +60,7 @@ public class ServerController extends AbstractServer
 						pstmt=con.prepareStatement(query);
 						pstmt.setString(1,book.getBookName());
 						pstmt.setString(2,book.getPublisherName());
-						pstmt.setString(3,book.getBookEdite());
+						pstmt.setInt(3,book.getBookEdite());
 						pstmt.setString(4,book.getDateOfPrint());
 						pstmt.setString(5,book.getBookCatagory());
 						pstmt.setString(6,book.getBookDescription());
@@ -87,7 +87,7 @@ public class ServerController extends AbstractServer
 	    
 	  }
  
-  public void createObject(ResultSet result,Object obj) throws SQLException {
+  public void createObject(ResultSet result,Object obj) throws Exception {
 	  if(obj instanceof Reader){
 		  while(result.next()){
 				Reader student=(Reader) obj;
@@ -110,7 +110,7 @@ public class ServerController extends AbstractServer
 				book.setBookCatagory(result.getString(5));
 				book.setBookDescription(result.getString(6));
 				book.setCatalogNumber(result.getString(7));
-				book.setNumberOFCopies(Integer.parseInt(result.getString(8)));
+				book.setNumberOFCopies(result.getString(8));
 				book.setDatePurchased(result.getString(9));
 				book.setPositionOnTheShelf(result.getString(10));
 				book.setBookStatus(Integer.parseInt(result.getString(11)));
@@ -181,7 +181,7 @@ public class ServerController extends AbstractServer
 			break;
 		case 4://book order
 			data=Arrays.asList(s.split(","));
-			query="select * from book where `Book Name`=?";
+			query="select * from book where `BookName`=?";
 			pstmt=con.prepareStatement(query);
 			pstmt.setString(1,data.get(0));
 			Book book =new Book();

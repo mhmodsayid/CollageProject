@@ -138,10 +138,14 @@ public class AddBookController extends NavigationBar implements Initializable, C
 			book.setPositionOnTheShelf(positionOnTheShelf.getText());
 			book.setBookCatagory(bookCatagory.getText());
 			book.setBookDescription(bookDescription.getText());
-			LocalDate dateofprint = dateOfPrint.getValue();
-			LocalDate datepurchased = datePurchased.getValue();
-			book.setDatePurchased(datepurchased.toString());
-			book.setDateOfPrint(dateofprint.toString());
+			book.setDatePurchased(dateOfPrint.getValue());
+			book.setDateOfPrint(datePurchased.getValue());
+			if(book.getBookphoto()==null)
+				throw new Exception("Please insert the book picture");
+			
+			if(book.getContentfile()==null)
+				throw new Exception("Please insert the book contant");
+			
 			
 			ObjectOutput out = null;
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();

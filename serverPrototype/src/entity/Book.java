@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 public class Book implements Serializable  {
@@ -14,7 +15,7 @@ public class Book implements Serializable  {
 	}
 		private String bookName;
 		private String publisherName;
-		private String bookEdite;
+		private int bookEdite;
 		private String CatalogNumber;
 		private int NumberOFCopies=0;
 		private String PositionOnTheShelf;
@@ -27,7 +28,7 @@ public class Book implements Serializable  {
 		private int bookStatus=0;
 		
 		
-		public Book(String bookName, String publisherName, String bookEdite, String catalogNumber, int numberOFCopies,
+		public Book(String bookName, String publisherName, int bookEdite, String catalogNumber, int numberOFCopies,
 				String positionOnTheShelf, String bookCatagory, String bookDescription, String datePurchased,
 				String dateOfPrint, byte[] contentfile,
 				byte[] bookphoto, int bookStatus) {
@@ -51,7 +52,7 @@ public class Book implements Serializable  {
 			return bookName;
 		}
 		public void setBookName(String bookName) throws Exception {
-			if(bookName==null)
+			if(bookName.equals(""))
 				throw new Exception("Please insert book name");
 			this.bookName = bookName;
 		}
@@ -59,23 +60,26 @@ public class Book implements Serializable  {
 			return publisherName;
 		}
 		public void setPublisherName(String publisherName)throws Exception {
-			if(publisherName==null)
+			if(publisherName.equals(""))
 				throw new Exception("Please insert publisher name");
 			this.publisherName = publisherName;
 		}
-		public String getBookEdite() {
+		public int getBookEdite() {
 			return bookEdite;
 		}
 		public void setBookEdite(String bookEdite)throws Exception {
-			if(bookEdite==null)
-				throw new Exception("Please insert book edite");
-			this.bookEdite = bookEdite;
+			try {
+				this.bookEdite= Integer.parseInt(bookEdite);
+			} catch (NumberFormatException e) {
+				throw new Exception("please put a number in book edite");
+			}
+			
 		}
 		public String getCatalogNumber() {
 			return CatalogNumber;
 		}
 		public void setCatalogNumber(String catalogNumber) throws Exception{
-			if(catalogNumber==null)
+			if(catalogNumber.equals(""))
 				throw new Exception("Please insert catalog number");
 			CatalogNumber = catalogNumber;
 		}
@@ -93,7 +97,7 @@ public class Book implements Serializable  {
 			return PositionOnTheShelf;
 		}
 		public void setPositionOnTheShelf(String positionOnTheShelf) throws Exception{
-			if(positionOnTheShelf==null)
+			if(positionOnTheShelf.equals(""))
 				throw new Exception("Please insert book position on the shelf");
 			PositionOnTheShelf = positionOnTheShelf;
 		}
@@ -101,7 +105,7 @@ public class Book implements Serializable  {
 			return bookCatagory;
 		}
 		public void setBookCatagory(String bookCatagory)throws Exception {
-			if(bookCatagory==null)
+			if(bookCatagory.equals(""))
 				throw new Exception("Please insert book catagory");
 			this.bookCatagory = bookCatagory;
 		}
@@ -109,12 +113,20 @@ public class Book implements Serializable  {
 			return bookDescription;
 		}
 		public void setBookDescription(String bookDescription)throws Exception {
-			if(bookDescription==null)
+			if(bookDescription.equals(""))
 				throw new Exception("Please insert book description");
 			this.bookDescription = bookDescription;
 		}
 		public String getDatePurchased() {
 			return datePurchased;
+		}
+		public void setDatePurchased(LocalDate datePurchased) throws Exception {
+			
+			try {
+				this.datePurchased = datePurchased.toString();
+			} catch (Exception e) {
+				throw new Exception("please insert date of purchased");
+			}
 		}
 		public void setDatePurchased(String datePurchased) {
 			this.datePurchased = datePurchased;
@@ -125,6 +137,16 @@ public class Book implements Serializable  {
 		public void setDateOfPrint(String dateOfPrint) {
 			this.dateOfPrint = dateOfPrint;
 		}
+		
+		public void setDateOfPrint(LocalDate dateOfPrint) throws Exception {
+			try {
+				this.dateOfPrint = dateOfPrint.toString();
+			} catch (Exception e) {
+				throw new Exception("please insert date of print");
+			}
+		}
+		
+		
 		public byte[] getContentfile() {
 			return contentfile;
 		}
