@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -25,40 +24,40 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <AnchorPane blendMode="SRC_ATOP" layoutX="282.0" layoutY="191.0" prefHeight="313.0" prefWidth="527.0" style="-fx-background-color: #E6E6E6;">
+      <AnchorPane blendMode="SRC_ATOP" layoutX="282.0" layoutY="191.0" prefHeight="370.0" prefWidth="527.0" style="-fx-background-color: #E6E6E6;">
          <children>
-            <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="18.0" prefWidth="422.0" />
+            <Separator layoutX="3.0" layoutY="35.0" prefHeight="18.0" prefWidth="522.0" />
             <Text fill="#55a6e0" fontSmoothingType="LCD" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrow Book">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="ReaderName" layoutX="29.0" layoutY="130.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Reader Name" />
-            <Button fx:id="Confirm" layoutX="395.0" layoutY="267.0" mnemonicParsing="false" onAction="#Confirm_Massege" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Confirm" />
-            <ImageView fitHeight="64.0" fitWidth="69.0" layoutX="444.0" layoutY="6.0">
+            <Button fx:id="Confirm" layoutX="394.0" layoutY="323.0" mnemonicParsing="false" onAction="#BorrowConfirm" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Borrow" />
+            <ImageView fitHeight="100.0" fitWidth="125.0" layoutX="351.0" layoutY="64.0">
                <image>
                   <Image url="@../source/open-book.png" />
                </image></ImageView>
-            <TextField fx:id="BookCatalogNumber" layoutX="29.0" layoutY="189.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Book Catalog Number" />
-            <TextField fx:id="ReaderID" layoutX="29.0" layoutY="67.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Reader ID" />
-            <DatePicker fx:id="BorrowDate" layoutX="309.0" layoutY="130.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Borrow Date" />
-            <DatePicker fx:id="ReturnDate" layoutX="309.0" layoutY="189.0" onAction="#UpdateStatus" prefHeight="26.0" prefWidth="180.0" promptText="Return Date" />
-            <Button fx:id="ClearALL" blendMode="SRC_ATOP" layoutX="268.0" layoutY="267.0" mnemonicParsing="false" onAction="#ClearAll" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear" />
-            <ImageView fitWidth="40.0" layoutX="221.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../source/danger.png" />
-               </image>
-            </ImageView>
-            <ImageView fitWidth="40.0" layoutX="221.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../source/danger1.png" />
-               </image>
-            </ImageView>
+            <TextField fx:id="BookCatalogNumber" layoutX="30.0" layoutY="207.0" prefHeight="26.0" prefWidth="154.0" promptText="Book Catalog Number" />
+            <TextField fx:id="ReaderID" layoutX="30.0" layoutY="67.0" prefHeight="26.0" prefWidth="154.0" promptText="Reader ID" />
+            <Button fx:id="ClearALL" blendMode="SRC_ATOP" layoutX="264.0" layoutY="323.0" mnemonicParsing="false" onAction="#ClearAll" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear All" />
+            <Text layoutX="30.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscriber Status :" />
+            <Text layoutX="30.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Status :" />
+            <Text layoutX="30.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Name :" />
+            <Separator layoutX="3.0" layoutY="180.0" prefHeight="18.0" prefWidth="521.0" />
+            <Text fx:id="SubscriberStatus" layoutX="157.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="______________________" />
+            <Button fx:id="SearchReaderButton" blendMode="SRC_ATOP" layoutX="215.0" layoutY="67.0" mnemonicParsing="false" onAction="#SearchForReaderID" prefHeight="26.0" prefWidth="69.0" style="-fx-background-color: #55A6E0;" text="Search" />
+            <Text fx:id="BookStatus" layoutX="140.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="_________________________" />
+            <Text layoutX="30.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscriber Name :" />
+            <Text fx:id="SubscriberName" layoutX="157.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="______________________" />
+            <Text fx:id="BookName" layoutX="140.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="_________________________" />
+            <Button fx:id="SearchBookButton" blendMode="SRC_ATOP" layoutX="215.0" layoutY="207.0" mnemonicParsing="false" onAction="#SearchForBookID" prefHeight="26.0" prefWidth="69.0" style="-fx-background-color: #55A6E0;" text="Search" />
+            <TextField fx:id="BorrowDate" layoutX="332.0" layoutY="206.0" prefHeight="26.0" prefWidth="154.0" promptText="Borrow Date" />
+            <TextField fx:id="ReturnDate" layoutX="332.0" layoutY="276.0" prefHeight="26.0" prefWidth="154.0" promptText="Return Date" />
          </children>
       </AnchorPane>
       <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
          <buttons>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToHome" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -66,17 +65,17 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -86,27 +85,22 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button defaultButton="true" mnemonicParsing="false" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

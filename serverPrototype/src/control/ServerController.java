@@ -14,9 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import SendingMail.SendMailToClient;
 import entity.Book;
 import entity.Reader;
 import ocsf.server.*;
@@ -126,7 +130,8 @@ public class ServerController extends AbstractServer
 	} catch (Exception e1) {
 		System.out.println("not a string");
 	}
-	  
+	  String SendMassege=""; 
+	  ResultSet object;
 	  Connection con=db.initalizeDataBase();
 	  PreparedStatement pstmt;
 	  String s=(String) message;
@@ -212,7 +217,106 @@ public class ServerController extends AbstractServer
 			break;
 		case 5:
 			break;
-
+		case 7:
+			 SendMassege="UserIDFound,";
+			data=Arrays.asList(s.split(","));
+			query="select * from reader where UserID=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=object.getString(2);
+			}
+			query="select * from user where UserID=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+		    object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=","+object.getString(4)+" "+object.getString(5);
+			}
+			if(SendMassege.equals(null)) {
+				SendMassege="UserIDNotFound";
+			}
+			client.sendToClient(SendMassege);
+			break;
+			
+		case 8:
+			 SendMassege="BookFound,";
+			data=Arrays.asList(s.split(","));
+			query="select * from book where CatalogeNumber=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=object.getString(1)+","+object.getString(11);
+			}
+			if(SendMassege.equals(null)) {
+				SendMassege="NoBookFound";
+			}
+			client.sendToClient(SendMassege);
+			break;
+		case 9:
+			 SendMassege="BookFound,";
+				data=Arrays.asList(s.split(","));
+				query="select * from borrowbook where CatalogNumber=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+				 object = pstmt.executeQuery();
+				while(object.next()) {
+					SendMassege+=object.getString(2)+","+object.getString(4)+","+object.getString(5);
+				}
+				if(SendMassege.equals(null)) {
+					SendMassege="NoBookFound";
+				}
+				client.sendToClient(SendMassege);
+			break;
+		case 10:
+			int quantity=0;
+			data=Arrays.asList(s.split(","));
+			query="select * from book where CatalogeNumber=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				 quantity+=object.getInt(8); 
+			}
+			if(SendMassege.equals(null)) {
+				SendMassege="NoBookFound";
+			}
+			query="update book set quantity=? where CatalogeNumber=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, quantity+1);
+			pstmt.setString(2,data.get(0));
+			pstmt.executeUpdate();
+			/*query="delete from borrowbook where CatalogeNumber = ?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			pstmt.executeUpdate();*/
+			client.sendToClient("done");
+			break;
+		case 11:
+			List<String> ComparDate;
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			ComparDate=data=Arrays.asList(dateFormat.format(date).split("-"));
+			int currentday=Integer.parseInt(ComparDate.get(2));
+		    query="select * from borrowbook ";
+			pstmt=con.prepareStatement(query);
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				ComparDate=data=Arrays.asList(object.getString(5).split("-"));
+				int ReturnDate = Integer.parseInt(ComparDate.get(2));	
+				if(currentday+1==ReturnDate) {
+					System.out.println("yes");
+					SendMailToClient.SendingMail("m","b");
+				}
+				else {
+					if(dateFormat.format(date).compareTo(object.getString(5))>0) {
+						System.out.println("si");
+					}
+				}
+			}
+			break;
 		default:
 			break;
 		}

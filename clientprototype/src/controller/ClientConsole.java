@@ -28,5 +28,8 @@ public class ClientConsole extends Application {
 	MainPage aframe= new MainPage();
 		//UpdateStatusController aFrame = new UpdateStatusController(); // create StudentFrame and start the gui
 		aframe.start(arg0);
+		Thread thrad1 = new Thread(new CheackingBorrowDate());
+		//thrad1.start();
+		
 	}
 }
