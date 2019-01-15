@@ -317,6 +317,48 @@ public class ServerController extends AbstractServer
 				}
 			}
 			break;
+			
+			
+		case 22:
+			 SendMassege="User not existed";
+			data=Arrays.asList(s.split(","));
+			query="select * from reader where UserID=?and ReaderStatus=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			pstmt.setString(2,data.get(1));
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=object.getString(1)+","+object.getString(2);
+			}
+			if(SendMassege.equals("User not existed")) {
+				System.out.println ("Error Login");
+				client.sendToClient("Error Login");
+			}
+			else {
+			System.out.println ("Login Done");
+			client.sendToClient("Login Done");
+			}
+			break;
+			
+			
+	
+		case 23:
+			data=Arrays.asList(s.split(","));
+			query="INSERT INTO user values(?,?,?,?,?,?,?,?)";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1, data.get(0));
+			pstmt.setString(2, "1");
+			pstmt.setString(3, "1");
+			pstmt.setString(4, data.get(4));
+			pstmt.setString(5, data.get(5));
+			pstmt.setString(6, data.get(6));
+			pstmt.setString(7, data.get(1));
+			pstmt.setString(8,"99");
+			pstmt.executeUpdate();
+			System.out.println("register done");
+			client.sendToClient("okkkkkk");
+			break;
+			
 		default:
 			break;
 		}
