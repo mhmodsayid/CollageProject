@@ -6,6 +6,7 @@ package control;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
@@ -17,6 +18,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -254,7 +256,63 @@ public void getmessagecommand(Object message, ConnectionToClient client) {
 			System.out.println("sending "+book+" to client");
 			break;
 		case 5:
+			ResultSet resultSet = null;
+			data=Arrays.asList(s.split(","));
+			query="select * from library inner join book on book.BookName=library.BookName  where library.BookName=? or library.Category=? or library.Author=? or library.`BookDecrebtion` LIKE ?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			pstmt.setString(2,data.get(1));
+			pstmt.setString(3,data.get(2));
+			pstmt.setString(4,"%"+data.get(3)+"%");
+			resultSet=pstmt.executeQuery();
+			/* get book from result set and save the catalog number of every book found*/
+			List <Book> books = new ArrayList<Book>(); 
+			while (resultSet.next()) 
+			  	   {
+				Book resbook=new Book();
+				resbook.setBookName(resultSet.getString(1));
+				resbook.setPublisherName(resultSet.getString(2));
+				resbook.setBookEdite(resultSet.getString(3));
+				resbook.setNumberOFCopies(resultSet.getString(4));
+				resbook.setBookCatagory(resultSet.getString(5));
+				resbook.setBookDescription(resultSet.getString(6));
+				resbook.setBookStatus(resultSet.getString(7));
+				resbook.setQuantity(Integer.parseInt(resultSet.getString(8)));
+				resbook.setCatalogNumber(resultSet.getString(9));
+				resbook.setDateOfPrint(resultSet.getString(11));
+				resbook.setDatePurchased(resultSet.getString(12));
+				resbook.setPositionOnTheShelf(resultSet.getString(13));
+			
+				
+				Path path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/Contant_table.pdf");
+				byte[] contentFile = Files.readAllBytes(path01);
+				path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/book_picture.jpg");
+				byte[] bookPhoto = Files.readAllBytes(path01);
+				resbook.setBookphoto(bookPhoto);
+				resbook.setContentfile(contentFile);
+				books.add(resbook);
+			  	 }
+			  if(books.size()==0)
+				  client.sendToClient("-1");
+			  else
+			  	{
+				  try
+			        {
+			            FileOutputStream fos = new FileOutputStream("BookData");
+			            ObjectOutputStream oos = new ObjectOutputStream(fos);
+			            oos.writeObject(books);
+			            oos.close();
+			            fos.close();
+			        }
+			        catch (IOException ioe)
+			        {
+			            ioe.printStackTrace();
+			        }
+				  client.sendToClient("05BookData");
+				  System.out.println("sending"+books.size()+"books to client");
+			  	}
 			break;
+		
 		case 7:
 			 SendMassege="UserIDFound,";
 			data=Arrays.asList(s.split(","));
@@ -395,8 +453,8 @@ public void getmessagecommand(Object message, ConnectionToClient client) {
 			String Email = null;
 			List<String> ComparDate;
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-			ComparDate=data=Arrays.asList(dateFormat.format(date).split("-"));
+			Date date1 = new Date();
+			ComparDate=data=Arrays.asList(dateFormat.format(date1).split("-"));
 			int currentday=Integer.parseInt(ComparDate.get(2));
 		    query="select * from borrowbook ";
 			pstmt=con.prepareStatement(query);
@@ -417,7 +475,7 @@ public void getmessagecommand(Object message, ConnectionToClient client) {
 				}
 				//if the reader has not return the book in time then update all the details of the reader
 				else {
-					if(dateFormat.format(date).compareTo(object.getString(5))>0) {
+					if(dateFormat.format(date1).compareTo(object.getString(5))>0) {
 						int LateReturn=0;
 						String borrowStatus = object.getString(6);
 						query="select * from reader where UserID=?";
