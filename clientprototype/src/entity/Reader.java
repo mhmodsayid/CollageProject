@@ -7,7 +7,7 @@ public class Reader {
 	public enum Operation{
 		LendingReqest,ReturnBookRequest,ExtendBookRequest
 		}
-	private String student_id;
+	private static String student_id;
 	private String student_name;
 	private StatusMemberShip status;
 	private Operation operation;
@@ -21,17 +21,17 @@ public class Reader {
 	}
 	public Reader(String student_id, String student_name, int freeze, StatusMemberShip status, Operation operation) {
 		super();
-		this.student_id = student_id;
+		Reader.student_id = student_id;
 		this.student_name = student_name;
 		this.freeze = freeze;
 		this.status = status;
 		this.operation = operation;
 	}
-	public String getStudent_id() {
+	public static String getStudent_id() {
 		return student_id;
 	}
-	public void setStudent_id(String student_id) {
-		this.student_id = student_id;
+	public static void setStudent_id(String student_id) {
+		Reader.student_id = student_id;
 	}
 	public String getStudent_name() {
 		return student_name;
@@ -76,9 +76,9 @@ public class Reader {
 		if (status != other.status)
 			return false;
 		if (student_id == null) {
-			if (other.student_id != null)
+			if (Reader.student_id != null)
 				return false;
-		} else if (!student_id.equals(other.student_id))
+		} else if (!student_id.equals(Reader.student_id))
 			return false;
 		if (student_name == null) {
 			if (other.student_name != null)

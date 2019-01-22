@@ -2,17 +2,24 @@ package gui;
 
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
+import controller.ConnectionToServer;
 import javafx.scene.image.Image;
 import entity.Book;
+import entity.OrderBook;
+import entity.Reader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -21,7 +28,7 @@ import ocsf.client.ChatIF;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 public class BookOrder implements Initializable, ChatIF {
-
+	JOptionPane frame = null;
     @FXML
     private ImageView bookPic;
     @FXML
@@ -55,8 +62,28 @@ public class BookOrder implements Initializable, ChatIF {
     private Text dateOfPrint;
 
     @FXML
-    void OrderTheBook(ActionEvent event) {
-
+    void OrderTheBook(ActionEvent event) throws SQLException {
+    	Reader.setStudent_id("testid");
+    	
+    	java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+    	OrderBook order = new OrderBook();
+    	order.setBookName(Book.getTheBook().getBookName());
+    	order.setBookId(Book.getTheBook().getCatalogNumber());
+    	order.setOrderDate(date.toString());
+    	order.setReaderId(Reader.getStudent_id());
+    	order.setOrderStatus("Waiting for Book");
+    	try {
+    	ObjectOutput out = null;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		out = new ObjectOutputStream(bos);   
+		  out.writeObject(order);
+		  out.flush();
+		  byte[] objbyte = bos.toByteArray();
+		 ConnectionToServer.sendData(this, objbyte);
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+		JOptionPane.showMessageDialog(frame,e.getMessage());
+	}
     }
     @FXML
     void loadTheContentFolder(MouseEvent event) throws IOException {
@@ -76,7 +103,7 @@ public class BookOrder implements Initializable, ChatIF {
 
 	@Override
 	public void display(Object message) {
-		
+		JOptionPane.showMessageDialog(frame,(String)message);
 		
 	}
 
