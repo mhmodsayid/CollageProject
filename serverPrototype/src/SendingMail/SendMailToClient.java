@@ -1,6 +1,12 @@
 package SendingMail;
 
+
+
 import java.util.Properties;
+/**
+ * @author Ammar Khutba
+ * A class to send email to the client
+ */
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,7 +21,7 @@ public class SendMailToClient {
 
 			final String username = "ammarkhutba94@gmail.com";
 			final String password = "Ammar123456";
-			final String to = "khutba94@gmail.com";
+			final String to = MailTo;
 
 			Properties props = new Properties();
 			props.put("mail.smtp.auth", "true");
@@ -36,8 +42,8 @@ public class SendMailToClient {
 				message.setFrom(new InternetAddress("ammarkhutba94@gmail.com"));
 				message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(to));
-				message.setSubject("Testing ");
-				message.setText("Ammar Khutba,"+ "\n\n Real madrid");
+				message.setSubject("Alert for the library!!!");
+				message.setText(TheMessage);
 
 				Transport.send(message);
 

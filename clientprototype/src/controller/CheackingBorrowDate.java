@@ -1,6 +1,12 @@
 package controller;
 
 import java.io.IOException;
+/**
+ * @author Ammar Khutba
+ * thread that work one time every day and send to server
+ * to check if the returning day has bass and update all the details of the user
+ * and to alert the reader if just remains one day for returning the book
+ */
 
 import ocsf.client.ChatIF;
 

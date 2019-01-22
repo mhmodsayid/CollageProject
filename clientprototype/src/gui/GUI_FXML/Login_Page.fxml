@@ -20,23 +20,23 @@
       </ImageView>
       <AnchorPane layoutX="348.0" layoutY="137.0" prefHeight="470.0" prefWidth="370.0" style="-fx-background-color: #E6E6E6;">
          <children>
-            <ImageView fitHeight="143.0" fitWidth="142.0" layoutX="135.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="143.0" fitWidth="142.0" layoutX="134.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../source/user.png" />
+                  <Image url="@../source/user (1).png" />
                </image>
             </ImageView>
-            <TextField fx:id="UserName" layoutX="96.0" layoutY="203.0" onAction="#AddText" prefHeight="32.0" prefWidth="220.0" promptText="Username" />
-            <Button fx:id="SignIn" layoutX="95.0" layoutY="310.0" mnemonicParsing="false" onAction="#moveToMainPage" prefHeight="32.0" prefWidth="220.0" style="-fx-background-color: #55A6E0;" text="Sign in" textFill="WHITE">
+            <TextField fx:id="UserName" layoutX="85.0" layoutY="202.0" prefHeight="32.0" prefWidth="240.0" />
+            <Button fx:id="SignIn" layoutX="85.0" layoutY="310.0" mnemonicParsing="false" onAction="#moveToMainPage" prefHeight="32.0" prefWidth="240.0" style="-fx-background-color: #55A6E0;" text="Sign in" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="searchbutton" layoutX="95.0" layoutY="361.0" mnemonicParsing="false" onAction="#moveToSearchScreen" prefHeight="32.0" prefWidth="104.0" style="-fx-background-color: #55A6E0;" text="Search Book" textFill="WHITE">
+            <Button fx:id="searchbutton" layoutX="85.0" layoutY="361.0" mnemonicParsing="false" onAction="#moveToSearchScreen" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #55A6E0;" text="Search Book" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="ClearAll" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" onAction="#ClearAll" prefHeight="32.0" prefWidth="104.0" style="-fx-background-color: #55A6E0;" text="Clear All" textFill="WHITE">
+            <Button fx:id="ClearAll" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" onAction="#ClearAll" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #55A6E0;" text="Clear All" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -50,11 +50,21 @@
                   </Button>
                </children>
             </Pane>
-            <PasswordField fx:id="Password" layoutX="97.0" layoutY="250.0" onAction="#AddText" prefHeight="32.0" prefWidth="220.0" promptText="Password " />
+            <PasswordField fx:id="Password" layoutX="85.0" layoutY="251.0" prefHeight="32.0" prefWidth="240.0" />
             <CheckBox fx:id="viewpass" layoutX="148.0" layoutY="287.0" mnemonicParsing="false" onAction="#ViewPassword" prefHeight="17.0" prefWidth="114.0" text="Show Password">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></CheckBox>
+            <Text layoutX="85.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="85.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -62,12 +72,12 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <ImageView fitHeight="83.0" fitWidth="144.0" layoutX="604.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="232.0" fitWidth="360.0" layoutX="553.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../source/LOGO.png" />
+            <Image url="@../source/LogoSystem1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="302.0" layoutX="454.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="51.0" fitWidth="302.0" layoutX="348.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../source/תמונה1.png" />
          </image>
