@@ -15,9 +15,10 @@ public class Book implements Serializable  {
 	}
 		private String bookName;
 		private String publisherName;
-		private int bookEdite;
+		private String bookEdite;
 		private String CatalogNumber;
-		private int NumberOFCopies=0;
+		private int NumberOFCopies=1;
+		private int Quantity=1;
 		private String PositionOnTheShelf;
 		private String bookCatagory;
 		private String bookDescription;
@@ -25,13 +26,18 @@ public class Book implements Serializable  {
 		private String dateOfPrint;
 		private byte[]contentfile;
 		private byte[]bookphoto;
-		private int bookStatus=0;
+		private String bookStatus="Avalible";
+		private String borrowStatus="not borrowed";
 		
 		
-		public Book(String bookName, String publisherName, int bookEdite, String catalogNumber, int numberOFCopies,
+		
+		
+		
+		
+		
+		public Book(String bookName, String publisherName, String bookEdite, String catalogNumber, int numberOFCopies,
 				String positionOnTheShelf, String bookCatagory, String bookDescription, String datePurchased,
-				String dateOfPrint, byte[] contentfile,
-				byte[] bookphoto, int bookStatus) {
+				String dateOfPrint, byte[] contentfile, byte[] bookphoto, String bookStatus, String borrowStatus) {
 			super();
 			this.bookName = bookName;
 			this.publisherName = publisherName;
@@ -43,10 +49,10 @@ public class Book implements Serializable  {
 			this.bookDescription = bookDescription;
 			this.datePurchased = datePurchased;
 			this.dateOfPrint = dateOfPrint;
-			
 			this.contentfile = contentfile;
 			this.bookphoto = bookphoto;
 			this.bookStatus = bookStatus;
+			this.setBorrowStatus(borrowStatus);
 		}
 		public String getBookName() {
 			return bookName;
@@ -64,16 +70,12 @@ public class Book implements Serializable  {
 				throw new Exception("Please insert publisher name");
 			this.publisherName = publisherName;
 		}
-		public int getBookEdite() {
+		public String getBookEdite() {
 			return bookEdite;
 		}
-		public void setBookEdite(String bookEdite)throws Exception {
-			try {
-				this.bookEdite= Integer.parseInt(bookEdite);
-			} catch (NumberFormatException e) {
-				throw new Exception("please put a number in book edite");
-			}
-			
+		public void setBookEdite(String bookEdite){
+		
+				this.bookEdite= bookEdite;
 		}
 		public String getCatalogNumber() {
 			return CatalogNumber;
@@ -165,10 +167,10 @@ public class Book implements Serializable  {
 		public static void setTheBook(Book book) {
 			Book.book=book;
 		}
-		public int getBookStatus() {
+		public String getBookStatus() {
 			return bookStatus;
 		}
-		public void setBookStatus(int bookStatus) {
+		public void setBookStatus(String bookStatus) {
 			this.bookStatus = bookStatus;
 		}
 		@Override
@@ -180,6 +182,18 @@ public class Book implements Serializable  {
 					+ dateOfPrint + ", contentfile="
 					+ Arrays.toString(contentfile) + ", bookphoto=" + Arrays.toString(bookphoto) + ", bookStatus="
 					+ bookStatus + "]";
+		}
+		public String getBorrowStatus() {
+			return borrowStatus;
+		}
+		public void setBorrowStatus(String borrowStatus) {
+			this.borrowStatus = borrowStatus;
+		}
+		public int getQuantity() {
+			return Quantity;
+		}
+		public void setQuantity(int quantity) {
+			Quantity = quantity;
 		}
 		
 		

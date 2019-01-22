@@ -6,6 +6,7 @@ package control;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
@@ -60,24 +61,44 @@ public class ServerController extends AbstractServer
 					    Connection con=db.initalizeDataBase();
 					    PreparedStatement pstmt;
 					    String query;
-					    query="INSERT INTO book values(?,?,?,?,?,?,?,?,?,?,?)";
+					    
+					    query="INSERT INTO `book` values(?,?,?,?,?,?)";
+						pstmt=con.prepareStatement(query);
+						pstmt.setString(1,book.getCatalogNumber());
+						pstmt.setString(2,book.getBookName());
+						pstmt.setString(3,book.getDateOfPrint());
+						pstmt.setString(4,book.getDatePurchased());
+						pstmt.setString(5,book.getPositionOnTheShelf());
+						pstmt.setString(6,book.getBorrowStatus());
+						pstmt.executeUpdate();
+						
+						
+					    query="INSERT INTO `library` values(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE NumberOfCopyes=NumberOfCopyes+1,quantity=quantity+1;";
 						pstmt=con.prepareStatement(query);
 						pstmt.setString(1,book.getBookName());
 						pstmt.setString(2,book.getPublisherName());
-						pstmt.setInt(3,book.getBookEdite());
-						pstmt.setString(4,book.getDateOfPrint());
+						pstmt.setString(3,book.getBookEdite());
+						pstmt.setInt(4,book.getQuantity());
 						pstmt.setString(5,book.getBookCatagory());
 						pstmt.setString(6,book.getBookDescription());
-						pstmt.setString(7,book.getCatalogNumber());
+						pstmt.setString(7,book.getBookStatus());
 						pstmt.setInt(8,book.getNumberOFCopies());
-						pstmt.setString(9,book.getDatePurchased());
-						pstmt.setString(10,book.getPositionOnTheShelf());
-						pstmt.setInt(11,book.getBookStatus());
 						pstmt.executeUpdate();
+						
+						
+						
 						client.sendToClient("addBookSuccess");
 				} catch (Exception e) {
 					
-					e.printStackTrace();
+					if(e.toString().contains("Duplicate")) {
+						System.out.println("the book already exists");
+					}
+					try {
+						client.sendToClient("the book already exists");
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 				}
 			//if its another page 
 		
@@ -117,7 +138,7 @@ public class ServerController extends AbstractServer
 				book.setNumberOFCopies(result.getString(8));
 				book.setDatePurchased(result.getString(9));
 				book.setPositionOnTheShelf(result.getString(10));
-				book.setBookStatus(Integer.parseInt(result.getString(11)));
+				book.setBookStatus(result.getString(11));
 		  }
 	  }
 	  

@@ -3,7 +3,6 @@ package gui;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
@@ -13,20 +12,14 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-import javax.swing.plaf.SliderUI;
-
 import controller.ConnectionToServer;
 import entity.Book;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -50,8 +43,8 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	private TextArea bookDescription;
 	@FXML
 	private TextField catalogNumber;
-	@FXML
-	private TextField numberOFCopies;
+	//@FXML
+	//private TextField numberOFCopies;
 	@FXML
 	private TextField positionOnTheShelf;
 	@FXML
@@ -118,7 +111,7 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		bookEdite.setText("");
 		bookDescription.setText("");
 		catalogNumber.setText("");
-		numberOFCopies.setText("");
+		//numberOFCopies.setText("");
 		positionOnTheShelf.setText("");
 		contentTableFileLocation.setText("");
 		bookPhotoFileLocation.setText("");
@@ -134,7 +127,7 @@ public class AddBookController extends NavigationBar implements Initializable, C
 			book.setPublisherName(publisherName.getText());
 			book.setBookEdite(bookEdite.getText());
 			book.setCatalogNumber(catalogNumber.getText());
-			book.setNumberOFCopies(numberOFCopies.getText());
+			//book.setNumberOFCopies(numberOFCopies.getText());
 			book.setPositionOnTheShelf(positionOnTheShelf.getText());
 			book.setBookCatagory(bookCatagory.getText());
 			book.setBookDescription(bookDescription.getText());
@@ -162,8 +155,7 @@ public class AddBookController extends NavigationBar implements Initializable, C
 
 	@Override
 	public void display(Object message) {
-		if(message.equals("addBookSuccess")) 
-			JOptionPane.showMessageDialog(frame, "the book added successfuly");
+			JOptionPane.showMessageDialog(frame, message);
 	//========================================================================
 		Book booke=new Book();
 			 

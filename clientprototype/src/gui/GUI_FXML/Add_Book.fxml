@@ -45,8 +45,7 @@
             <TextField fx:id="bookEdite" layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
             <TextArea fx:id="bookDescription" layoutX="330.0" layoutY="80.0" prefHeight="117.0" prefWidth="180.0" promptText="Book description" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="80.0" />
             <TextField fx:id="catalogNumber" layoutX="37.0" layoutY="212.0" prefHeight="26.0" prefWidth="177.0" promptText="Catalog number" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="212.0" />
-            <TextField fx:id="numberOFCopies" layoutX="37.0" layoutY="262.0" prefHeight="26.0" prefWidth="177.0" promptText="Number of copies" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="262.0" />
-            <TextField fx:id="positionOnTheShelf" layoutX="37.0" layoutY="307.0" prefHeight="26.0" prefWidth="177.0" promptText="Position on the shelf" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="307.0" />
+            <TextField fx:id="positionOnTheShelf" layoutX="37.0" layoutY="260.0" prefHeight="26.0" prefWidth="177.0" promptText="Position on the shelf" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="260.0" />
             <DatePicker fx:id="dateOfPrint" layoutX="330.0" layoutY="247.0" promptText="Date of print" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="247.0" />
             <Button layoutX="339.0" layoutY="404.0" mnemonicParsing="false" onAction="#clearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear all" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="143.0">
                <font>
@@ -58,7 +57,7 @@
             <Button layoutX="526.0" layoutY="347.0" mnemonicParsing="false" onAction="#uploadPhoto" style="-fx-background-color: #55A6E0;" text="Upload" />
             <TextField fx:id="bookPhotoFileLocation" layoutX="331.0" layoutY="350.0" prefHeight="26.0" prefWidth="180.0" promptText="Book Photo" />
             <Separator layoutX="263.0" layoutY="88.0" opacity="0.3" orientation="VERTICAL" prefHeight="292.0" prefWidth="13.0" />
-            <TextField fx:id="bookCatagory" layoutX="37.0" layoutY="355.0" prefHeight="26.0" prefWidth="177.0" promptText="Book Category" />
+            <TextField fx:id="bookCatagory" layoutX="37.0" layoutY="308.0" prefHeight="26.0" prefWidth="177.0" promptText="Book Category" />
             <Button layoutX="31.0" layoutY="402.0" mnemonicParsing="false" onAction="#goToOrder" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="bookordertest" textFill="#0400ff">
                <font>
                   <Font name="System Bold" size="14.0" />
