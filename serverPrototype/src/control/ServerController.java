@@ -296,19 +296,13 @@ public void getmessagecommand(Object message, ConnectionToClient client) {
 				  client.sendToClient("-1");
 			  else
 			  	{
-				  try
-			        {
-			            FileOutputStream fos = new FileOutputStream("BookData");
-			            ObjectOutputStream oos = new ObjectOutputStream(fos);
-			            oos.writeObject(books);
-			            oos.close();
-			            fos.close();
-			        }
-			        catch (IOException ioe)
-			        {
-			            ioe.printStackTrace();
-			        }
-				  client.sendToClient("05BookData");
+				  ObjectOutput out1 = null;
+					ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
+					out1 = new ObjectOutputStream(bos1);   
+					  out1.writeObject(books);
+					  out1.flush();
+					  byte[] objbyte1 = bos1.toByteArray();
+				  client.sendToClient(objbyte1);
 				  System.out.println("sending"+books.size()+"books to client");
 			  	}
 			break;

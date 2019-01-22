@@ -17,10 +17,14 @@ import javafx.stage.Stage;
 
 import javax.swing.JOptionPane;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
+
 import entity.Book;
 import controller.ConnectionToServer;
 
@@ -31,7 +35,7 @@ import ocsf.client.ChatIF;
 
 public class SearchBookController extends NavigationBar implements ChatIF {
 	private ListBooksController lbc;
-
+	List<Book> books = new ArrayList<Book>();
     @FXML // fx:id="authorName"
     private TextField authorName; // Value injected by FXMLLoader
 
@@ -65,7 +69,7 @@ public class SearchBookController extends NavigationBar implements ChatIF {
     }
 
     @FXML
-    void searchBook(ActionEvent event) throws IOException {
+    void searchBook(ActionEvent event) throws IOException, InterruptedException {
     	String book_Name=bookName.getText()
     			,book_Subject=bookSubject.getText()
     			,author_Name=authorName.getText()
@@ -99,17 +103,29 @@ public class SearchBookController extends NavigationBar implements ChatIF {
     	   * */
      // this.SaveEvent=event;
 		ConnectionToServer.sendData(this, command);
-          MoveToResultPage(event);
+		
+		while(books.isEmpty())
+			Thread.sleep(10);
+		
+       MoveToResultPage(event);
        }
     }
 
 	@Override
-	public void display(Object msg) {
-		
-		if(msg.equals("-1"))
-			JOptionPane.showMessageDialog(frame, "No Match Found!");
-		
-			
+	public void display(Object msg) { 
+		 try {
+			 	books.clear();
+		    	ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg);
+			    ObjectInput in = new ObjectInputStream(bis);
+				books = (List <Book>) in.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		 
 		}
 			
 	public void MoveToResultPage(ActionEvent event) throws IOException
@@ -119,32 +135,7 @@ public class SearchBookController extends NavigationBar implements ChatIF {
     	
 		Scene result=new Scene(searchResult);
     	Stage window =(Stage)(((Node) event.getSource()).getScene().getWindow());
-    	ListBooksController listbookscontroller = loader.<ListBooksController>getController();
-    	
-		ArrayList<Book> books = new ArrayList<Book>();
-        
-        try
-        {
-            FileInputStream fis = new FileInputStream("BookData");
-            ObjectInputStream ois = new ObjectInputStream(fis);
- 
-            books = (ArrayList) ois.readObject();
- 
-            ois.close();
-            fis.close();
-        }
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-            return;
-        }
-        catch (ClassNotFoundException c)
-        {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
-        
+    	ListBooksController listbookscontroller = loader.<ListBooksController>getController();   
         listbookscontroller.loadBooks(books);
     	window.setScene(result);
 	

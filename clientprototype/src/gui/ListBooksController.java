@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -78,7 +79,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
     private Text BookName3; // Value injected by FXMLLoader
     
     private int pageNum=0;
-    private ArrayList<Book> books = new ArrayList<Book>();
+    private List<Book> books = new ArrayList<Book>();
     JOptionPane frame;
 
 	private int index1=0;
@@ -127,12 +128,13 @@ public class ListBooksController extends NavigationBar implements Initializable,
 
     @FXML
     void chooseBook2(ActionEvent event) throws IOException {
+    	Book.setTheBook(this.books.get(this.index2));
     	FXMLLoader loader =new FXMLLoader(getClass().getResource("GUI_FXML/Book_Order.fxml"));
 		Parent book1=loader.load();
     	
 		Scene result=new Scene(book1);
     	Stage window =(Stage)(((Node) event.getSource()).getScene().getWindow());
-    	Book.setTheBook(this.books.get(this.index2));
+    	
     	window.setScene(result);
     	this.books=null;
 
@@ -237,9 +239,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 	}
 		
 			
-	public void loadBooks(ArrayList<Book> books) {
+	public void loadBooks(List<Book> books2) {
 		// TODO Auto-generated method stub
-		this.books=books;
+		this.books=books2;
 		setBooks();
 	}
 
