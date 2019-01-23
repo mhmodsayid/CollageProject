@@ -24,10 +24,10 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <AnchorPane blendMode="SRC_ATOP" layoutX="313.0" layoutY="195.0" prefHeight="370.0" prefWidth="527.0" style="-fx-background-color: #E6E6E6;">
+      <AnchorPane blendMode="SRC_ATOP" layoutX="313.0" layoutY="195.0" prefHeight="338.0" prefWidth="528.0" style="-fx-background-color: #E6E6E6;">
          <children>
             <Separator layoutX="1.0" layoutY="35.0" prefHeight="18.0" prefWidth="527.0" />
-            <ImageView fitHeight="109.0" fitWidth="130.0" layoutX="324.0" layoutY="74.0">
+            <ImageView fitHeight="87.0" fitWidth="100.0" layoutX="389.0" layoutY="54.0">
                <image>
                   <Image url="@../source/agenda.png" />
                </image>
@@ -37,19 +37,53 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="Return" layoutX="389.0" layoutY="324.0" mnemonicParsing="false" onAction="#ReturnBookButton" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Return" />
-            <TextField fx:id="BookID" layoutX="57.0" layoutY="89.0" prefHeight="26.0" prefWidth="174.0" promptText="Catalog Number" />
-            <Button fx:id="Search" layoutX="57.0" layoutY="155.0" mnemonicParsing="false" onAction="#SearchButton" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #55A6E0;" text="Search" />
-            <Separator layoutX="1.0" layoutY="200.0" prefHeight="18.0" prefWidth="527.0" />
-            <Button fx:id="ClearAll" layoutX="261.0" layoutY="324.0" mnemonicParsing="false" onAction="#ClearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear All" />
-            <TextField fx:id="BorrowDate" layoutX="57.0" layoutY="236.0" prefHeight="26.0" prefWidth="174.0" promptText="Borrow Date" />
-            <TextField fx:id="ReturnDate" layoutX="57.0" layoutY="282.0" prefHeight="26.0" prefWidth="174.0" promptText="Return Date" />
-            <TextField fx:id="ReturnedOn" layoutX="302.0" layoutY="236.0" prefHeight="26.0" prefWidth="174.0" promptText="Returned on" />
+            <Button fx:id="Return" layoutX="395.0" layoutY="295.0" mnemonicParsing="false" onAction="#ReturnBookButton" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Return" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <TextField fx:id="BookID" layoutX="134.0" layoutY="61.0" prefHeight="32.0" prefWidth="174.0" />
+            <Button fx:id="Search" layoutX="134.0" layoutY="109.0" mnemonicParsing="false" onAction="#SearchButton" prefHeight="32.0" prefWidth="174.0" style="-fx-background-color: #55A6E0;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <Separator layoutX="1.0" layoutY="155.0" prefHeight="18.0" prefWidth="527.0" />
+            <Button fx:id="ClearAll" layoutX="264.0" layoutY="295.0" mnemonicParsing="false" onAction="#ClearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear All" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <TextField fx:id="BorrowDate" layoutX="32.0" layoutY="189.0" prefHeight="26.0" prefWidth="174.0" />
+            <TextField fx:id="ReturnDate" layoutX="32.0" layoutY="249.0" prefHeight="26.0" prefWidth="174.0" />
+            <TextField fx:id="ReturnedOn" layoutX="302.0" layoutY="189.0" prefHeight="26.0" prefWidth="174.0" />
+            <Text layoutX="32.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catalog Number :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="302.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Returned on :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="32.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="32.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrow Date :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
-      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="-29.0" layoutY="14.0" prefHeight="48.0" prefWidth="1073.0">
+      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="55.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../source/header.png" />
+         </image>
+      </ImageView>
+      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="49.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
          <buttons>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToHome" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+            <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -57,54 +91,52 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button fx:id="searchbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+            <Button fx:id="addbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" disable="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+            <Button fx:id="returnbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+            <Button fx:id="borrowbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+            <Button fx:id="registerbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend" textFill="WHITE">
+            <Button fx:id="extendbutton" defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+            <Button fx:id="readercardbutton" defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+            <Button fx:id="logoutbutton" defaultButton="true" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
          </buttons>
+         <padding>
+            <Insets left="-50.0" />
+         </padding>
       </ButtonBar>
-      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../source/header.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
+      <Text fx:id="UserInformation" layoutX="279.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

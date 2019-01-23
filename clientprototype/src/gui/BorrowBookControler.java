@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -60,6 +61,8 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
          Book book;
 
          Reader reader;
+         @FXML
+         private Text UserInformation;
     
     /**
      * this function is to clear all the details that you entered by clicking in clearAll
@@ -156,7 +159,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   }
 	   else {
 		 try {
-				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+"LibrarianID"+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrewd"+","+BookName.getText()+","+SubscriberStatus.getText();
+				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+"LibrarianID"+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText();
 				 ConnectionToServer.sendData(this,command);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -187,7 +190,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   BookName.setText(data.get(1));
 	   BookStatus.setText(data.get(2));
 	   BorrowDate.setText(dateFormat.format(date));
-	   if(data.get(2).equals("in demand")) {
+	   if(data.get(2).equals("Indemand")) {
 		   Calendar c = Calendar.getInstance();
 	        c.setTime(date);
 	        c.add(Calendar.DAY_OF_MONTH, 3);
@@ -218,6 +221,8 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
    public void initialize(URL location, ResourceBundle resources) {
      	book = new Book();
     	reader = new Reader();
+
+		UserInformation.setText(LoginController.UserInfo2);
    }  
 }
 

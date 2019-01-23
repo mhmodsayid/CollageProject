@@ -23,11 +23,11 @@
       </ImageView>
       <AnchorPane blendMode="SRC_ATOP" layoutX="278.0" layoutY="151.0" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
          <children>
-            <DatePicker fx:id="datePurchased" layoutX="330.0" layoutY="208.0" promptText="Date purchased" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="208.0" />
-            <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="30.0" prefWidth="516.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="30.0" />
-            <TextField fx:id="bookName" layoutX="37.0" layoutY="68.0" prefHeight="26.0" prefWidth="177.0" promptText="Book name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="68.0" />
-            <TextField fx:id="publisherName" layoutX="37.0" layoutY="113.0" prefHeight="26.0" prefWidth="177.0" promptText="Publisher's name" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="113.0" />
-            <Button layoutX="468.0" layoutY="404.0" mnemonicParsing="false" onAction="#addBook" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Add" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <DatePicker fx:id="datePurchased" layoutX="325.0" layoutY="184.0" promptText="dd-mm-yyyy" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="184.0" />
+            <Separator layoutX="14.0" layoutY="35.0" prefHeight="30.0" prefWidth="516.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="30.0" />
+            <TextField fx:id="bookName" layoutX="37.0" layoutY="68.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="84.0" />
+            <TextField fx:id="publisherName" layoutX="37.0" layoutY="129.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="134.0" />
+            <Button layoutX="468.0" layoutY="404.0" mnemonicParsing="false" onAction="#addBook" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Add" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -37,32 +37,87 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Text>
-            <ImageView fitHeight="68.0" fitWidth="67.0" layoutX="527.0" layoutY="11.0" AnchorPane.rightAnchor="6.0">
+            <ImageView fitHeight="51.0" fitWidth="55.0" layoutX="527.0" layoutY="11.0" AnchorPane.rightAnchor="6.0">
                <image>
                   <Image url="@../source/add-bookmarks.png" />
                </image>
             </ImageView>
-            <TextField fx:id="bookEdite" layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="177.0" promptText="Book edition" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="161.0" />
-            <TextArea fx:id="bookDescription" layoutX="330.0" layoutY="80.0" prefHeight="117.0" prefWidth="180.0" promptText="Book description" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="80.0" />
-            <TextField fx:id="catalogNumber" layoutX="37.0" layoutY="212.0" prefHeight="26.0" prefWidth="177.0" promptText="Catalog number" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="212.0" />
-            <TextField fx:id="positionOnTheShelf" layoutX="37.0" layoutY="260.0" prefHeight="26.0" prefWidth="177.0" promptText="Position on the shelf" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="260.0" />
-            <DatePicker fx:id="dateOfPrint" layoutX="330.0" layoutY="247.0" promptText="Date of print" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="247.0" />
-            <Button layoutX="339.0" layoutY="404.0" mnemonicParsing="false" onAction="#clearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear all" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="143.0">
+            <TextField fx:id="bookEdite" layoutX="37.0" layoutY="184.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="184.0" />
+            <TextArea fx:id="bookDescription" layoutX="322.0" layoutY="83.0" prefHeight="71.0" prefWidth="242.0" AnchorPane.leftAnchor="322.0" AnchorPane.topAnchor="83.0" />
+            <TextField fx:id="catalogNumber" layoutX="37.0" layoutY="226.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="234.0" />
+            <TextField fx:id="positionOnTheShelf" layoutX="37.0" layoutY="273.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="284.0" />
+            <DatePicker fx:id="dateOfPrint" layoutX="325.0" layoutY="243.0" promptText="dd-mm-yyyy" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="234.0" />
+            <Button layoutX="339.0" layoutY="404.0" mnemonicParsing="false" onAction="#clearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear all" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="143.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <TextField fx:id="contentTableFileLocation" layoutX="331.0" layoutY="295.0" prefHeight="26.0" prefWidth="177.0" promptText="Content table" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="295.0" />
-            <Button fx:id="uploadContentTable" layoutX="526.0" layoutY="292.0" mnemonicParsing="false" onAction="#uploadContentFile" style="-fx-background-color: #55A6E0;" text="Upload" AnchorPane.topAnchor="292.0" />
-            <Button layoutX="526.0" layoutY="347.0" mnemonicParsing="false" onAction="#uploadPhoto" style="-fx-background-color: #55A6E0;" text="Upload" />
-            <TextField fx:id="bookPhotoFileLocation" layoutX="331.0" layoutY="350.0" prefHeight="26.0" prefWidth="180.0" promptText="Book Photo" />
-            <Separator layoutX="263.0" layoutY="88.0" opacity="0.3" orientation="VERTICAL" prefHeight="292.0" prefWidth="13.0" />
-            <TextField fx:id="bookCatagory" layoutX="37.0" layoutY="308.0" prefHeight="26.0" prefWidth="177.0" promptText="Book Category" />
+            <TextField fx:id="contentTableFileLocation" layoutX="324.0" layoutY="292.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.leftAnchor="324.0" AnchorPane.topAnchor="284.0" />
+            <Button fx:id="uploadContentTable" layoutX="512.0" layoutY="285.0" mnemonicParsing="false" onAction="#uploadContentFile" style="-fx-background-color: #55A6E0;" text="Upload" textFill="WHITE" AnchorPane.topAnchor="285.0" />
+            <Button layoutX="512.0" layoutY="330.0" mnemonicParsing="false" onAction="#uploadPhoto" style="-fx-background-color: #55A6E0;" text="Upload" textFill="WHITE" />
+            <TextField fx:id="bookPhotoFileLocation" layoutX="323.0" layoutY="321.0" prefHeight="26.0" prefWidth="180.0" AnchorPane.topAnchor="334.0" />
+            <Separator layoutX="268.0" layoutY="79.0" orientation="VERTICAL" prefHeight="292.0" prefWidth="8.0" />
+            <TextField fx:id="bookCatagory" layoutX="37.0" layoutY="329.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.topAnchor="334.0" />
             <Button layoutX="31.0" layoutY="402.0" mnemonicParsing="false" onAction="#goToOrder" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="bookordertest" textFill="#0400ff">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
+            <Text layoutX="37.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book name :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="35.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Publisher's name :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="39.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book edition :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="37.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catalog number :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="37.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position on the shelf :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="37.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Category :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="320.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book description :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="324.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date purchased :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="324.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of print :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="324.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content table :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutX="324.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Photo :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -70,9 +125,14 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
+      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="55.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../source/header.png" />
+         </image>
+      </ImageView>
+      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="49.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
          <buttons>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToHome" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+            <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -80,59 +140,52 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+            <Button fx:id="searchbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" disable="true" mnemonicParsing="false" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+            <Button fx:id="addbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+            <Button fx:id="returnbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+            <Button fx:id="borrowbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+            <Button fx:id="registerbutton" defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToOrderScreen" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+            <Button fx:id="extendbutton" defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+            <Button fx:id="readercardbutton" defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+            <Button fx:id="logoutbutton" defaultButton="true" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
          </buttons>
+         <padding>
+            <Insets left="-50.0" />
+         </padding>
       </ButtonBar>
-      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../source/תמונה1.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
+      <Text fx:id="UserInformation" layoutX="279.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

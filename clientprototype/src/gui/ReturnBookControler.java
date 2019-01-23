@@ -1,6 +1,7 @@
 package gui;
 
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
 /**
  * in this class the gui takes all the details that we put in the page and return the book
@@ -34,6 +36,9 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 	    private TextField ReturnDate;
 
 	    @FXML
+	    private Text UserInformation;
+	    
+	    @FXML
 	    private TextField ReturnedOn;
 	    
         JOptionPane frame;
@@ -46,10 +51,10 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
          * @param event
          */
     public void ClearAll(ActionEvent event) {
-    	BookID.setText(null);
-    	BorrowDate.setText(null);
-    	ReturnDate.setText(null);
-    	ReturnedOn.setText(null);
+    	BookID.setText("");
+    	BorrowDate.setText("");
+    	ReturnDate.setText("");
+    	ReturnedOn.setText("");
     }
     
     /**
@@ -110,10 +115,10 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 		   }
 		   if(data.get(0).equals("done")) {
 				JOptionPane.showMessageDialog(frame, "the book has returned successfuly");
-		    	BookID.setText(null);
-		    	BorrowDate.setText(null);
-		    	ReturnDate.setText(null);
-		    	ReturnedOn.setText(null);		   
+		    	BookID.setText("");
+		    	BorrowDate.setText("");
+		    	ReturnDate.setText("");
+		    	ReturnedOn.setText("");		   
 		    	}
 	}
 	
@@ -121,6 +126,8 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		book=new Book();
+		UserInformation.setText(LoginController.UserInfo2);
+
 	}
 	
 }

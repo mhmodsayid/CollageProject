@@ -450,7 +450,7 @@ public class ServerController extends AbstractServer {
 				client.sendToClient(SendMassege);
 				break;
 			case 10:
-				Date date = new Date();
+				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 				String bookName = null;
 				int quantity = 0;
 				data = Arrays.asList(s.split(","));
@@ -486,11 +486,10 @@ public class ServerController extends AbstractServer {
 				pstmt.setString(2, data.get(1));
 				pstmt.executeUpdate();
 
-				query = "update OrderBook set OrderBookReady=? where ReaderID=?,BookName=?";
+				query = "update OrderBook set OrderBookReady=? where BookID=?";
 				pstmt = con.prepareStatement(query);
-				pstmt.setDouble(1, date.getTime());
-				pstmt.setString(2, data.get(1));
-				pstmt.setString(3, bookName);
+				pstmt.setString(1, date.toString());
+				pstmt.setString(2, data.get(0));
 				pstmt.executeUpdate();
 
 				query = "DELETE FROM borrowbook WHERE CatalogNumber=?";
@@ -614,6 +613,18 @@ public class ServerController extends AbstractServer {
 				String OrderStatus = null;
 				String ReaderID = null;
 				int FlagOrderStatus = 0;
+				int quantityLiberary=0;
+				query = "select * from library where BookName=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(6));
+				ResultSet object2 = pstmt.executeQuery();
+				while (object2.next()) {
+					quantityLiberary = object2.getInt(4);
+				}
+				if(quantityLiberary==0) {
+					client.sendToClient("notFound,the quantity is 0");
+					break;
+				}
 				query = "select * from OrderBook where BookID=?";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, data.get(0));
@@ -621,7 +632,7 @@ public class ServerController extends AbstractServer {
 				while (object.next()) {
 					OrderStatus = object.getString(5);
 					ReaderID = object.getString(2);
-					if (OrderStatus.equals("waiting") && ReaderID.equals(data.get(1))) {
+					if (OrderStatus.equals("Waiting for Book") && ReaderID.equals(data.get(1))) {
 						FlagOrderStatus = 1;
 					} else {
 						FlagOrderStatus = 2;
@@ -647,7 +658,9 @@ public class ServerController extends AbstractServer {
 				pstmt.setString(5, data.get(4));
 				pstmt.setString(6, data.get(5));
 				pstmt.executeUpdate();
-				query = "INSERT INTO history values(?,?,?,?,?)";
+			
+
+				query = "INSERT INTO history (readerID,bookName,borrowDate,returnDate,ReturnStatus) values(?,?,?,?,?)";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, data.get(1));
 				pstmt.setString(2, data.get(6));
@@ -887,11 +900,12 @@ public class ServerController extends AbstractServer {
 			db = new DbContoller(args[0], args[1], args[2]);
 		}
 		Thread thrad1 = new Thread(new OrderTimeOut(db));
-		
+		Thread thrad2 = new Thread(new CheackingBorrowDate());
 
 		ServerController sv = new ServerController(port);
 
 		try {
+			thrad2.start();
 			thrad1.start();
 			sv.listen(); // Start listening for connections
 		} catch (Exception ex) {

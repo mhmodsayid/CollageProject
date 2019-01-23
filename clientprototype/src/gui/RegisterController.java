@@ -1,6 +1,7 @@
 package gui;
 
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -94,6 +95,9 @@ public class RegisterController extends NavigationBar implements Initializable, 
     @FXML
     private ComboBox<String> combobox1; 
 
+    @FXML
+    private Text UserInformation;
+
 	ObservableList<String> list1 = FXCollections.observableArrayList("Librarian","Reader","Manager");
 
     private int logInStatus=0;
@@ -127,9 +131,10 @@ public class RegisterController extends NavigationBar implements Initializable, 
 	 * else :save the entered data in the DB ,and build a new account and sent massage (register done) 
 	 * @param event
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
     @FXML
-    void RegisterDone(ActionEvent event) throws IOException {
+    void RegisterDone(ActionEvent event) throws IOException, InterruptedException {
     	user.setUserID(UserID.getText());//
     	user.setFirstName(FirstName.getText());//
     	user.setLastName(LastName.getText());//
@@ -169,12 +174,15 @@ public class RegisterController extends NavigationBar implements Initializable, 
     		 if(!user.getPassword().equals(user.getconfirmpassword()))
     		 	JOptionPane.showMessageDialog(frame, "Confirm password must match a password field");
     	else {
+			Thread.sleep(10);
+			ClearAll(null);   
     		try { 		  
  	 		String command = "23" + user.getUserID()+","+user.getEmail()+","+user.getPassword()+","+user.getFirstName()+","+user.getLastName()+","+user.getUserType()+","+user.getLogInStatus()+","+user.getPhone()+","+user.getuserStatus()+","+user.getUsername();
  			ConnectionToServer.sendData(this, command);
  			}catch (IOException e) {
  			e.printStackTrace();
  			} 
+    		 	
     	}
     }
    
@@ -208,6 +216,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
 	public void initialize(URL arg0, ResourceBundle arg1) {
      	user = new User();
 		combobox1.setItems(list1);
+		UserInformation.setText(LoginController.UserInfo2);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package controller;
 
+import control.CheackingBorrowDate;
+import gui.LoginController;
 import gui.MainPage;
 import gui.UpdateStatusController;
 import javafx.application.Application;
@@ -25,11 +27,9 @@ public class ClientConsole extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-	MainPage aframe= new MainPage();
+		LoginController aframe= new LoginController();
 		//UpdateStatusController aFrame = new UpdateStatusController(); // create StudentFrame and start the gui
 		aframe.start(arg0);
-		Thread thrad1 = new Thread(new CheackingBorrowDate());
-		//thrad1.start();
 		
 	}
 }

@@ -10,6 +10,7 @@ package gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,18 +23,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import entity.Book;
 import controller.ConnectionToServer;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
 
-public class SearchBookController extends NavigationBar implements ChatIF {
+public class SearchBookController extends NavigationBar implements Initializable, ChatIF {
 	private ListBooksController lbc;
 	List<Book> books = new ArrayList<Book>();
     @FXML // fx:id="authorName"
@@ -53,7 +58,12 @@ public class SearchBookController extends NavigationBar implements ChatIF {
 
     @FXML // fx:id="freeSearch"
     private TextArea freeSearch; // Value injected by FXMLLoader
-
+    @FXML
+    private ButtonBar WorkerMenu;
+    @FXML
+    private ButtonBar ReaderMenu;
+    @FXML
+    private Text UserInformation;
 	JOptionPane frame;
 	
 
@@ -140,8 +150,19 @@ public class SearchBookController extends NavigationBar implements ChatIF {
     	window.setScene(result);
 	
 	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		UserInformation.setText(LoginController.UserInfo2);
+		if(LoginController.userType2.equals("Reader")) {
+			WorkerMenu.setVisible(false);
+			ReaderMenu.setVisible(true);
+		}
+		else 
+			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+			WorkerMenu.setVisible(true);
+			ReaderMenu.setVisible(false);
+		}
 	}
-
-
-
-
+	}

@@ -1,4 +1,4 @@
-package controller;
+package control;
 
 import java.io.IOException;
 /**
@@ -8,29 +8,21 @@ import java.io.IOException;
  * and to alert the reader if just remains one day for returning the book
  */
 
-import ocsf.client.ChatIF;
 
-public class CheackingBorrowDate implements Runnable, ChatIF {
+public class CheackingBorrowDate implements Runnable {
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while(true) {
 			try {
-				ConnectionToServer.sendData(this,"11");
+				ServerController SC = new ServerController(5555);
+				SC.handleMessageFromClient("11", null);
 				Thread.sleep(100*60*60*24);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} 
 		}
-	}
-	@Override
-	public void display(Object msg) {
-		// TODO Auto-generated method stub
-		
 	}
 }

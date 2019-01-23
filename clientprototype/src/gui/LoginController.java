@@ -1,11 +1,13 @@
 package gui;
 
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import controller.ConnectionToServer;
+import entity.Book;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import ocsf.client.ChatIF;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ocsf.client.ChatIF;
 /**
@@ -59,11 +69,21 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	 
 	 public static String UserInfo2;
 	    
-	 public int flag=0;
+	 public int flag=9;
 	
 	 public int flag1=1;
 	
 	 ActionEvent event;
+	    public void start(Stage primaryStage) throws IOException {
+			System.out.println("t--------------------------------est before crash");
+			Parent root = FXMLLoader.load(getClass().getResource("GUI_FXML/Login_Page.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setTitle("OBL Prototype");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+
+		}
+	    
    
 	 /**
 	  * this function clear all the fields when the user press on clear all button
@@ -129,19 +149,21 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	    		}catch (IOException e) {
 	    		e.printStackTrace();
 	    		}
-	    		
-
-	    			try {
-	 				ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Main_Page.fxml"));
-	 				moveTo(event);
-	    			} catch (IOException e) {
-	 				// TODO Auto-generated catch block
-	 				e.printStackTrace();
-	 			}
-	    		}
-	    		}
+	    				
+	 			
+		    			try {
+		 				ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Main_Page.fxml"));
+		 				moveTo(event);
+		 				flag=9;
+		    			} catch (IOException e) {
+		 				// TODO Auto-generated catch block
+		 				e.printStackTrace();
+		 			
+		    		}
 	    		}	
-	  }
+	    		}
+	    	}
+	}
 
 	 /**
 	  * this function moved the user to search_book page as visitor by clicking on Search button
@@ -162,15 +184,17 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	@Override
 	public void display(Object msg) {
 		if(!msg.equals("user not exsist")&&!msg.equals("this account is logged in already")) {
+			flag=1;
 			userType2=(String) msg;
 			UserInfo2=("[ "+userName2+" , "+userType2+" ]");
 			System.out.println (UserInfo2);	
-			flag=1;
+
 		}
 		else 		
 			if(msg.equals("user not exsist")) {
 		JOptionPane.showMessageDialog(frame,"User Not Exist");
 		flag=0;	
+		
 		}
 		else 
 			if(msg.equals("this account is logged in already")) {

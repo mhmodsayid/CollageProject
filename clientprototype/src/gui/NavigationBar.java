@@ -1,7 +1,9 @@
 package gui;
 
+
 import java.io.IOException;
 
+import controller.ConnectionToServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ocsf.client.ChatIF;
 
 public class NavigationBar {
 	Parent ReturnScreen = null;
@@ -46,6 +49,13 @@ public class NavigationBar {
 	    }
 	    @FXML
 	    void moveToLogInScreen(ActionEvent event) throws IOException {
+	    	try {
+	    		String command ="26"+LoginController.userName2;
+	    		ConnectionToServer.sendData((ChatIF) this,command);
+	    		}catch (IOException e) {
+	    		e.printStackTrace();
+	    		}
+	    	LoginController.userName2="null";
 	    	ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Login_Page.fxml"));
 	    	moveTo(event);
 	    }
