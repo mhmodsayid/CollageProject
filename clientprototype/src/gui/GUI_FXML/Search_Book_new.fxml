@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SearchBookController">
+   <children>
+      <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../source/background.jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="31.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../source/תמונה1.png" />
+         </image>
+      </ImageView>
+      <Pane blendMode="SRC_ATOP" layoutX="256.0" layoutY="123.0" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #E6E6E6;">
+         <children>
+            <Separator cache="true" layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="16.0" prefWidth="502.0" />
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="526.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../source/magnifier.png" />
+               </image>
+            </ImageView>
+            <Text fill="#55a6e0" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Book">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="138.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Enter One Or More Parameter To Search Book">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <TextField fx:id="authorName" layoutX="111.0" layoutY="175.0" prefHeight="25.0" prefWidth="174.0" promptText="Author Name" />
+            <TextField fx:id="bookName" layoutX="111.0" layoutY="125.0" prefHeight="25.0" prefWidth="174.0" promptText="Book Name" />
+            <TextField fx:id="bookSubject" layoutX="111.0" layoutY="225.0" prefHeight="25.0" prefWidth="174.0" promptText="Subject of the book" />
+            <Button fx:id="searchBtn" layoutX="456.0" layoutY="404.0" mnemonicParsing="false" onAction="#searchBook" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Search">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="clearAllBtn" layoutX="321.0" layoutY="404.0" mnemonicParsing="false" onAction="#clearAll" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Clear All">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="freeSearch" layoutX="111.0" layoutY="276.0" prefHeight="93.0" prefWidth="386.0" promptText="Free Search" />
+            <ImageView fitHeight="154.0" fitWidth="157.0" layoutX="321.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo/books-stack-of-three.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <ButtonBar buttonMinWidth="100.0" cache="true" layoutX="15.0" layoutY="15.0" prefHeight="48.0" prefWidth="1073.0">
+         <buttons>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToHome" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" disable="true" mnemonicParsing="false"  style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true"  mnemonicParsing="false" onAction="#moveToAddScreen" style="-fx-background-color: #202020;" text="Add" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToReturnScreen" style="-fx-background-color: #202020;" text="Return" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToBorrowScreen" style="-fx-background-color: #202020;" text="Borrow" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToRegisterScreen" style="-fx-background-color: #202020;" text="Register" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToOrderScreen" style="-fx-background-color: #202020;" text="Order" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" layoutX="362.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </buttons>
+      </ButtonBar>
+      <Text layoutX="33.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ Fares Bsoul | Reader | 206163727 ]">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
