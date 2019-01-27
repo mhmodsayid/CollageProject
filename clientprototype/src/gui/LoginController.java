@@ -223,8 +223,14 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	 */
 	@FXML
 	void moveToSearchScreen(ActionEvent event) throws IOException {
-		ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Add_Book.fxml"));
-		moveTo(event);
+		UserInfo2=null;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI_FXML/Search_Book.fxml"));
+		Parent searchScreen =loader.load();
+		Scene scene = new Scene(searchScreen);
+		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		primaryStage.hide();
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 	/**

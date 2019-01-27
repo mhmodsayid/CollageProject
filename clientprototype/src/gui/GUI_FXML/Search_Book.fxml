@@ -88,7 +88,7 @@
             <Image url="@../source/header.png" />
          </image>
       </ImageView>
-      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="49.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
+      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
          <buttons>
             <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
