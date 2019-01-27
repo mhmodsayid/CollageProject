@@ -128,6 +128,15 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
+      <ButtonBar layoutX="148.0" layoutY="45.0" prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <Button fx:id="searchbuttonTempReader" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+        </buttons>
+      </ButtonBar>
       <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
          <buttons>
             <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
@@ -213,12 +222,12 @@
             <Insets left="-50.0" />
          </padding>
       </ButtonBar>
-      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="36.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="45.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../source/תמונה1.png" />
          </image>
       </ImageView>
-       <Text fx:id="UserInformation" layoutX="280.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
+       <Text fx:id="UserInformation" layoutX="277.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

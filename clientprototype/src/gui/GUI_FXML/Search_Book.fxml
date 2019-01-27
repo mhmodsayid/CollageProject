@@ -143,7 +143,7 @@
             <Insets left="-50.0" />
          </padding>
       </ButtonBar>
-      <Text fx:id="UserInformation" layoutX="279.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
+      <Text fx:id="UserInformation" layoutX="280.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

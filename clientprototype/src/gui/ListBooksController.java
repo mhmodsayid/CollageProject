@@ -85,6 +85,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
     @FXML // fx:id="infoText"
     private Text infoText; // Value injected by FXMLLoader
     
+    @FXML // fx:id="searchbuttonTempReader"
+    private Button searchbuttonTempReader; // Value injected by FXMLLoader
+    
     @FXML
     private ButtonBar WorkerMenu;
     @FXML
@@ -202,6 +205,23 @@ public class ListBooksController extends NavigationBar implements Initializable,
     	this.books=null;
 
     }
+    /**
+	 * this function moved the user to search_book page as visitor by clicking on
+	 * Search button
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	void moveToSearchScreen(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI_FXML/Search_Book.fxml"));
+		Parent searchScreen =loader.load();
+		Scene scene = new Scene(searchScreen);
+		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		primaryStage.hide();
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 	@Override
 	public void display(Object msg) {
 		// TODO Auto-generated method stub
@@ -215,6 +235,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			UserInformation.setText("[Temprary Reader]");
 		ReaderMenu.setVisible(false);
 		WorkerMenu.setVisible(false);
+		
 		}
 		else {
 		UserInformation.setText(LoginController.UserInfo2);
