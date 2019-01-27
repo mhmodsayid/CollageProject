@@ -33,8 +33,9 @@ import ocsf.server.*;
 
 class OrderTimeOut implements Runnable {
 	public DbContoller db;
+
 	public OrderTimeOut(DbContoller db) {
-		this.db=db;
+		this.db = db;
 	}
 
 	@Override
@@ -48,27 +49,32 @@ class OrderTimeOut implements Runnable {
 			try {
 				pstmt = con.prepareStatement(query);
 				ResultSet s = pstmt.executeQuery();
-				s.next();
-				Object orderdateready=s.getObject("OrderBookReady");
-				java.sql.Timestamp currentTime = new java.sql.Timestamp(new java.util.Date().getTime());
-				java.sql.Timestamp readyTime=(Timestamp) orderdateready;
-				System.out.println((currentTime.getTime()-readyTime.getTime())/3600000);
-				if((currentTime.getTime()-readyTime.getTime())/3600000>24){
-					System.out.println("order need to be deleted");
-					query = "delete FROM OrderBook  WHERE OrderID=?";
-					pstmt = con.prepareStatement(query);
-					pstmt.setInt(1,s.getInt("OrderID"));
-					pstmt.executeUpdate();
+				while (s.next()) {
+					Object orderdateready = s.getObject("OrderBookReady");
+					if(orderdateready==null)
+						continue;
+					java.sql.Timestamp currentTime = new java.sql.Timestamp(new java.util.Date().getTime());
+					java.sql.Timestamp readyTime = (Timestamp) orderdateready;
+					System.out.println((currentTime.getTime() - readyTime.getTime()) / 3600000);
+					if ((currentTime.getTime() - readyTime.getTime()) / 3600000 > 24) {
+						System.out.println("order need to be deleted");
+						query = "delete FROM OrderBook  WHERE OrderID=?";
+						pstmt = con.prepareStatement(query);
+						pstmt.setInt(1, s.getInt("OrderID"));
+						pstmt.executeUpdate();
+						
+						//senddd emaillllll
+					}
+
 				}
-				
-				
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			try {
-				Thread.sleep(1000*60*60*12);
+				Thread.sleep(1000 * 60 * 60 * 12);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -185,32 +191,27 @@ public class ServerController extends AbstractServer {
 					pstmt1.executeUpdate();
 					System.out.println("Your order added successfully");
 					client.sendToClient("Your order added successfully");
-					
-					
+
 					query = "SELECT count(BookName) FROM OrderBook\n" + "    WHERE true";
 					pstmt1 = con.prepareStatement(query);
 					s = pstmt1.executeQuery();
-					if(s.next()) {
-						if(s.getInt(1)>=2) {
-							query = "UPDATE `collageproject`.`library` SET `BookStatus` = 'Indemand'\n" + 
-									"WHERE `BookName`="+order.getBookName();
+					if (s.next()) {
+						if (s.getInt(1) >= 2) {
+							query = "UPDATE `collageproject`.`library` SET `BookStatus` = 'Indemand'\n"
+									+ "WHERE `BookName`=" + order.getBookName();
 							pstmt1 = con.prepareStatement(query);
 							pstmt1.executeUpdate();
 							System.out.println("more than 2");
 						}
 					}
-					
+
 					con.close();
 				} else {
 					System.out.println("Your order already exists");
 					client.sendToClient("Your order already exists");
 
 				}
-				
-				
-				
-				
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.getStackTrace();
@@ -360,33 +361,32 @@ public class ServerController extends AbstractServer {
 				System.out.println("sending " + book + " to client");
 				break;
 			case 5:
-			
-				ResultSet resultSet = null;
-				data=Arrays.asList(s.split(","));
-				query="select * from library where library.BookName=? or library.Category=? or library.Author=? or library.`BookDecrebtion` LIKE ?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-				pstmt.setString(2,data.get(1));
-				pstmt.setString(3,data.get(2));
-				if(!data.get(3).equals(" "))
-				pstmt.setString(4,"%"+data.get(3)+"%");
-				else
-				pstmt.setString(4,"");
 
-				resultSet=pstmt.executeQuery();
-				List <Book> books = new ArrayList<Book>(); 
-				if(!resultSet.next())
-				{         Book nbook = new Book();
-					     nbook.setBookStatus("-1");
-					     books.add(nbook);
-						 // client.sendToClient("-1");
+				ResultSet resultSet = null;
+				data = Arrays.asList(s.split(","));
+				query = "select * from library where library.BookName=? or library.Category=? or library.Author=? or library.`BookDecrebtion` LIKE ?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				pstmt.setString(2, data.get(1));
+				pstmt.setString(3, data.get(2));
+				if (!data.get(3).equals(" "))
+					pstmt.setString(4, "%" + data.get(3) + "%");
+				else
+					pstmt.setString(4, "");
+
+				resultSet = pstmt.executeQuery();
+				List<Book> books = new ArrayList<Book>();
+				if (!resultSet.next()) {
+					Book nbook = new Book();
+					nbook.setBookStatus("-1");
+					books.add(nbook);
+					// client.sendToClient("-1");
 				}
-				/* get book from result set and save the catalog number of every book found*/
-				
-				resultSet.previous();	
-				while (resultSet.next()) 
-				  	   {
-					Book resbook=new Book();
+				/* get book from result set and save the catalog number of every book found */
+
+				resultSet.previous();
+				while (resultSet.next()) {
+					Book resbook = new Book();
 					resbook.setBookName(resultSet.getString(1));
 					resbook.setPublisherName(resultSet.getString(2));
 					resbook.setBookEdite(resultSet.getString(3));
@@ -394,16 +394,16 @@ public class ServerController extends AbstractServer {
 					resbook.setBookCatagory(resultSet.getString(5));
 					resbook.setBookDescription(resultSet.getString(6));
 					resbook.setBookStatus(resultSet.getString(7));
-					/*if the book status is not Available then get its 
-					 * catalogNumber,printDate,purchaseDateangshelfPosition 
-					 * from book table */
-					if(!resultSet.getString(7).equals("Available"))
-					{
-						query="select catalogNumber,printDate,purchaseDate,shelfPosition from book where bookName=?";
-						pstmt=con.prepareStatement(query);
+					/*
+					 * if the book status is not Available then get its
+					 * catalogNumber,printDate,purchaseDateangshelfPosition from book table
+					 */
+					if (!resultSet.getString(7).equals("Available")) {
+						query = "select catalogNumber,printDate,purchaseDate,shelfPosition from book where bookName=?";
+						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, resbook.getBookName());
-						
-						ResultSet catalog=pstmt.executeQuery();
+
+						ResultSet catalog = pstmt.executeQuery();
 						catalog.next();
 						resbook.setCatalogNumber(catalog.getString(1));
 						resbook.setDateOfPrint(catalog.getString(2));
@@ -411,31 +411,27 @@ public class ServerController extends AbstractServer {
 						resbook.setPositionOnTheShelf(catalog.getString(4));
 					}
 					resbook.setQuantity(Integer.parseInt(resultSet.getString(4)));
-					
-				
-					
-					Path path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/Contant_table.pdf");
+
+					Path path01 = Paths.get("booksDataFolder/" + resbook.getBookName() + "/Contant_table.pdf");
 					byte[] contentFile = Files.readAllBytes(path01);
-					path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/book_picture.jpg");
+					path01 = Paths.get("booksDataFolder/" + resbook.getBookName() + "/book_picture.jpg");
 					byte[] bookPhoto = Files.readAllBytes(path01);
 					resbook.setBookphoto(bookPhoto);
 					resbook.setContentfile(contentFile);
 					books.add(resbook);
-				  	 }
-				 
-				 if(books.size()>0)
-				  	{
-					  ObjectOutput out1 = null;
-						ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-						out1 = new ObjectOutputStream(bos1);   
-						  out1.writeObject(books);
-						  out1.flush();
-						  byte[] objbyte1 = bos1.toByteArray();
-					  client.sendToClient(objbyte1);
-					  System.out.println("sending"+books.size()+"books to client");
-				  	}
+				}
+
+				if (books.size() > 0) {
+					ObjectOutput out1 = null;
+					ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
+					out1 = new ObjectOutputStream(bos1);
+					out1.writeObject(books);
+					out1.flush();
+					byte[] objbyte1 = bos1.toByteArray();
+					client.sendToClient(objbyte1);
+					System.out.println("sending" + books.size() + "books to client");
+				}
 				break;
-			
 
 			case 7:
 				SendMassege = "UserIDFound,";
@@ -664,7 +660,7 @@ public class ServerController extends AbstractServer {
 				String OrderStatus = null;
 				String ReaderID = null;
 				int FlagOrderStatus = 0;
-				int quantityLiberary=0;
+				int quantityLiberary = 0;
 				query = "select * from library where BookName=?";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, data.get(6));
@@ -672,7 +668,7 @@ public class ServerController extends AbstractServer {
 				while (object2.next()) {
 					quantityLiberary = object2.getInt(4);
 				}
-				if(quantityLiberary==0) {
+				if (quantityLiberary == 0) {
 					client.sendToClient("notFound,the quantity is 0");
 					break;
 				}
@@ -709,7 +705,6 @@ public class ServerController extends AbstractServer {
 				pstmt.setString(5, data.get(4));
 				pstmt.setString(6, data.get(5));
 				pstmt.executeUpdate();
-			
 
 				query = "INSERT INTO history (readerID,bookName,borrowDate,returnDate,ReturnStatus) values(?,?,?,?,?)";
 				pstmt = con.prepareStatement(query);
@@ -908,111 +903,111 @@ public class ServerController extends AbstractServer {
 				pstmt.executeUpdate();
 				break;
 			case 27:// Extend return date
-				
-				 SendMassege="UserIDFound,";
-				data=Arrays.asList(s.split(","));
-				query="select * from reader where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-				 object = pstmt.executeQuery();
-				while(object.next()) {
-					SendMassege+=object.getString(2);
+
+				SendMassege = "UserIDFound,";
+				data = Arrays.asList(s.split(","));
+				query = "select * from reader where UserID=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += object.getString(2);
 				}
-				query="select * from user where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-			    object = pstmt.executeQuery();
-				while(object.next()) {
-					SendMassege+=","+object.getString(4)+" "+object.getString(5);
+				query = "select * from user where UserID=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += "," + object.getString(4) + " " + object.getString(5);
 				}
-				if(SendMassege.equals("UserIDFound,")) {
-					SendMassege="notFound,UserID Not Found";
+				if (SendMassege.equals("UserIDFound,")) {
+					SendMassege = "notFound,UserID Not Found";
 				}
 
 				client.sendToClient(SendMassege);
-				
+
 				break;
-				
-				case 28: //check if book is borrowed 
-				
-				boolean borrowflag=false;
-				boolean orderflag=false;
-				String SendMessage2="";
-				data=Arrays.asList(s.split(","));
-				query="select * from book where catalogNumber=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-			    object = pstmt.executeQuery();
-				while(object.next()) {
-						SendMessage2+=object.getString(2);
-						String bookName2=object.getString(2);
-						query="select * from borrowbook where catalogNumber=?";
-						pstmt=con.prepareStatement(query);
-						pstmt.setString(1,data.get(0));
-					    object = pstmt.executeQuery();
-					    while(object.next()) {
-					    	SendMessage2+=","+object.getString(4)+","+object.getString(5);
-					    	borrowflag=true;
-					    }
-						if(!borrowflag) {
-							SendMessage2="BookNotBorrowed";
-							break;
+
+			case 28: // check if book is borrowed
+
+				boolean borrowflag = false;
+				boolean orderflag = false;
+				String SendMessage2 = "";
+				data = Arrays.asList(s.split(","));
+				query = "select * from book where catalogNumber=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMessage2 += object.getString(2);
+					String bookName2 = object.getString(2);
+					query = "select * from borrowbook where catalogNumber=?";
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, data.get(0));
+					object = pstmt.executeQuery();
+					while (object.next()) {
+						SendMessage2 += "," + object.getString(4) + "," + object.getString(5);
+						borrowflag = true;
+					}
+					if (!borrowflag) {
+						SendMessage2 = "BookNotBorrowed";
+						break;
+					}
+					data = Arrays.asList(bookName2);
+					query = "select * from OrderBook where BookName=?";
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, data.get(0));
+					object = pstmt.executeQuery();
+					while (object.next()) {
+						SendMessage2 = "bookOrdered";
+						orderflag = true;
+					}
+					if (!orderflag) {
+						query = "select * from library where BookName=?";
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, data.get(0));
+						object = pstmt.executeQuery();
+						while (object.next()) {
+							SendMessage2 += "," + object.getString(7) + "," + "notOrdered";
 						}
-						data=Arrays.asList(bookName2);
-						query="select * from OrderBook where BookName=?";
-						pstmt=con.prepareStatement(query);
-						pstmt.setString(1,data.get(0));
-					    object = pstmt.executeQuery();
-					    while(object.next()) {
-					    	SendMessage2="bookOrdered";
-					    	orderflag=true;
-					    }
-					    if(!orderflag) {
-						query="select * from library where BookName=?";
-						pstmt=con.prepareStatement(query);
-						pstmt.setString(1,data.get(0));
-					    object = pstmt.executeQuery();
-					    while(object.next()) {
-					    	SendMessage2+=","+object.getString(7)+","+"notOrdered";
-					    }
-					    }
+					}
 
 				}
 				System.out.println(SendMessage2);
 				client.sendToClient(SendMessage2);
 				break;
-				
-				case 29://confirm extend date
-					data=Arrays.asList(s.split(","));
-					query="update borrowbook set ReturnDate=? where CatalogNumber=?";
-					pstmt=con.prepareStatement(query);
-					pstmt.setString(1,data.get(0));
-					pstmt.setString(2,data.get(1));
-				    pstmt.executeUpdate();
-				    SendMassege="Return date updated";
-				    client.sendToClient(SendMassege);
-				    break;
-				    
-				case 30://populate reader card history tabl
-					data=Arrays.asList(s.split(","));
-					query="select * from history where readerID=?";
-					pstmt=con.prepareStatement(query);
-					pstmt.setString(1,data.get(0));
-				    object = pstmt.executeQuery();
-				    int rowCounter=0;
-					while(object.next()) {
-		                //Iterate Row
-		                ObservableList<String> row = FXCollections.observableArrayList();
-		                for (int i = 1; i <= object.getMetaData().getColumnCount(); i++) {
-		                    //Iterate Column
-		                    row.add(object.getString(i));
-		                }
-		                System.out.println("Row ["+rowCounter+"] added " + row);
 
-		                client.sendToClient(row);
+			case 29:// confirm extend date
+				data = Arrays.asList(s.split(","));
+				query = "update borrowbook set ReturnDate=? where CatalogNumber=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				pstmt.setString(2, data.get(1));
+				pstmt.executeUpdate();
+				SendMassege = "Return date updated";
+				client.sendToClient(SendMassege);
+				break;
+
+			case 30:// populate reader card history tabl
+				data = Arrays.asList(s.split(","));
+				query = "select * from history where readerID=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				int rowCounter = 0;
+				while (object.next()) {
+					// Iterate Row
+					ObservableList<String> row = FXCollections.observableArrayList();
+					for (int i = 1; i <= object.getMetaData().getColumnCount(); i++) {
+						// Iterate Column
+						row.add(object.getString(i));
 					}
-							
-							break;
+					System.out.println("Row [" + rowCounter + "] added " + row);
+
+					client.sendToClient(row);
+				}
+
+				break;
 
 			default:
 				break;
