@@ -185,12 +185,32 @@ public class ServerController extends AbstractServer {
 					pstmt1.executeUpdate();
 					System.out.println("Your order added successfully");
 					client.sendToClient("Your order added successfully");
+					
+					
+					query = "SELECT count(BookName) FROM OrderBook\n" + "    WHERE true";
+					pstmt1 = con.prepareStatement(query);
+					s = pstmt1.executeQuery();
+					if(s.next()) {
+						if(s.getInt(1)>=2) {
+							query = "UPDATE `collageproject`.`library` SET `BookStatus` = 'Indemand'\n" + 
+									"WHERE `BookName`="+order.getBookName();
+							pstmt1 = con.prepareStatement(query);
+							pstmt1.executeUpdate();
+							System.out.println("more than 2");
+						}
+					}
+					
 					con.close();
 				} else {
 					System.out.println("Your order already exists");
 					client.sendToClient("Your order already exists");
 
 				}
+				
+				
+				
+				
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.getStackTrace();

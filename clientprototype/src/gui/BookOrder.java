@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import controller.ConnectionToServer;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
 import entity.Book;
 import entity.OrderBook;
@@ -60,10 +61,14 @@ public class BookOrder implements Initializable, ChatIF {
 
     @FXML
     private Text dateOfPrint;
+    @FXML
+    private ButtonBar WorkerMenu;
+    @FXML
+    private ButtonBar ReaderMenu;
 
     @FXML
     void OrderTheBook(ActionEvent event) throws SQLException {
-    	Reader.setStudent_id("testid");
+    	
     	
     	java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
     	OrderBook order = new OrderBook();
@@ -121,6 +126,12 @@ public class BookOrder implements Initializable, ChatIF {
 		dateOfPrint.setText(Book.getTheBook().getDateOfPrint());
 			Image img = new Image(new ByteArrayInputStream(Book.getTheBook().getBookphoto()));
 			bookPic.setImage(img);
+			
+			if(LoginController.UserInfo2==null)
+			{
+				
+			}
+			
 
 	     
 	}

@@ -30,7 +30,11 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ocsf.client.ChatIF;
-
+/**
+ * This class is the controller of add book GUI page 
+ * @author Mahmoud Sayid
+ *
+ */
 public class AddBookController extends NavigationBar implements Initializable, ChatIF {
 	Book book;
 	@FXML

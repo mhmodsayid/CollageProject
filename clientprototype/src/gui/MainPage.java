@@ -52,6 +52,24 @@ public class MainPage extends NavigationBar implements Initializable, ChatIF  {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		UserInformation.setText(LoginController.UserInfo2);
+		if(LoginController.UserInfo2==null)
+		{
+			UserInformation.setText("[Temprary Reader]");
+		ReaderMenu.setVisible(false);
+		WorkerMenu.setVisible(false);
+		}
+		else {
+		UserInformation.setText(LoginController.UserInfo2);
+		if(LoginController.userType2.equals("Reader")) {
+		WorkerMenu.setVisible(false);
+		ReaderMenu.setVisible(true);
+		}
+		else 
+			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+			WorkerMenu.setVisible(true);
+			ReaderMenu.setVisible(false);
+		}
+	  }
 
 	}
 

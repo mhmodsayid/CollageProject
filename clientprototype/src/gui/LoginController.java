@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import controller.ConnectionToServer;
-import entity.Book;
+import entity.Reader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,24 +20,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ocsf.client.ChatIF;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import ocsf.client.ChatIF;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 
 /**
@@ -255,6 +237,7 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 		userType2 = (String) msg;
 		UserInfo2 = ("[ " + userName2 + " , " + userType2 + " ]");
 		System.out.println(UserInfo2);
+		Reader.setStudent_id(userName2);
 		flag = 1;
 
 	}
