@@ -1,6 +1,9 @@
 package gui;
 
 
+
+
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,15 +19,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import entity.Book;
 import controller.ConnectionToServer;
-
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
 /**
  * @author Ibrahem Mrisat
@@ -35,7 +42,7 @@ import ocsf.client.ChatIF;
  * Controller to display them. 
  * 
  */
-public class SearchBookController_new extends NavigationBar implements ChatIF {
+public class SearchBookController_new extends NavigationBar implements Initializable ,ChatIF {
 	/**
 	 * @param ArraiList of books to save the books from search result
 	 */
@@ -57,6 +64,13 @@ public class SearchBookController_new extends NavigationBar implements ChatIF {
 
     @FXML // fx:id="freeSearch"
     private TextArea freeSearch; // Value injected by FXMLLoader
+    
+    @FXML
+    private ButtonBar WorkerMenu;
+    @FXML
+    private ButtonBar ReaderMenu;
+    @FXML
+    private Text UserInformation;
 
 	JOptionPane frame;
 	    
@@ -157,7 +171,7 @@ public class SearchBookController_new extends NavigationBar implements ChatIF {
 	 */
 	public void MoveToResultPage(ActionEvent event) throws IOException
 	{
-		FXMLLoader loader =new FXMLLoader(getClass().getResource("GUI_FXML/List_Books.fxml"));
+		FXMLLoader loader =new FXMLLoader(getClass().getResource("GUI_FXML/List_Books_new.fxml"));
 		Parent searchResult=loader.load();
 		Scene result=new Scene(searchResult);
     	Stage window =(Stage)(((Node) event.getSource()).getScene().getWindow());
@@ -165,6 +179,28 @@ public class SearchBookController_new extends NavigationBar implements ChatIF {
         listbookscontroller.loadBooks(books);
     	window.setScene(result);
 	
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		if(LoginController.UserInfo2==null)
+		{
+			UserInformation.setText("[Temprary Reader]");
+		ReaderMenu.setVisible(false);
+		WorkerMenu.setVisible(false);
+		}
+		else {
+		UserInformation.setText(LoginController.UserInfo2);
+		if(LoginController.userType2.equals("Reader")) {
+		WorkerMenu.setVisible(false);
+		ReaderMenu.setVisible(true);
+		}
+		else 
+			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+			WorkerMenu.setVisible(true);
+			ReaderMenu.setVisible(false);
+		}
+	  }
 	}
 	}
 

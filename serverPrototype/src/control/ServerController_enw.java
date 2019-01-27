@@ -24,6 +24,8 @@ import java.util.List;
 import SendingMail.SendMailToClient;
 import entity.Book;
 import entity.Reader;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ocsf.server.*;
 
 public class ServerController_enw extends AbstractServer 
@@ -39,6 +41,7 @@ public class ServerController_enw extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+	 
 	 
 	  try {
 		String s=(String) msg;
@@ -825,6 +828,117 @@ public void getmessagecommand(Object message, ConnectionToClient client) {
 			pstmt.setString(2,data.get(0));
 			pstmt.executeUpdate();
 		break;
+		
+		case 27:// Extend return date
+			
+			 SendMassege="UserIDFound,";
+			data=Arrays.asList(s.split(","));
+			query="select * from reader where UserID=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+			 object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=object.getString(2);
+			}
+			query="select * from user where UserID=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+		    object = pstmt.executeQuery();
+			while(object.next()) {
+				SendMassege+=","+object.getString(4)+" "+object.getString(5);
+			}
+			if(SendMassege.equals("UserIDFound,")) {
+				SendMassege="notFound,UserID Not Found";
+			}
+
+			client.sendToClient(SendMassege);
+			
+			break;
+			
+			case 28: //check if book is borrowed 
+			
+			boolean borrowflag=false;
+			boolean orderflag=false;
+			String SendMessage2="";
+			data=Arrays.asList(s.split(","));
+			query="select * from book where catalogNumber=?";
+			pstmt=con.prepareStatement(query);
+			pstmt.setString(1,data.get(0));
+		    object = pstmt.executeQuery();
+			while(object.next()) {
+					SendMessage2+=object.getString(2);
+					String bookName2=object.getString(2);
+					query="select * from borrowbook where catalogNumber=?";
+					pstmt=con.prepareStatement(query);
+					pstmt.setString(1,data.get(0));
+				    object = pstmt.executeQuery();
+				    while(object.next()) {
+				    	SendMessage2+=","+object.getString(4)+","+object.getString(5);
+				    	borrowflag=true;
+				    }
+					if(!borrowflag) {
+						SendMessage2="BookNotBorrowed";
+						break;
+					}
+					data=Arrays.asList(bookName2);
+					query="select * from OrderBook where BookName=?";
+					pstmt=con.prepareStatement(query);
+					pstmt.setString(1,data.get(0));
+				    object = pstmt.executeQuery();
+				    while(object.next()) {
+				    	SendMessage2="bookOrdered";
+				    	orderflag=true;
+				    }
+				    if(!orderflag) {
+					query="select * from library where BookName=?";
+					pstmt=con.prepareStatement(query);
+					pstmt.setString(1,data.get(0));
+				    object = pstmt.executeQuery();
+				    while(object.next()) {
+				    	SendMessage2+=","+object.getString(7)+","+"notOrdered";
+				    }
+				    }
+
+			}
+			System.out.println(SendMessage2);
+			client.sendToClient(SendMessage2);
+			break;
+			
+			case 29://confirm extend date
+				data=Arrays.asList(s.split(","));
+				query="update borrowbook set ReturnDate=? where CatalogNumber=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+				pstmt.setString(2,data.get(1));
+			    pstmt.executeUpdate();
+			    SendMassege="Return date updated";
+			    client.sendToClient(SendMassege);
+			    break;
+			    
+			case 30://populate reader card history tabl
+				data=Arrays.asList(s.split(","));
+				query="select * from history where readerID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+			    object = pstmt.executeQuery();
+			    int rowCounter=0;
+				while(object.next()) {
+	                //Iterate Row
+	                ObservableList<String> row = FXCollections.observableArrayList();
+	                for (int i = 1; i <= object.getMetaData().getColumnCount(); i++) {
+	                    //Iterate Column
+	                    row.add(object.getString(i));
+	                }
+	                System.out.println("Row ["+rowCounter+"] added " + row);
+
+	                client.sendToClient(row);
+				}
+						
+						break;
+						
+						
+						
+
 			
 		default:
 			break;

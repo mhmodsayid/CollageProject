@@ -4,17 +4,17 @@ public class User {
 	public enum status{
 	NotRegistered,Active,Frozen,Locked
 }
-	private String userID=null;
+	private static String userID=null;
 	private String Email=null;
 	private String Password=null;
-	private String firstName=null;
-	private String lastName=null;
-	private String userType=null;
+	private static String firstName=null;
+	private static String lastName=null;
+	private static String userType=null;
 	private int logInStatus=-1;
 	private String phone=null;
 	private String Username=null;
 	private String ConfirmPassword=null;
-	private String UserStatus=null;
+	private static String UserStatus=null;
 	
 	public User() {
 		super();
@@ -34,7 +34,7 @@ public class User {
 		this.Username = username;
 		this.UserStatus = userStatus;
 	}
-	public String getuserStatus() {
+	public static String getuserStatus() {
 		return UserStatus;
 	}
 	
@@ -52,7 +52,7 @@ public class User {
 		
 	}
 	
-	public String getUserID() {
+	public static String getUserID() {
 		return userID;
 	}
 	public void setUserID(String userID) {
@@ -70,19 +70,19 @@ public class User {
 	public void setPassword(String password) {
 		Password = password;
 	}
-	public String getFirstName() {
+	public static String getFirstName() {
 		return firstName;
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	public String getLastName() {
+	public static String getLastName() {
 		return lastName;
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getUserType() {
+	public static String getUserType() {
 		return userType;
 	}
 	public void setUserType(String userType) {
