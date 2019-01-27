@@ -1,9 +1,6 @@
 package gui;
 
 
-
-
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +39,7 @@ import ocsf.client.ChatIF;
  * Controller to display them. 
  * 
  */
-public class SearchBookController_new extends NavigationBar implements Initializable ,ChatIF {
+public class SearchBookController extends NavigationBar implements Initializable ,ChatIF {
 	/**
 	 * @param ArraiList of books to save the books from search result
 	 */
@@ -73,6 +70,7 @@ public class SearchBookController_new extends NavigationBar implements Initializ
     private Text UserInformation;
 
 	JOptionPane frame;
+	private boolean noBookFound=true;
 	    
 	/**
 	 * clears all FXML text fields 
@@ -129,11 +127,12 @@ public class SearchBookController_new extends NavigationBar implements Initializ
     	   in that way we will know what the user wanted to search.
     	   * */
 		ConnectionToServer.sendData(this, command);
-		
+		books.clear();
 		while(books.isEmpty())
 			Thread.sleep(100);
-		
+		if(!this.noBookFound)
        MoveToResultPage(event);
+		this.noBookFound=false;
        }
     }
     /**
@@ -145,13 +144,22 @@ public class SearchBookController_new extends NavigationBar implements Initializ
 	@Override
 	public void display(Object msg) 
 	{ 	
+				
 		 try {
-			 	books.clear();
+			 	
 		    	ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg);
 			    ObjectInput in = new ObjectInputStream(bis);
 				books = (List <Book>) in.readObject();
-				if(books.isEmpty())
+				if(books.get(0).getBookStatus().equals("-1"))
+				{
 					JOptionPane.showMessageDialog(frame, "No Match Found!");
+					this.noBookFound=true;
+				}
+				else
+				{
+					this.noBookFound=false;
+					return;
+				}
 					
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -160,7 +168,7 @@ public class SearchBookController_new extends NavigationBar implements Initializ
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-		
+	
 		 
 		}
 	/**
@@ -175,7 +183,7 @@ public class SearchBookController_new extends NavigationBar implements Initializ
 		Parent searchResult=loader.load();
 		Scene result=new Scene(searchResult);
     	Stage window =(Stage)(((Node) event.getSource()).getScene().getWindow());
-    	ListBooksController_new listbookscontroller = loader.<ListBooksController_new>getController();   
+    	ListBooksController listbookscontroller = loader.<ListBooksController>getController();   
         listbookscontroller.loadBooks(books);
     	window.setScene(result);
 	

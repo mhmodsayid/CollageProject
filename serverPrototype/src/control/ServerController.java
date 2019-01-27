@@ -340,53 +340,82 @@ public class ServerController extends AbstractServer {
 				System.out.println("sending " + book + " to client");
 				break;
 			case 5:
+			
 				ResultSet resultSet = null;
-				data = Arrays.asList(s.split(","));
-				query = "select * from library inner join book on book.BookName=library.BookName  where library.BookName=? or library.Category=? or library.Author=? or library.`BookDecrebtion` LIKE ?";
-				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
-				pstmt.setString(2, data.get(1));
-				pstmt.setString(3, data.get(2));
-				pstmt.setString(4, "%" + data.get(3) + "%");
-				resultSet = pstmt.executeQuery();
-				/* get book from result set and save the catalog number of every book found */
-				List<Book> books = new ArrayList<Book>();
-				while (resultSet.next()) {
-					Book resbook = new Book();
+				data=Arrays.asList(s.split(","));
+				query="select * from library where library.BookName=? or library.Category=? or library.Author=? or library.`BookDecrebtion` LIKE ?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+				pstmt.setString(2,data.get(1));
+				pstmt.setString(3,data.get(2));
+				if(!data.get(3).equals(" "))
+				pstmt.setString(4,"%"+data.get(3)+"%");
+				else
+				pstmt.setString(4,"");
+
+				resultSet=pstmt.executeQuery();
+				List <Book> books = new ArrayList<Book>(); 
+				if(!resultSet.next())
+				{         Book nbook = new Book();
+					     nbook.setBookStatus("-1");
+					     books.add(nbook);
+						 // client.sendToClient("-1");
+				}
+				/* get book from result set and save the catalog number of every book found*/
+				
+				resultSet.previous();	
+				while (resultSet.next()) 
+				  	   {
+					Book resbook=new Book();
 					resbook.setBookName(resultSet.getString(1));
 					resbook.setPublisherName(resultSet.getString(2));
 					resbook.setBookEdite(resultSet.getString(3));
-					resbook.setNumberOFCopies(resultSet.getString(4));
+					resbook.setNumberOFCopies(resultSet.getString(8));
 					resbook.setBookCatagory(resultSet.getString(5));
 					resbook.setBookDescription(resultSet.getString(6));
 					resbook.setBookStatus(resultSet.getString(7));
-					resbook.setQuantity(Integer.parseInt(resultSet.getString(8)));
-					resbook.setCatalogNumber(resultSet.getString(9));
-					resbook.setDateOfPrint(resultSet.getString(11));
-					resbook.setDatePurchased(resultSet.getString(12));
-					resbook.setPositionOnTheShelf(resultSet.getString(13));
-
-					Path path01 = Paths.get("booksDataFolder/" + resbook.getBookName() + "/Contant_table.pdf");
+					/*if the book status is not Available then get its 
+					 * catalogNumber,printDate,purchaseDateangshelfPosition 
+					 * from book table */
+					if(!resultSet.getString(7).equals("Available"))
+					{
+						query="select catalogNumber,printDate,purchaseDate,shelfPosition from book where bookName=?";
+						pstmt=con.prepareStatement(query);
+						pstmt.setString(1, resbook.getBookName());
+						
+						ResultSet catalog=pstmt.executeQuery();
+						catalog.next();
+						resbook.setCatalogNumber(catalog.getString(1));
+						resbook.setDateOfPrint(catalog.getString(2));
+						resbook.setDatePurchased(catalog.getString(3));
+						resbook.setPositionOnTheShelf(catalog.getString(4));
+					}
+					resbook.setQuantity(Integer.parseInt(resultSet.getString(4)));
+					
+				
+					
+					Path path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/Contant_table.pdf");
 					byte[] contentFile = Files.readAllBytes(path01);
-					path01 = Paths.get("booksDataFolder/" + resbook.getBookName() + "/book_picture.jpg");
+					path01 = Paths.get("booksDataFolder/"+resbook.getBookName()+"/book_picture.jpg");
 					byte[] bookPhoto = Files.readAllBytes(path01);
 					resbook.setBookphoto(bookPhoto);
 					resbook.setContentfile(contentFile);
 					books.add(resbook);
-				}
-				if (books.size() == 0)
-					client.sendToClient("-1");
-				else {
-					ObjectOutput out1 = null;
-					ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-					out1 = new ObjectOutputStream(bos1);
-					out1.writeObject(books);
-					out1.flush();
-					byte[] objbyte1 = bos1.toByteArray();
-					client.sendToClient(objbyte1);
-					System.out.println("sending" + books.size() + "books to client");
-				}
+				  	 }
+				 
+				 if(books.size()>0)
+				  	{
+					  ObjectOutput out1 = null;
+						ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
+						out1 = new ObjectOutputStream(bos1);   
+						  out1.writeObject(books);
+						  out1.flush();
+						  byte[] objbyte1 = bos1.toByteArray();
+					  client.sendToClient(objbyte1);
+					  System.out.println("sending"+books.size()+"books to client");
+				  	}
 				break;
+			
 
 			case 7:
 				SendMassege = "UserIDFound,";
