@@ -988,26 +988,76 @@ public class ServerController extends AbstractServer {
 				client.sendToClient(SendMassege);
 				break;
 
-			case 30:// populate reader card history tabl
-				data = Arrays.asList(s.split(","));
-				query = "select * from history where readerID=?";
-				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
-				object = pstmt.executeQuery();
-				int rowCounter = 0;
-				while (object.next()) {
-					// Iterate Row
-					ObservableList<String> row = FXCollections.observableArrayList();
-					for (int i = 1; i <= object.getMetaData().getColumnCount(); i++) {
-						// Iterate Column
-						row.add(object.getString(i));
-					}
-					System.out.println("Row [" + rowCounter + "] added " + row);
-
-					client.sendToClient(row);
+			case 30://fill reader card info
+				SendMassege="";
+				data=Arrays.asList(s.split(","));
+				query="select * from user where UserID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+			    object = pstmt.executeQuery();
+				while(object.next()) {
+					SendMassege="UserIDFound,"+object.getString(4)+","+object.getString(5)+","+object.getString(9)+","+object.getString(2)+","+object.getString(8);
 				}
-
-				break;
+				 System.out.println(SendMassege);
+				client.sendToClient(SendMassege);
+						
+						break;
+						
+			case 31://populate history table
+				String flag="noData";
+				SendMassege1="";
+				data=Arrays.asList(s.split(","));
+				query="select * from history where readerID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(0));
+			    object = pstmt.executeQuery();
+				while(object.next()) {
+					flag="isData";
+					SendMassege1=object.getString(2)+","+object.getString(3)+","+object.getString(4)+","+object.getString(5)+",";
+					client.sendToClient(SendMassege1);
+					 System.out.println(SendMassege1);
+					SendMassege1="";
+				}
+				if(flag.equals("isData"))
+					client.sendToClient("END");
+				else
+					client.sendToClient(flag);
+						
+						break;
+						
+			case 32://save info change
+				SendMassege="";
+				data=Arrays.asList(s.split(","));
+				query="update user set email=? where UserID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(2,data.get(0));
+				pstmt.setString(1,data.get(1));
+				pstmt.executeUpdate();
+				query="update user set phone=? where UserID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(1,data.get(2));
+				pstmt.setString(2,data.get(0));
+				pstmt.executeUpdate();
+				client.sendToClient("Info Updated");
+						
+						break;
+						
+			case 33://activate account
+				SendMassege="";
+				data=Arrays.asList(s.split(","));
+				query="update user set userStatus=? where UserID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(2,data.get(0));
+				pstmt.setString(1,data.get(1));
+				pstmt.executeUpdate();
+				query="update reader set ReaderStatus=? where UserID=?";
+				pstmt=con.prepareStatement(query);
+				pstmt.setString(2,data.get(0));
+				pstmt.setString(1,data.get(1));
+				pstmt.executeUpdate();
+				client.sendToClient("Account is Active");
+						
+						break;
 
 			default:
 				break;

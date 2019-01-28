@@ -1,45 +1,36 @@
 package entity;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.WritableObjectValue;
 
-public class TableData<StringProperty> {
-	private SimpleStringProperty BookName;
-	private SimpleStringProperty BorrowDate;
-	private SimpleStringProperty ReturnDate;
-	private SimpleStringProperty ReturnStatus;
+public class TableData {
+
+	private final SimpleStringProperty bookName;
+	private final SimpleStringProperty borrowDate;
+	private final SimpleStringProperty returnDate;
+	private final SimpleStringProperty returnStatus;
 	
-	public TableData(String BookName, String BorrowDate, String ReturnDate, String ReturnStatus) {
-		this.BookName=new SimpleStringProperty( BookName);
-		this.BorrowDate=new SimpleStringProperty(BorrowDate);
-		this.ReturnDate=new SimpleStringProperty(ReturnDate);
-		this.ReturnStatus=new SimpleStringProperty(ReturnStatus);
-		
-		
+	public TableData(String bookName, String borrowDate, String returnDate, String borrowStatus) {
+		this.bookName=new SimpleStringProperty(bookName);
+		this.borrowDate= new SimpleStringProperty(borrowDate);
+		this.returnDate=new SimpleStringProperty(returnDate);
+		this.returnStatus=new SimpleStringProperty(borrowStatus);
 	}
-	public String getBookName() {
-		return BookName.get();
-	}
-	public StringProperty BookNameProperty() {
-		return (StringProperty) BookName;
-	}
-	public String getBorrowDate() {
-		return BorrowDate.get();
-	}
-	public StringProperty BorrowDateProperty() {
-		return (StringProperty) BorrowDate;
-	}
-	public String getReturnDate() {
-		return ReturnDate.get();
-	}
-	public StringProperty ReturnDateProperty() {
-		return (StringProperty) ReturnDate;
-	}
-	public String getReturnstatus() {
-		return ReturnStatus.get();
-	}
-	public StringProperty ReturnStatusProperty() {
-		return (StringProperty) ReturnStatus;
-	}
+	public String getBookName() { return bookName.get();}
+	public void setBookName(String bName) {bookName.set(bName);}
+	public String getBorrowDate() { return borrowDate.get();}
+	public void setBorrowDate(String bDate) {borrowDate.set(bDate);}
+	public String getReturnDate() { return returnDate.get();}
+	public void setReturnDate(String rDate) {returnDate.set(rDate);}
+	public String getReturnStatus() { return returnStatus.get();}
+	public void setReturnStatus(String bStatus) {returnStatus.set(bStatus);}
+	
+	
+
+
+	
+	
 	
 
 }
