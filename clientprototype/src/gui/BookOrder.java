@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.awt.Button;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,10 +41,6 @@ public class BookOrder implements Initializable, ChatIF {
 
     @FXML
     private Text publisher;
-
-    @FXML
-    private Text catalogNumber;
-
     @FXML
     private Text bookEdition;
 
@@ -52,20 +49,16 @@ public class BookOrder implements Initializable, ChatIF {
 
     @FXML
     private Text numberOfCopyes;
+   
 
-    @FXML
-    private Text shelfNumber;
-
-    @FXML
-    private Text dateOfPurchased;
-
-    @FXML
-    private Text dateOfPrint;
     @FXML
     private ButtonBar WorkerMenu;
     @FXML
     private ButtonBar ReaderMenu;
 
+    
+    
+    
     @FXML
     void OrderTheBook(ActionEvent event) throws SQLException {
     	
@@ -90,17 +83,18 @@ public class BookOrder implements Initializable, ChatIF {
 		JOptionPane.showMessageDialog(frame,e.getMessage());
 	}
     }
+    
     @FXML
-    void loadTheContentFolder(MouseEvent event) throws IOException {
-    	System.out.println("hoo");
-    	
+    void open_Contant(ActionEvent event) throws IOException {
+  
     	Path path = Paths.get("temp.pdf");
     	Files.write(path, Book.getTheBook().getContentfile());
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +path);
         
     
-    	
     }
+
+   
     
     
 	
@@ -117,13 +111,9 @@ public class BookOrder implements Initializable, ChatIF {
 		bookName.setText(Book.getTheBook().getBookName());
 		publisher.setText(Book.getTheBook().getPublisherName());
 		bookEdition.setText(Book.getTheBook().getBookEdite()+"");
-		catalogNumber.setText(Book.getTheBook().getCatalogNumber());
 		bookCatagory.setText(Book.getTheBook().getBookCatagory());
 		bookDiscription.setText(Book.getTheBook().getBookDescription());
 		numberOfCopyes.setText(""+Book.getTheBook().getNumberOFCopies());
-		shelfNumber.setText(Book.getTheBook().getPositionOnTheShelf());
-		dateOfPurchased.setText(Book.getTheBook().getDatePurchased());
-		dateOfPrint.setText(Book.getTheBook().getDateOfPrint());
 			Image img = new Image(new ByteArrayInputStream(Book.getTheBook().getBookphoto()));
 			bookPic.setImage(img);
 			

@@ -57,13 +57,17 @@ class OrderTimeOut implements Runnable {
 					java.sql.Timestamp readyTime = (Timestamp) orderdateready;
 					System.out.println((currentTime.getTime() - readyTime.getTime()) / 3600000);
 					if ((currentTime.getTime() - readyTime.getTime()) / 3600000 > 24) {
+						query = "select email from user where UserID=?";
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, s.getString("ReaderID"));
+						ResultSet object1 = pstmt.executeQuery();
+						object1.next();
+						SendMailToClient.SendingMail(object1.getString(1), "your order: #"+s.getInt("OrderID")+" has been deleted");
 						System.out.println("order need to be deleted");
 						query = "delete FROM OrderBook  WHERE OrderID=?";
 						pstmt = con.prepareStatement(query);
 						pstmt.setInt(1, s.getInt("OrderID"));
 						pstmt.executeUpdate();
-						
-						//senddd emaillllll
 					}
 
 				}
@@ -398,7 +402,7 @@ public class ServerController extends AbstractServer {
 					 * if the book status is not Available then get its
 					 * catalogNumber,printDate,purchaseDateangshelfPosition from book table
 					 */
-					if (!resultSet.getString(7).equals("Available")) {
+					if (Integer.parseInt(resultSet.getString(4))==0) {
 						query = "select catalogNumber,printDate,purchaseDate,shelfPosition from book where bookName=?";
 						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, resbook.getBookName());
@@ -498,6 +502,7 @@ public class ServerController extends AbstractServer {
 				break;
 			case 10:
 				java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+				int orderFlage=0;
 				String bookName = null;
 				int quantity = 0;
 				data = Arrays.asList(s.split(","));
@@ -515,28 +520,47 @@ public class ServerController extends AbstractServer {
 				while (object.next()) {
 					quantity = object.getInt(4);
 				}
+				query = "select * from `OrderBook` where BookName=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, bookName);
+				object = pstmt.executeQuery();
+				if(!object.next()) {
+					query = "update book set borrowStatus=? where catalogNumber=?";
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, "Normal");
+					pstmt.setString(2, data.get(0));
+					pstmt.executeUpdate();
+				}
 				query = "update library set quantity=? where BookName=?";
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, quantity + 1);
 				pstmt.setString(2, bookName);
 				pstmt.executeUpdate();
 
-				query = "update book set borrowStatus=? where catalogNumber=?";
+				/*query = "update book set borrowStatus=? where catalogNumber=?";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, "not borrowed");
 				pstmt.setString(2, data.get(0));
-				pstmt.executeUpdate();
+				pstmt.executeUpdate();*/
 
 				query = "update history set ReturnStatus=? where ReaderID=?";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, "returned");
 				pstmt.setString(2, data.get(1));
 				pstmt.executeUpdate();
-
-				query = "update OrderBook set OrderBookReady=? where BookID=?";
+				
+				query = "SELECT MIN(OrderID) from OrderBook where OrderBookReady is null";
+				pstmt = con.prepareStatement(query);
+				object = pstmt.executeQuery();
+				object.next();
+				int x = object.getInt(1);
+				
+				
+				query = "UPDATE OrderBook SET OrderBookReady=?  WHERE BookName=? and OrderID=? ";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, date.toString());
-				pstmt.setString(2, data.get(0));
+				pstmt.setString(2, bookName);
+				pstmt.setInt(3, x);
 				pstmt.executeUpdate();
 
 				query = "DELETE FROM borrowbook WHERE CatalogNumber=?";
@@ -573,16 +597,16 @@ public class ServerController extends AbstractServer {
 				List<String> ComparDate;
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Date date1 = new Date();
-				ComparDate = data = Arrays.asList(dateFormat.format(date1).split("-"));
+				ComparDate =Arrays.asList(dateFormat.format(date1).split("-"));
 				int currentday = Integer.parseInt(ComparDate.get(2));
 				query = "select * from borrowbook ";
 				pstmt = con.prepareStatement(query);
 				object = pstmt.executeQuery();
 				while (object.next()) {
 					UserID = object.getString(2);
-					ComparDate = data = Arrays.asList(object.getString(5).split("-"));
+					ComparDate =Arrays.asList(object.getString(5).split("-"));
 					int ReturnDate = Integer.parseInt(ComparDate.get(2));
-					if (currentday + 1 == ReturnDate) {// If just remains one day for returning the book
+					if (currentday + 1 == ReturnDate&&dateFormat.format(date1).compareTo(object.getString(5)) < 0) {// If just remains one day for returning the book
 						query = "select * from user where UserID=?";
 						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, UserID);

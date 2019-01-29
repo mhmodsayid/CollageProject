@@ -133,7 +133,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
     * if the Book are borrowed or not or to check if the book is in demand or not 
     */
    public void SearchForBookID(ActionEvent event) throws Exception {
-	   if ( BookCatalogNumber.getText().equals(""))
+	   if ( BookCatalogNumber.getText().equals("")||isNumeric(BookCatalogNumber.getText())==false)
 			JOptionPane.showMessageDialog(frame, "please fill the fields");
 		else {
 			try {

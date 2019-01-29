@@ -24,7 +24,7 @@
       <AnchorPane layoutX="211.0" layoutY="146.0" prefHeight="501.0" prefWidth="706.0" style="-fx-background-color: #E6E6E6;">
          <children>
             <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="16.0" prefWidth="503.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="40.0" />
-            <Button fx:id="NextPageBtn" layoutX="465.0" layoutY="302.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Next Page" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
+            <Button fx:id="NextPageBtn" layoutX="465.0" layoutY="302.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Next" textAlignment="CENTER" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Image url="@../source/books-stack-of-three.png" />
                </image>
             </ImageView>
-            <Button fx:id="PrevPageBtn" disable="true" layoutX="14.0" layoutY="455.0" mnemonicParsing="false" onAction="#PrevPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Previous Page" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+            <Button fx:id="PrevPageBtn" disable="true" layoutX="14.0" layoutY="455.0" mnemonicParsing="false" onAction="#PrevPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Previous" textAlignment="CENTER" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -116,7 +116,7 @@
                   </Pane>
                </children>
             </GridPane>
-            <Text fx:id="infoText" layoutX="279.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="infoText" layoutX="233.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="13.599945068359375">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

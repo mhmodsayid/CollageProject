@@ -56,6 +56,27 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
     	ReturnDate.setText("");
     	ReturnedOn.setText("");
     }
+    /**
+     * this function is for check if the string is number and have 9 digital
+     * @param str the string that we want to check
+     * @return if the string is number and have 9 digital return true else false
+     */
+       public boolean isNumeric(String str)  
+    	{  
+    	  try  
+    	  {  
+    		int i = str.length();
+    		  if(i!=9) {
+    			  throw new NumberFormatException();
+    		  }	
+    		double d = Double.parseDouble(str);  
+    	  }  
+    	  catch(NumberFormatException nfe)  
+    	  {  
+    	    return false;  
+    	  }  
+    	  return true;  
+    	}
     
     /**
      * in this function we give the gui Catalog Number and then  press button of search

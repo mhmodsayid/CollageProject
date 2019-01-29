@@ -2,8 +2,6 @@ package gui;
 
 
 
-
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -232,7 +230,8 @@ public class ListBooksController extends NavigationBar implements Initializable,
 		// TODO Auto-generated method stub
 		if(LoginController.UserInfo2==null)
 		{
-			UserInformation.setText("[Temprary Reader]");
+		UserInformation.setText("[Temprary Reader]");
+		searchbuttonTempReader.setVisible(true);
 		ReaderMenu.setVisible(false);
 		WorkerMenu.setVisible(false);
 		
@@ -240,11 +239,13 @@ public class ListBooksController extends NavigationBar implements Initializable,
 		else {
 		UserInformation.setText(LoginController.UserInfo2);
 		if(LoginController.userType2.equals("Reader")) {
+		searchbuttonTempReader.setVisible(false);
 		WorkerMenu.setVisible(false);
 		ReaderMenu.setVisible(true);
 		}
 		else 
 			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+			searchbuttonTempReader.setVisible(false);
 			WorkerMenu.setVisible(true);
 			ReaderMenu.setVisible(false);
 		}
@@ -267,9 +268,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName1.setText(this.books.get(this.pageNum).getBookName());
 			Image img = new Image(new ByteArrayInputStream(this.books.get(this.pageNum).getBookphoto()));
 			this.BookPhoto1.setImage(img);
-			this.BookStatus1.setText(this.books.get(this.pageNum).getBookStatus());
-			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus1.setFill(this.books.get(this.pageNum).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
+			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index1=this.pageNum;
 			}
 			/*this is the book number 2*/
@@ -278,9 +279,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName2.setText(this.books.get(this.pageNum+1).getBookName());
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+1).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
-			this.BookStatus2.setText(this.books.get(this.pageNum+1).getBookStatus() );
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
+			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index2=this.pageNum+1;
 			}
 			if(this.books.get(this.pageNum+2)!=null)
@@ -289,9 +290,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName3.setText(this.books.get(this.pageNum+2).getBookName());
 			Image img3 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+2).getBookphoto()));
 			this.BookPhoto3.setImage(img3);
-			this.BookStatus3.setText(this.books.get(this.pageNum+2).getBookStatus() );
-			this.ChooseBook3.setDisable(this.books.get(this.pageNum+2).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus3.setFill(this.books.get(this.pageNum+2).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus3.setText(this.books.get(this.pageNum+2).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook3.setDisable(this.books.get(this.pageNum+2).getQuantity()>0 ? true : false);
+			this.BookStatus3.setFill(this.books.get(this.pageNum+2).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index3=this.pageNum+2;
 			}
 			
@@ -307,9 +308,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName1.setText(this.books.get(this.pageNum).getBookName());
 			Image img = new Image(new ByteArrayInputStream(this.books.get(this.pageNum).getBookphoto()));
 			this.BookPhoto1.setImage(img);
-			this.BookStatus1.setText(this.books.get(this.pageNum).getBookStatus() );
-			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus1.setFill(this.books.get(this.pageNum).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
+			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index1=this.pageNum;
 			}
 			if(this.books.get(this.pageNum+1)!=null)
@@ -318,9 +319,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName2.setText(this.books.get(this.pageNum+1).getBookName());
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+1).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
-			this.BookStatus2.setText(this.books.get(this.pageNum+1).getBookStatus());
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
+			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index2=this.pageNum+1;
 			}
 		}
@@ -332,9 +333,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookName2.setText(this.books.get(0).getBookName());
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(0).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
-			this.BookStatus2.setText(this.books.get(0).getBookStatus());
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum).getBookStatus().equals("Available") ? true : false);
-			this.BookStatus2.setFill(this.books.get(0).getBookStatus().equals("Available") ? Color.web("#00ff4d") : Color.RED);
+			this.BookStatus2.setText(this.books.get(0).getQuantity()>0 ? "Available":"Not Available");
+			this.ChooseBook2.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
+			this.BookStatus2.setFill(this.books.get(0).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.index2=0;
 			this.ChooseBook1.setVisible(false);
 			this.ChooseBook3.setVisible(false);

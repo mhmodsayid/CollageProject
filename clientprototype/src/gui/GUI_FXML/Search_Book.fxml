@@ -71,7 +71,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="32.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Free Search :">
+            <Text layoutX="32.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description Free Search :" wrappingWidth="82.99803587342467">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
