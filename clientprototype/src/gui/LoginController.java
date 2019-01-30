@@ -269,6 +269,9 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		if(NavigationBar.loginFlag==1) {
+			Connection1.setVisible(false);
+		}
 		ipAddress.setText("localhost");
 		portNumber.setText("5555");
 	}

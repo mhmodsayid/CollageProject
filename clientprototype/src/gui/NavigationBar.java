@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import ocsf.client.ChatIF;
 
 public class NavigationBar {
+	static int loginFlag=0;
 	Parent ReturnScreen = null;
 	 void moveTo(ActionEvent event) throws IOException {		
     	Scene scene = new Scene(ReturnScreen);
@@ -48,6 +49,7 @@ public class NavigationBar {
 	    }
 	    @FXML
 	    void moveToLogInScreen(ActionEvent event) throws IOException {
+	    	loginFlag=1;
 	    	try {
 	    		String command ="26"+LoginController.userName2;
 	    		ConnectionToServer.sendData((ChatIF) this,command);
