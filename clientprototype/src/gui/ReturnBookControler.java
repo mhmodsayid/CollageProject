@@ -51,10 +51,10 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
          * @param event
          */
     public void ClearAll(ActionEvent event) {
-    	BookID.setText("");
-    	BorrowDate.setText("");
-    	ReturnDate.setText("");
-    	ReturnedOn.setText("");
+    	BookID.setText(" ");
+    	BorrowDate.setText(" ");
+    	ReturnDate.setText(" ");
+    	ReturnedOn.setText(" ");
     }
     /**
      * this function is for check if the string is number and have 9 digital
@@ -136,10 +136,10 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 		   }
 		   if(data.get(0).equals("done")) {
 				JOptionPane.showMessageDialog(frame, "the book has returned successfuly");
-		    	BookID.setText("");
-		    	BorrowDate.setText("");
-		    	ReturnDate.setText("");
-		    	ReturnedOn.setText("");		   
+		    	BookID.setText(" ");
+		    	BorrowDate.setText(" ");
+		    	ReturnDate.setText(" ");
+		    	ReturnedOn.setText(" ");		   
 		    	}
 	}
 	

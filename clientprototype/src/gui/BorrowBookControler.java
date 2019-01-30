@@ -70,14 +70,14 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
      * this function receive  in event press key of Clear All
      */
    public void ClearAll(ActionEvent event) {
-	   ReaderID.setText("");
-	   BookCatalogNumber.setText("");
+	   ReaderID.setText(" ");
+	   BookCatalogNumber.setText(" ");
 	   SubscriberStatus.setText("______________________");
 	   BookName.setText("_________________________");
 	   SubscriberName.setText("______________________");
 	   BookStatus.setText("_________________________");
-	   ReturnDate.setText("");
-	   BorrowDate.setText("");
+	   ReturnDate.setText(" ");
+	   BorrowDate.setText(" ");
    }
 /**
  * this function is for check if the string is number and have 9 digital
@@ -206,14 +206,14 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   //if there is a user or a book 
 	 }else if(data.get(0).equals("notFound")) {
 		  JOptionPane.showMessageDialog(frame,data.get(1));
-		  ReaderID.setText("");
-		   BookCatalogNumber.setText("");
+		  ReaderID.setText(" ");
+		   BookCatalogNumber.setText(" ");
 		   SubscriberStatus.setText("______________________");
 		   BookName.setText("_________________________");
 		   SubscriberName.setText("______________________");
 		   BookStatus.setText("_________________________");
-		   ReturnDate.setText("");
-		   BorrowDate.setText("");
+		   ReturnDate.setText(" ");
+		   BorrowDate.setText(" ");
 	   }
    }
    

@@ -19,7 +19,7 @@ public class ClientConsole extends Application {
 		try {
 			host = args[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			host = "localhost";
+			host = "localhost1";
 		}
 		ConnectionToServer.initializeServerConnection(5555, host);
 		launch(args);

@@ -62,6 +62,15 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 
 	 @FXML
 	 private CheckBox viewpass;
+	 @FXML
+	    private Pane Connection1;
+
+	    @FXML
+	    private TextField portNumber;
+
+	    @FXML
+	    private TextField ipAddress;
+
 
 	 JOptionPane frame;
 
@@ -98,6 +107,20 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	    Password.setText(null);
 	    UserName.setText(null);
 	 }
+	 
+	 @FXML
+	    void connectToServer(ActionEvent event) {
+		 if(portNumber.getText().equals("") || ipAddress.getText().equals("")  ) {
+			 JOptionPane.showMessageDialog(frame,"Please fill the fields");
+		 }
+		 else {
+			 int port= Integer.parseInt(portNumber.getText());
+				String ip=ipAddress.getText();
+				ConnectionToServer.initializeServerConnection(port, ip);
+				Connection1.setVisible(false);
+		 }
+		
+	    }
 
 	 /**
 	  * this function moved the user to get_password page by clicking on forget password button
@@ -246,7 +269,8 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub	
+		ipAddress.setText("localhost");
+		portNumber.setText("5555");
 	}
 
 }
