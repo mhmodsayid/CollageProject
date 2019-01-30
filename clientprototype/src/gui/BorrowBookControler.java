@@ -100,6 +100,18 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	  }  
 	  return true;  
 	}
+   public boolean isNumericForBook(String str)  
+ 	{  
+ 	  try  
+ 	  {  
+ 		double d = Double.parseDouble(str);  
+ 	  }  
+ 	  catch(NumberFormatException nfe)  
+ 	  {  
+ 	    return false;  
+ 	  }  
+ 	  return true;  
+ 	}
    /**
     * in this function you but the reader ID 
     * @param ReaderID
@@ -133,8 +145,12 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
     * if the Book are borrowed or not or to check if the book is in demand or not 
     */
    public void SearchForBookID(ActionEvent event) throws Exception {
-	   if ( BookCatalogNumber.getText().equals("")||isNumeric(BookCatalogNumber.getText())==false)
+	   if ( BookCatalogNumber.getText().equals("")) {
 			JOptionPane.showMessageDialog(frame, "please fill the fields");
+	   }
+	   	else if(isNumericForBook(BookCatalogNumber.getText())==false) {
+    		JOptionPane.showMessageDialog(frame, "please give me number");
+    	}
 		else {
 			try {
 				book.setCatalogNumber(BookCatalogNumber.getText());

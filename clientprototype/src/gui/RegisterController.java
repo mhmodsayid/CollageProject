@@ -118,6 +118,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     	Password.setText(null);
     	ConfirmPassword.setText(null);
     	UserID.setText(null);
+    	UserName.setText(null);
     	combobox1.setValue("Select Role");
     }     
 	
@@ -206,6 +207,15 @@ public class RegisterController extends NavigationBar implements Initializable, 
 				JOptionPane.showMessageDialog(frame, "Sorry , this Email is already taken");
 		else  {	
 			JOptionPane.showMessageDialog(frame,"Register Done  \n username is " + user.getUsername()+ ",\n Password is " + user.getPassword());
+			FirstName.setText(null);
+	    	Phone.setText(null);
+	    	Email.setText(null);
+	    	LastName.setText(null);
+	    	Password.setText(null);
+	    	ConfirmPassword.setText(null);
+	    	UserID.setText(null);
+	    	UserName.setText(null);
+	    	combobox1.setValue("Select Role");
 		}
 	}
 	

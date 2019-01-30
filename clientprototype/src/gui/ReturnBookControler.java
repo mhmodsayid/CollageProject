@@ -77,6 +77,18 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
     	  }  
     	  return true;  
     	}
+       public boolean isNumericForBook(String str)  
+    	{  
+    	  try  
+    	  {  
+    		double d = Double.parseDouble(str);  
+    	  }  
+    	  catch(NumberFormatException nfe)  
+    	  {  
+    	    return false;  
+    	  }  
+    	  return true;  
+    	}
     
     /**
      * in this function we give the gui Catalog Number and then  press button of search
@@ -85,8 +97,12 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
      * after that we send to the server to check if there is a book of that same Catalog Number that been borrowed 
      */
     public void SearchButton(ActionEvent event) throws Exception {
-    	if (BookID.getText().equals(""))
+    	if (BookID.getText().equals("")) {
 			JOptionPane.showMessageDialog(frame, "please fill the fields");
+    	}
+    	else if(isNumericForBook(BookID.getText())==false) {
+    		JOptionPane.showMessageDialog(frame, "please give me number");
+    	}
 		else {
 			try {
 				book.setCatalogNumber(BookID.getText());
