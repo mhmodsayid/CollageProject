@@ -73,7 +73,7 @@ public class SearchBookController extends NavigationBar implements Initializable
 	JOptionPane frame;
 	private boolean noBookFound=true;
 	    
- 
+	boolean waitForRespond=true;
 
   
     
@@ -100,6 +100,7 @@ public class SearchBookController extends NavigationBar implements Initializable
      */
     @FXML
     void searchBook(ActionEvent event) throws IOException, InterruptedException {
+    	waitForRespond=true;
     	String book_Name=bookName.getText()
     			,book_Subject=bookSubject.getText()
     			,author_Name=authorName.getText()
@@ -133,12 +134,18 @@ public class SearchBookController extends NavigationBar implements Initializable
     	   * */
 		ConnectionToServer.sendData(this, command);
 		books.clear();
-		while(books.isEmpty())
-			Thread.sleep(100);
+		int count=0;
+		while(waitForRespond) {
+			if(++count==8) {
+				JOptionPane.showMessageDialog(frame,"Disconnected from the server slow internet connection");
+				return;
+			}
+			Thread.sleep(1000);}
 		if(!this.noBookFound)
        MoveToResultPage(event);
 		this.noBookFound=false;
        }
+      waitForRespond=true;
     }
     /**
      * gets an object from the server and convert it to an ArrayList of books to fill 
@@ -157,24 +164,30 @@ public class SearchBookController extends NavigationBar implements Initializable
 				books = (List <Book>) in.readObject();
 				if(books.get(0).getBookStatus().equals("-1"))
 				{
-					JOptionPane.showMessageDialog(frame, "No Match Found!");
 					this.noBookFound=true;
+					waitForRespond=false;
+					JOptionPane.showMessageDialog(frame, "No Match Found!");
+					
+					
 				}
 				else
 				{
 					this.noBookFound=false;
+					 waitForRespond=false;
 					return;
 				}
 					
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(frame,e.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(frame,e.toString());
 			} 
 	
-		 
+		 waitForRespond=false;
 		}
 	/**
 	 * This method changes the scene to the FXML page List_Books.fxml 

@@ -291,7 +291,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img = new Image(new ByteArrayInputStream(this.books.get(this.pageNum).getBookphoto()));
 			this.BookPhoto1.setImage(img);
 			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate1.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index1=this.pageNum;
@@ -303,7 +302,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+1).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
 			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate2.setText(this.books.get(this.pageNum+1).getDatePurchased());
 			this.index2=this.pageNum+1;
@@ -315,7 +313,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img3 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+2).getBookphoto()));
 			this.BookPhoto3.setImage(img3);
 			this.BookStatus3.setText(this.books.get(this.pageNum+2).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook3.setDisable(this.books.get(this.pageNum+2).getQuantity()>0 ? true : false);
 			this.BookStatus3.setFill(this.books.get(this.pageNum+2).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate3.setText(this.books.get(this.pageNum+2).getDatePurchased());
 			this.index3=this.pageNum+2;
@@ -336,7 +333,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img = new Image(new ByteArrayInputStream(this.books.get(this.pageNum).getBookphoto()));
 			this.BookPhoto1.setImage(img);
 			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate1.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index1=this.pageNum;
@@ -348,7 +344,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(this.pageNum+1).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
 			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate2.setText(this.books.get(this.pageNum+1).getDatePurchased());
 			this.index2=this.pageNum+1;
@@ -363,7 +358,6 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			Image img2 = new Image(new ByteArrayInputStream(this.books.get(0).getBookphoto()));
 			this.BookPhoto2.setImage(img2);
 			this.BookStatus2.setText(this.books.get(0).getQuantity()>0 ? "Available":"Not Available");
-			this.ChooseBook2.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(0).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
 			this.returnDate2.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index2=0;

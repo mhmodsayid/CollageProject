@@ -174,8 +174,13 @@ public class LoginController extends NavigationBar implements Initializable, Cha
 	    		ConnectionToServer.sendData(this,command);
 	    		flag=0;
 	    		userStatus2="null";
+	    		int count=0;
 	    		while(flag==0) {
-	    		Thread.sleep(10);
+	    			if(++count==7) {
+	    				JOptionPane.showMessageDialog(frame,"Disconnected from the server slow internet connection");
+	    				return;
+	    			}
+	    		Thread.sleep(1000);
 	    		if(flag==2)
 	    			return;
 	    		}

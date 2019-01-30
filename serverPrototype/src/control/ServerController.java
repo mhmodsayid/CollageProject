@@ -167,8 +167,10 @@ public class ServerController extends AbstractServer  {
 						System.out.println("the book already exists");
 						client.sendToClient("the book already exists");
 					} else {
-						System.out.println("unKnown error");
-						// client.sendToClient("unKnown error");
+						if(!e.toString().contains("cast"))
+						System.out.println(e.toString());
+						else
+							System.out.println("not book going to book order");
 					}
 
 				} catch (IOException e2) {
@@ -241,7 +243,7 @@ public class ServerController extends AbstractServer  {
 						pstmt1.setString(4,"Order");
 						pstmt1.executeUpdate();
 						System.out.println("inserted to history");
-						client.sendToClient("inserted to history");
+					//	client.sendToClient("inserted to history");
 
 						con.close();
 					} else {
@@ -257,6 +259,7 @@ public class ServerController extends AbstractServer  {
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.getStackTrace();
+				System.out.println(e.toString());
 			}
 
 		}
@@ -308,9 +311,10 @@ public class ServerController extends AbstractServer  {
 	 *                Checking the date of the borrow book in loop in a thread case
 	 *                12: in case 12 we Checking the user status and if the user not
 	 *                blocked and not frozen give him the book
+	 * @throws IOException 
 	 */
 	@SuppressWarnings("resource")
-	public void getmessagecommand(Object message, ConnectionToClient client) {
+	public void getmessagecommand(Object message, ConnectionToClient client) throws IOException {
 		try {
 			String str = (String) message;
 		} catch (Exception e1) {
@@ -1218,12 +1222,14 @@ public class ServerController extends AbstractServer  {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			client.sendToClient(e.toString());
 		}
 		try {
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			client.sendToClient(e.toString());
 		}
 
 	}

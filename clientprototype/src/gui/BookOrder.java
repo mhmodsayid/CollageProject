@@ -77,7 +77,7 @@ public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
     	order.setBookName(Book.getTheBook().getBookName());
     	order.setBookId(Book.getTheBook().getCatalogNumber());
     	order.setOrderDate(date.toString());
-    	order.setReaderId(Reader.getStudent_id());
+    	order.setReaderId(LoginController.userID2);
     	order.setOrderStatus("Waiting for Book");
     	try {
     	ObjectOutput out = null;
