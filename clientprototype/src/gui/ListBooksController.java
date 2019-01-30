@@ -2,6 +2,7 @@ package gui;
 
 
 
+import javafx.scene.control.TextArea;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
     private ImageView BookPhoto1; // Value injected by FXMLLoader
 
     @FXML // fx:id="BookName1"
-    private Text BookName1; // Value injected by FXMLLoader
+    private TextArea BookName1; // Value injected by FXMLLoader
 
     @FXML // fx:id="BookStatus1"
     private Text BookStatus1; // Value injected by FXMLLoader
@@ -60,7 +61,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
     private ImageView BookPhoto2; // Value injected by FXMLLoader
 
     @FXML // fx:id="BookName2"
-    private Text BookName2; // Value injected by FXMLLoader
+    private TextArea  BookName2; // Value injected by FXMLLoader
 
     @FXML // fx:id="BookStatus2"
     private Text BookStatus2; // Value injected by FXMLLoader
@@ -78,13 +79,31 @@ public class ListBooksController extends NavigationBar implements Initializable,
     private Text BookStatus3; // Value injected by FXMLLoader
 
     @FXML // fx:id="BookName3"
-    private Text BookName3; // Value injected by FXMLLoader
+    private TextArea  BookName3; // Value injected by FXMLLoader
     
     @FXML // fx:id="infoText"
     private Text infoText; // Value injected by FXMLLoader
     
     @FXML // fx:id="searchbuttonTempReader"
     private Button searchbuttonTempReader; // Value injected by FXMLLoader
+    
+    @FXML
+    private Text returnDate1;
+    
+    @FXML
+    private Text returnDate2;
+    
+    @FXML
+    private Text returnDate3;
+ 
+    @FXML
+    private Text return1;
+    
+    @FXML
+    private Text return2;
+    
+    @FXML
+    private Text return3;
     
     @FXML
     private ButtonBar WorkerMenu;
@@ -104,7 +123,8 @@ public class ListBooksController extends NavigationBar implements Initializable,
 	private int index2=0;
 
 	private int index3=0;
-
+    @FXML
+    private ButtonBar visitMenu;
 	/**
      * 
      * @param event
@@ -228,29 +248,31 @@ public class ListBooksController extends NavigationBar implements Initializable,
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		if(LoginController.UserInfo2==null)
-		{
-		UserInformation.setText("[Temprary Reader]");
-		searchbuttonTempReader.setVisible(true);
-		ReaderMenu.setVisible(false);
-		WorkerMenu.setVisible(false);
-		
-		}
-		else {
-		UserInformation.setText(LoginController.UserInfo2);
+		if(LoginController.UserInfo2==null){
+			UserInformation.setText("[Temprary Reader]");
+			ReaderMenu.setVisible(false);
+			WorkerMenu.setVisible(false);
+			
+			}
+		else
 		if(LoginController.userType2.equals("Reader")) {
-		searchbuttonTempReader.setVisible(false);
+				UserInformation.setText(LoginController.UserInfo2);
+
 		WorkerMenu.setVisible(false);
 		ReaderMenu.setVisible(true);
+		visitMenu.setVisible(false);
+
 		}
 		else 
 			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
-			searchbuttonTempReader.setVisible(false);
+				UserInformation.setText(LoginController.UserInfo2);
+
 			WorkerMenu.setVisible(true);
 			ReaderMenu.setVisible(false);
+			visitMenu.setVisible(false);
 		}
 	  }		
-	}
+	
 	/**
 	 * Organizes the books into the FXML page for every book in ArrayList books 
 	 * the method puts book's name,photo and status. 
@@ -271,6 +293,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate1.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index1=this.pageNum;
 			}
 			/*this is the book number 2*/
@@ -282,6 +305,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate2.setText(this.books.get(this.pageNum+1).getDatePurchased());
 			this.index2=this.pageNum+1;
 			}
 			if(this.books.get(this.pageNum+2)!=null)
@@ -293,6 +317,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus3.setText(this.books.get(this.pageNum+2).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook3.setDisable(this.books.get(this.pageNum+2).getQuantity()>0 ? true : false);
 			this.BookStatus3.setFill(this.books.get(this.pageNum+2).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate3.setText(this.books.get(this.pageNum+2).getDatePurchased());
 			this.index3=this.pageNum+2;
 			}
 			
@@ -302,6 +327,8 @@ public class ListBooksController extends NavigationBar implements Initializable,
 		{
 			this.ChooseBook3.setVisible(false);
 			this.NextPageBtn.setDisable(true);
+			this.return3.setVisible(false);
+			this.returnDate3.setVisible(false);
 			if(this.books.get(this.pageNum)!=null)
 			{
 			/*this is the book number 1*/
@@ -311,6 +338,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus1.setText(this.books.get(this.pageNum).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook1.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus1.setFill(this.books.get(this.pageNum).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate1.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index1=this.pageNum;
 			}
 			if(this.books.get(this.pageNum+1)!=null)
@@ -322,6 +350,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus2.setText(this.books.get(this.pageNum+1).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook2.setDisable(this.books.get(this.pageNum+1).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(this.pageNum+1).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate2.setText(this.books.get(this.pageNum+1).getDatePurchased());
 			this.index2=this.pageNum+1;
 			}
 		}
@@ -336,9 +365,12 @@ public class ListBooksController extends NavigationBar implements Initializable,
 			this.BookStatus2.setText(this.books.get(0).getQuantity()>0 ? "Available":"Not Available");
 			this.ChooseBook2.setDisable(this.books.get(this.pageNum).getQuantity()>0 ? true : false);
 			this.BookStatus2.setFill(this.books.get(0).getQuantity()>0 ? Color.web("#00ff4d") : Color.RED);
+			this.returnDate2.setText(this.books.get(this.pageNum).getDatePurchased());
 			this.index2=0;
 			this.ChooseBook1.setVisible(false);
 			this.ChooseBook3.setVisible(false);
+			this.return1.setVisible(false);
+            this.return3.setVisible(false);
 			this.NextPageBtn.setDisable(true);
 			}
 		}

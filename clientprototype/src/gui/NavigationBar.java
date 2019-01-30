@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.io.IOException;
 
 import controller.ConnectionToServer;
@@ -56,6 +55,8 @@ public class NavigationBar {
 	    		e.printStackTrace();
 	    		}
 	    	LoginController.userName2="null";
+	    	LoginController.userType2="null";
+	    	LoginController.UserInfo2="null";
 	    	ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Login_Page.fxml"));
 	    	moveTo(event);
 	    }
@@ -68,7 +69,7 @@ public class NavigationBar {
 
 	    @FXML
 	    void moveToReaderCardScreen(ActionEvent event) throws IOException {
-	    	ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Reader_Card.fxml"));
+	    	ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Reader_Card1.fxml"));
 	    	moveTo(event);
 	    }
 

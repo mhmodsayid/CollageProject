@@ -1,7 +1,14 @@
 package gui;
 
 
-import java.awt.Button;
+import javafx.fxml.FXML;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,38 +24,36 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import controller.ConnectionToServer;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
 import entity.Book;
 import entity.OrderBook;
 import entity.Reader;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
-public class BookOrder implements Initializable, ChatIF {
+public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
 	JOptionPane frame = null;
     @FXML
     private ImageView bookPic;
     @FXML
-    private Text bookName;
+    private Text UserInformation;
+    @FXML
+    private TextArea bookName;
 
     @FXML
-    private Text bookCatagory;
+    private TextField bookEdition;
 
     @FXML
-    private Text publisher;
-    @FXML
-    private Text bookEdition;
+    private TextField bookCatagory;
 
     @FXML
-    private Text bookDiscription;
+    private TextField publisher;
 
     @FXML
-    private Text numberOfCopyes;
+    private TextField numberOfCopyes;
+
+    @FXML
+    private TextArea bookDiscription;
    
 
     @FXML
@@ -56,8 +61,12 @@ public class BookOrder implements Initializable, ChatIF {
     @FXML
     private ButtonBar ReaderMenu;
 
-    
-    
+    @FXML
+    private ButtonBar visitMenu;
+
+    @FXML
+    private Button orderbtn;
+
     
     @FXML
     void OrderTheBook(ActionEvent event) throws SQLException {
@@ -117,13 +126,37 @@ public class BookOrder implements Initializable, ChatIF {
 			Image img = new Image(new ByteArrayInputStream(Book.getTheBook().getBookphoto()));
 			bookPic.setImage(img);
 			
-			if(LoginController.UserInfo2==null)
-			{
+
+			if(LoginController.UserInfo2==null){
+				UserInformation.setText("[Temprary Reader]");
+				ReaderMenu.setVisible(false);
+				WorkerMenu.setVisible(false);
+				orderbtn.setVisible(false);
 				
+				}
+			else
+			if(LoginController.userType2.equals("Reader")) {
+					UserInformation.setText(LoginController.UserInfo2);
+
+			WorkerMenu.setVisible(false);
+			ReaderMenu.setVisible(true);
+			visitMenu.setVisible(false);
+
 			}
+			else 
+				if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+					UserInformation.setText(LoginController.UserInfo2);
+
+				WorkerMenu.setVisible(true);
+				ReaderMenu.setVisible(false);
+				visitMenu.setVisible(false);
+			}
+				
+				
+		  }	
 			
 
 	     
-	}
+	
 
 }

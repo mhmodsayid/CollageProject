@@ -1,7 +1,6 @@
 package gui;
 
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,14 +44,7 @@ public class GetPasswordController  extends NavigationBar implements Initializab
     @FXML
     private ButtonBar VIsitMenu;
     
-	 /**
-	  * this function clear all the fields when the user press on clear all button
-	  * @param event
-	  */
-    @FXML
-    void ClearAll(ActionEvent event) {
-    	Email.setText(null);
-    }
+
   
 	/**
 	 * this function get the data that the user entered (the email)

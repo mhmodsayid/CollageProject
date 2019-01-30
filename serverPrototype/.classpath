@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="mysql-connector-java-5.1.46.jar"/>
 	<classpathentry kind="lib" path="mail.jar"/>
+	<classpathentry kind="src" path="/ClientPrototype"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

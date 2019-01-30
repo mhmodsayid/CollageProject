@@ -1,7 +1,6 @@
 package gui;
 
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +37,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     @FXML
     private TextField FirstName;
 
+    
     @FXML
     private TextField LastName;
 
@@ -142,7 +142,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     	user.setPhone(Phone.getText());//
     	user.setPassword(Password.getText());//
     	user.setconfirmpassword(ConfirmPassword.getText());//
-    	user.setUsername(FirstName.getText()+LastName.getText());//
+    	user.setUsername(UserName.getText());//
     	user.setLogInStatus(logInStatus);//
     	user.setuserStatus("Active");//
     	combobox11=combobox1.getSelectionModel().getSelectedItem();//
@@ -151,7 +151,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     	else
     	user.setUserType(combobox11);//
     
-    	if(user.getUserID().equals("")  ||user.getEmail().equals("")	||user.getPhone().equals("")
+    	if(user.getUserID().equals("")  ||user.getUsername().equals("")  ||user.getEmail().equals("")	||user.getPhone().equals("")
     	|| user.getPassword().equals("")||user.getFirstName().equals("")||user.getLastName().equals("")
     	||user.getconfirmpassword().equals("")||user.getUserType().equals("")) 
     		JOptionPane.showMessageDialog(frame, "You must fill in all of the fields"); 
@@ -175,7 +175,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     		 	JOptionPane.showMessageDialog(frame, "Confirm password must match a password field");
     	else {
 			Thread.sleep(10);
-			ClearAll(null);   
+			//ClearAll(null);   
     		try { 		  
  	 		String command = "23" + user.getUserID()+","+user.getEmail()+","+user.getPassword()+","+user.getFirstName()+","+user.getLastName()+","+user.getUserType()+","+user.getLogInStatus()+","+user.getPhone()+","+user.getuserStatus()+","+user.getUsername();
  			ConnectionToServer.sendData(this, command);
@@ -197,13 +197,13 @@ public class RegisterController extends NavigationBar implements Initializable, 
 		massage=(String) msg;
 		// TODO Auto-generated method stub
 		if(msg.equals("user exsist already"))
-			JOptionPane.showMessageDialog(frame, "Sorry , this username is elready taken");
+			JOptionPane.showMessageDialog(frame, "Sorry , this username is already taken");
 		else 
 			if(msg.equals("UserID exsist already"))
-				JOptionPane.showMessageDialog(frame, "Sorry , this ID is elready taken");
+				JOptionPane.showMessageDialog(frame, "Sorry , this ID is already taken");
 		else 
 			if(msg.equals("email exsist already"))
-				JOptionPane.showMessageDialog(frame, "Sorry , this Email is elready taken");
+				JOptionPane.showMessageDialog(frame, "Sorry , this Email is already taken");
 		else  {	
 			JOptionPane.showMessageDialog(frame,"Register Done  \n username is " + user.getUsername()+ ",\n Password is " + user.getPassword());
 		}
@@ -219,26 +219,4 @@ public class RegisterController extends NavigationBar implements Initializable, 
 		UserInformation.setText(LoginController.UserInfo2);
 	}
 
-	/**
-	 * this function can show the user the password and the confirm password the he entered (change from password type to text type)
-	 * and by click one more time turn the text to password(change from text type to password type)
-	 */
-	public void ViewPassword(ActionEvent event) {
-	    if (viewpass2.isSelected()){
-	    	Password.setPromptText(Password.getText());
-	    	Password.setText(""); 
-	    	Password.setDisable(true);
-	    	ConfirmPassword.setPromptText(ConfirmPassword.getText());
-	    	ConfirmPassword.setText(""); 
-	    	ConfirmPassword.setDisable(true);
-	    }
-	    else {
-	    	Password .setText(Password.getPromptText());
-	    	Password.setPromptText("");
-	    	Password.setDisable(false);
-	    	ConfirmPassword .setText(ConfirmPassword.getPromptText());
-	    	ConfirmPassword.setPromptText("");
-	    	ConfirmPassword.setDisable(false);
-	    }
-	}
 }

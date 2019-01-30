@@ -72,6 +72,11 @@ public class SearchBookController extends NavigationBar implements Initializable
 	JOptionPane frame;
 	private boolean noBookFound=true;
 	    
+    @FXML
+    private ButtonBar visitMenu;
+
+  
+    
 	/**
 	 * clears all FXML text fields 
 	 * 
@@ -191,24 +196,30 @@ public class SearchBookController extends NavigationBar implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		if(LoginController.UserInfo2==null)
-		{
+		if(LoginController.UserInfo2==null){
 			UserInformation.setText("[Temprary Reader]");
-		ReaderMenu.setVisible(false);
-		WorkerMenu.setVisible(false);
-		}
-		else {
-		UserInformation.setText(LoginController.UserInfo2);
+			ReaderMenu.setVisible(false);
+			WorkerMenu.setVisible(false);
+
+			
+			}
+		else
 		if(LoginController.userType2.equals("Reader")) {
+				UserInformation.setText(LoginController.UserInfo2);
+
 		WorkerMenu.setVisible(false);
 		ReaderMenu.setVisible(true);
+		visitMenu.setVisible(false);
+
 		}
 		else 
 			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+				UserInformation.setText(LoginController.UserInfo2);
+
 			WorkerMenu.setVisible(true);
 			ReaderMenu.setVisible(false);
+			visitMenu.setVisible(false);
 		}
-	  }
 	}
 	}
 

@@ -1,6 +1,5 @@
 package gui;
 
-
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -31,46 +30,22 @@ public class MainPage extends NavigationBar implements Initializable, ChatIF  {
 	@Override
 	public void display(Object msg) {
 		// TODO Auto-generated method stub	
-
-
 	}
-	/*public void update() throws IOException, InterruptedException {
-		UserInformation.setText(LoginController.UserInfo2);
+private int f=1;
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		UserInformation.setText(LoginController.UserInfo2);	
+		if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+			WorkerMenu.setVisible(true);
+			ReaderMenu.setVisible(false);
+			}
+
 		if(LoginController.userType2.equals("Reader")) {
 			WorkerMenu.setVisible(false);
 			ReaderMenu.setVisible(true);
 		}
-		else 
-			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
-			WorkerMenu.setVisible(true);
-			ReaderMenu.setVisible(false);
-		}
 
-	}*/
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		UserInformation.setText(LoginController.UserInfo2);
-		if(LoginController.UserInfo2==null)
-		{
-			UserInformation.setText("[Temprary Reader]");
-		ReaderMenu.setVisible(false);
-		WorkerMenu.setVisible(false);
-		}
-		else {
-		UserInformation.setText(LoginController.UserInfo2);
-		if(LoginController.userType2.equals("Reader")) {
-		WorkerMenu.setVisible(false);
-		ReaderMenu.setVisible(true);
-		}
-		else 
-			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
-			WorkerMenu.setVisible(true);
-			ReaderMenu.setVisible(false);
-		}
-	  }
-
+		UserInformation.textProperty().unbindBidirectional(LoginController.UserInfo2);
 	}
-
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,8 +24,8 @@
       </ImageView>
       <AnchorPane layoutX="211.0" layoutY="146.0" prefHeight="501.0" prefWidth="706.0" style="-fx-background-color: #E6E6E6;">
          <children>
-            <Separator layoutX="14.0" layoutY="35.0" opacity="0.3" prefHeight="16.0" prefWidth="503.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="40.0" />
-            <Button fx:id="NextPageBtn" layoutX="465.0" layoutY="302.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Next" textAlignment="CENTER" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
+            <Separator layoutY="40.0" prefHeight="16.0" prefWidth="711.0" />
+            <Button fx:id="NextPageBtn" layoutX="465.0" layoutY="302.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Next" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -34,17 +35,12 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Text>
-            <ImageView fitHeight="67.0" fitWidth="66.0" layoutX="534.0" layoutY="6.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-               <image>
-                  <Image url="@../source/books-stack-of-three.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="PrevPageBtn" disable="true" layoutX="14.0" layoutY="455.0" mnemonicParsing="false" onAction="#PrevPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Previous" textAlignment="CENTER" textFill="#0400ff" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+            <Button fx:id="PrevPageBtn" disable="true" layoutX="14.0" layoutY="455.0" mnemonicParsing="false" onAction="#PrevPage" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Previous" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <GridPane gridLinesVisible="true" layoutX="60.0" layoutY="72.0" prefHeight="373.0" prefWidth="584.0">
+            <GridPane layoutX="10.0" layoutY="54.0" prefHeight="391.0" prefWidth="689.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,71 +52,92 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="BookPhoto1" fitHeight="167.0" fitWidth="135.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="BookName1" layoutX="14.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="166.5382537841797">
+                        <ImageView fx:id="BookPhoto1" fitHeight="195.0" fitWidth="150.0" layoutX="41.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <Text fx:id="BookStatus1" fill="#00ff4d" layoutX="41.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.73832702636719">
                            <font>
-                              <Font name="Arial Bold" size="12.0" />
+                              <Font name="Arial Bold" size="13.0" />
                            </font>
                         </Text>
-                        <Text fx:id="BookStatus1" fill="#00ff4d" layoutX="38.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="127.73832702636719">
+                        <Text fx:id="returnDate1" layoutX="115.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="87.200019125361" />
+                        <Text fx:id="return1" layoutX="41.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exists date :" wrappingWidth="75.20000714063644">
                            <font>
-                              <Font name="Arial Bold" size="11.0" />
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Button fx:id="ChooseBook1" layoutX="39.0" layoutY="314.0" mnemonicParsing="false" onAction="#chooseBook1" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Choose" textFill="#0400ff">
+                        <Button fx:id="ChooseBook1" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" onAction="#chooseBook1" prefHeight="31.0" prefWidth="147.0" style="-fx-background-color: #000000;" text="Select" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <TextArea fx:id="BookName1" blendMode="MULTIPLY" editable="false" layoutX="44.0" layoutY="218.0" prefHeight="63.0" prefWidth="147.0">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
-                        </Button>
+                        </TextArea>
                      </children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <ImageView fx:id="BookPhoto2" fitHeight="167.0" fitWidth="135.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="BookName2" layoutX="14.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="166.5382537841797">
+                        <ImageView fx:id="BookPhoto2" fitHeight="195.0" fitWidth="150.0" layoutX="41.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <Text fx:id="BookStatus2" fill="RED" layoutX="56.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="117.99999037206817">
                            <font>
-                              <Font name="Arial Bold" size="12.0" />
+                              <Font name="Arial Bold" size="13.0" />
                            </font>
                         </Text>
-                        <Text fx:id="BookStatus2" fill="RED" layoutX="38.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="117.99999037206817">
-                           <font>
-                              <Font name="Arial Bold" size="11.0" />
-                           </font>
-                        </Text>
-                        <Button fx:id="ChooseBook2" layoutX="38.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseBook2" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Choose" textFill="#0400ff">
+                        <Text fx:id="returnDate2" layoutX="116.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="87.20001912161024" />
+                        <Button fx:id="ChooseBook2" layoutX="43.0" layoutY="340.0" mnemonicParsing="false" onAction="#chooseBook2" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #000000;" text="Select" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
+                        <Separator layoutX="-12.0" orientation="VERTICAL" prefHeight="383.0" prefWidth="15.0" />
+                        <Separator layoutX="222.0" layoutY="10.0" orientation="VERTICAL" prefHeight="383.0" prefWidth="15.0" />
+                        <TextArea fx:id="BookName2" blendMode="MULTIPLY" editable="false" layoutX="39.0" layoutY="218.0" prefHeight="63.0" prefWidth="152.0">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Text fx:id="return2" layoutX="41.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exists date :" wrappingWidth="75.20000714063644">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                      <children>
-                        <ImageView fx:id="BookPhoto3" fitHeight="167.0" fitWidth="135.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="ChooseBook3" layoutX="38.0" layoutY="314.0" mnemonicParsing="false" onAction="#chooseBook3" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="Choose" textFill="#0400ff">
+                        <ImageView fx:id="BookPhoto3" fitHeight="195.0" fitWidth="150.0" layoutX="41.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="ChooseBook3" layoutX="43.0" layoutY="340.0" mnemonicParsing="false" onAction="#chooseBook3" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #000000;" text="Select" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Text fx:id="BookStatus3" fill="#00ff4d" layoutX="38.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="127.73832320284328">
+                        <Text fx:id="BookStatus3" fill="#00ff4d" layoutX="51.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.73832320284328">
                            <font>
-                              <Font name="Arial Bold" size="12.0" />
+                              <Font name="Arial Bold" size="13.0" />
                            </font>
                         </Text>
-                        <Text fx:id="BookName3" layoutX="19.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="166.5382537841797">
+                        <Text fx:id="returnDate3" layoutX="116.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="87.20001912161024" />
+                        <TextArea fx:id="BookName3" blendMode="MULTIPLY" editable="false" layoutX="39.0" layoutY="218.0" prefHeight="63.0" prefWidth="152.0">
                            <font>
-                              <Font name="Arial Bold" size="11.0" />
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Text fx:id="return3" layoutX="41.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exists date :" wrappingWidth="75.20000714063644">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
                      </children>
                   </Pane>
                </children>
             </GridPane>
-            <Text fx:id="infoText" layoutX="233.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="13.599945068359375">
+            <Text fx:id="infoText" layoutX="176.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" textOrigin="CENTER" wrappingWidth="351.19989013671875">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
+            <Separator layoutY="437.0" prefHeight="16.0" prefWidth="711.0" />
          </children>
       </AnchorPane>
       <Text layoutX="420.0" layoutY="680.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2018 Group (8) All Rights Reserved">
@@ -128,16 +145,7 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <ButtonBar layoutX="148.0" layoutY="45.0" prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-            <Button fx:id="searchbuttonTempReader" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-        </buttons>
-      </ButtonBar>
-      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="61.0" prefHeight="48.0" prefWidth="985.0">
+      <ButtonBar fx:id="WorkerMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="65.0" prefHeight="48.0" prefWidth="985.0">
          <buttons>
             <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
@@ -192,7 +200,7 @@
             <Insets left="-50.0" />
          </padding>
       </ButtonBar>
-       <ButtonBar fx:id="ReaderMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="61.0" prefHeight="48.0" prefWidth="441.0">
+       <ButtonBar fx:id="ReaderMenu" buttonMinWidth="100.0" cache="true" layoutX="45.0" layoutY="72.0" prefHeight="48.0" prefWidth="441.0">
          <buttons>
             <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
                <opaqueInsets>
@@ -224,7 +232,7 @@
       </ButtonBar>
       <ImageView fitHeight="51.0" fitWidth="211.0" layoutX="45.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../source/תמונה1.png" />
+            <Image url="@../source/header.png" />
          </image>
       </ImageView>
        <Text fx:id="UserInformation" layoutX="277.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[ username , userType]">
@@ -232,5 +240,19 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
+      <ButtonBar fx:id="visitMenu" layoutX="16.0" layoutY="75.0" prefHeight="40.0" prefWidth="255.0">
+         <buttons>
+            <Button fx:id="searchbuttonTempReader" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="logoutbutton11" defaultButton="true" onAction="#moveToLogInScreen" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #DF3232;" text="Log in" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </buttons>
+      </ButtonBar>
    </children>
 </Pane>

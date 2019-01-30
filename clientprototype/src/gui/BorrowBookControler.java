@@ -70,14 +70,14 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
      * this function receive  in event press key of Clear All
      */
    public void ClearAll(ActionEvent event) {
-	   ReaderID.setText(null);
-	   BookCatalogNumber.setText(null);
+	   ReaderID.setText("");
+	   BookCatalogNumber.setText("");
 	   SubscriberStatus.setText("______________________");
 	   BookName.setText("_________________________");
 	   SubscriberName.setText("______________________");
 	   BookStatus.setText("_________________________");
-	   ReturnDate.setText(null);
-	   BorrowDate.setText(null);
+	   ReturnDate.setText("");
+	   BorrowDate.setText("");
    }
 /**
  * this function is for check if the string is number and have 9 digital
@@ -159,7 +159,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   }
 	   else {
 		 try {
-				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+"LibrarianID"+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText();
+				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+LoginController.userID2+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText();
 				 ConnectionToServer.sendData(this,command);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -206,14 +206,14 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   //if there is a user or a book 
 	 }else if(data.get(0).equals("notFound")) {
 		  JOptionPane.showMessageDialog(frame,data.get(1));
-		  ReaderID.setText(null);
-		   BookCatalogNumber.setText(null);
+		  ReaderID.setText("");
+		   BookCatalogNumber.setText("");
 		   SubscriberStatus.setText("______________________");
 		   BookName.setText("_________________________");
 		   SubscriberName.setText("______________________");
 		   BookStatus.setText("_________________________");
-		   ReturnDate.setText(null);
-		   BorrowDate.setText(null);
+		   ReturnDate.setText("");
+		   BorrowDate.setText("");
 	   }
    }
    
