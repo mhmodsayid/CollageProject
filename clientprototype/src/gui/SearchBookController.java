@@ -61,7 +61,8 @@ public class SearchBookController extends NavigationBar implements Initializable
 
     @FXML // fx:id="freeSearch"
     private TextArea freeSearch; // Value injected by FXMLLoader
-    
+    @FXML
+    private ButtonBar visitMenu;   
     @FXML
     private ButtonBar WorkerMenu;
     @FXML
@@ -72,8 +73,7 @@ public class SearchBookController extends NavigationBar implements Initializable
 	JOptionPane frame;
 	private boolean noBookFound=true;
 	    
-    @FXML
-    private ButtonBar visitMenu;
+ 
 
   
     

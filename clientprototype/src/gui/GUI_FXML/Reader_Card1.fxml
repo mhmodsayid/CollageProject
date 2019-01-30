@@ -710,5 +710,35 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <ButtonBar fx:id="ReaderMenu" buttonMinWidth="100.0" cache="true" layoutX="55.0" layoutY="71.0" prefHeight="48.0" prefWidth="441.0">
+         <buttons>
+            <Button defaultButton="true" minWidth="67.0" mnemonicParsing="false" onAction="#moveToHome" prefHeight="23.0" style="-fx-background-color: #202020;" text="Home" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="searchbutton1" defaultButton="true" mnemonicParsing="false" onAction="#moveToSearchScreen" style="-fx-background-color: #202020;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="readercardbutton1" defaultButton="true" layoutX="693.0" layoutY="22.0" mnemonicParsing="false" onAction="#moveToReaderCardScreen" style="-fx-background-color: #202020;" text="Reader Card" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="logoutbutton1" defaultButton="true" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </buttons>
+         <padding>
+            <Insets left="-50.0" />
+         </padding>
+      </ButtonBar>
    </children>
 </Pane>

@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -172,7 +173,11 @@ public class ReaderCardController extends NavigationBar implements Initializable
     private Button ShowActionsReport;
     
     public int 	clickflag=0;
-
+    @FXML
+    private ButtonBar ReaderMenu;
+   
+    @FXML
+    private ButtonBar WorkerMenu;
     
     @FXML
     void ShowActionsReport1(ActionEvent event) {
@@ -468,6 +473,21 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//managerTab.setVisible(false);
+		
+		if(LoginController.userType2.equals("Reader")) {
+				UserInformation.setText(LoginController.UserInfo2);
+
+		WorkerMenu.setVisible(false);
+		ReaderMenu.setVisible(true);
+
+		}
+		else 
+			if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+				UserInformation.setText(LoginController.UserInfo2);
+
+			WorkerMenu.setVisible(true);
+			ReaderMenu.setVisible(false);
+		}
 		clickflag=0;
 		firstnamecol.setCellValueFactory(new PropertyValueFactory<TableData,String>("firstName"));
 		lastnamecol.setCellValueFactory(new PropertyValueFactory<TableData,String>("lastName"));
@@ -537,8 +557,9 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			}
 	   }
 			
+	
+	
 		}
-		
 	}
 	
 

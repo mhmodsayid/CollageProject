@@ -58,11 +58,6 @@
             <TextField fx:id="bookPhotoFileLocation" layoutX="323.0" layoutY="321.0" prefHeight="26.0" prefWidth="180.0" AnchorPane.topAnchor="334.0" />
             <Separator layoutX="268.0" layoutY="79.0" orientation="VERTICAL" prefHeight="292.0" prefWidth="8.0" />
             <TextField fx:id="bookCatagory" layoutX="37.0" layoutY="329.0" prefHeight="26.0" prefWidth="177.0" AnchorPane.topAnchor="334.0" />
-            <Button layoutX="31.0" layoutY="402.0" mnemonicParsing="false" onAction="#goToOrder" prefHeight="32.0" prefWidth="118.0" style="-fx-background-color: #55A6E0;" text="bookordertest" textFill="#0400ff">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
             <Text layoutX="37.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book name :">
                <font>
                   <Font name="System Bold" size="12.0" />
