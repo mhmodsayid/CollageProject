@@ -134,9 +134,9 @@ public class ListBooksController extends NavigationBar implements Initializable,
      */
     @FXML
     void PrevPage(ActionEvent event) {
+    	this.pageNum-=1;
     	if(this.pageNum>0)
     	{
-    	this.pageNum-=1;
     	setBooks();
     	}
     	else
@@ -156,7 +156,7 @@ public class ListBooksController extends NavigationBar implements Initializable,
     void nextPage(ActionEvent event) {
       this.pageNum+=1;
     
-	if(this.pageNum<(this.books.size()/3)+(this.books.size()%3))
+	if(this.pageNum+2<this.books.size())
 	{
 	  PrevPageBtn.setDisable(false);
       setBooks();
