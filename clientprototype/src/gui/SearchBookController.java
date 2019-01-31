@@ -66,7 +66,7 @@ public class SearchBookController extends NavigationBar implements Initializable
     @FXML
     private ButtonBar WorkerMenu;
     @FXML
-    private ButtonBar ReaderMenu;
+    public  ButtonBar ReaderMenu;
     @FXML
     private Text UserInformation;
 
@@ -209,6 +209,7 @@ public class SearchBookController extends NavigationBar implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		System.out.println("initialize");
 		if(LoginController.UserInfo2==null){
 			UserInformation.setText("[Temprary Reader]");
 			ReaderMenu.setVisible(false);

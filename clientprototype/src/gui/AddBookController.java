@@ -1,12 +1,9 @@
 package gui;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.URL;
@@ -19,16 +16,13 @@ import controller.ConnectionToServer;
 import entity.Book;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import ocsf.client.ChatIF;
 /**
  * This class is the controller of add book GUI page 
@@ -64,6 +58,12 @@ public class AddBookController extends NavigationBar implements Initializable, C
     @FXML
     private Text UserInformation;
 	JOptionPane frame;
+	
+	/**
+	 * This method is to upload the content Pdf file and convert it to byte array and insert it to the new book 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void uploadContentFile(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
@@ -73,7 +73,11 @@ public class AddBookController extends NavigationBar implements Initializable, C
 		byte[] pdf = Files.readAllBytes(pdfPath);
 		book.setContentfile(pdf);
 	}
-
+	/**
+	 * This method is to load the book picture from the client computer and convert it to byte array and insert it to the new book 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void uploadPhoto(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
@@ -86,30 +90,11 @@ public class AddBookController extends NavigationBar implements Initializable, C
 	}
 	
 	
-	@FXML
-	void goToOrder(ActionEvent event) throws IOException, InterruptedException { 
-		//inisalize the book
-		
-		//temp =================================================
-		String command = "04123";
-		
-		ConnectionToServer.sendData(this, command);
-		while(Book.getTheBook()==null || !(Book.getTheBook().getBookName().equals("123"))) {
-			Thread.sleep(10);
-		}
-	//	Book.setTheBook(new Book());
-		
-		//temp+====================================================
-		 ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Book_Order.fxml"));
-		Scene scene = new Scene(ReturnScreen);
-    	Stage primaryStage = (Stage)((Node) event.getSource()).getScene().getWindow();
-    	primaryStage.hide();
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		System.out.println("worked");
-		
-	}
-	
+	/**
+	 * clear all the fields to Insert different book 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void clearAll(ActionEvent event) throws IOException { 
 		
@@ -160,36 +145,20 @@ public class AddBookController extends NavigationBar implements Initializable, C
 			JOptionPane.showMessageDialog(frame,e.getMessage());
 		}
 	}
-
+/**
+ * Display the message from the server in pop up screen if the add success or it was a problem
+ */
 	@Override
 	public void display(Object message) {
 			JOptionPane.showMessageDialog(frame, message);
-	//========================================================================
-		Book booke=new Book();
-			 
-			 
-			    try {
-			    	ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) message);
-				    ObjectInput in = new ObjectInputStream(bis);
-					booke = (Book) in.readObject();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-			  
-		
-		  Book.setTheBook(booke);
-		
-		
-		
-	//========================================================================
+	
 				
 		
 	}
-
+/**
+ * create a new book to fill it with data in this class
+ * take the user information his name and his roll from login page and view it in add book gui
+ */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		book=new Book();

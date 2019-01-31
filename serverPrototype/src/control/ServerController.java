@@ -33,14 +33,24 @@ import entity.OrderBook;
 import entity.Reader;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-
+/**
+ * This class is the thread which works every 24 hours
+ *  checking if the reader did not pick the order for 24 hours the order will be deleted and an email will be sent to the order owner
+ *  and then this event will be registered in the history of the reader 
+ * @author Mahmoud Sayid
+ *
+ */
 class OrderTimeOut implements Runnable {
 	public DbContoller db;
 
 	public OrderTimeOut(DbContoller db) {
 		this.db = db;
 	}
-
+	
+	/**
+	 * run on all the orders and check if there is orders ready for 24 hours
+	 * if yes delete the order send email and insert to history of the reader
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -72,6 +82,19 @@ class OrderTimeOut implements Runnable {
 						pstmt = con.prepareStatement(query);
 						pstmt.setInt(1, s.getInt("OrderID"));
 						pstmt.executeUpdate();
+						
+						
+						query = "INSERT INTO `history` (`readerID`,`bookName`,`date`,`description`)" + 
+								"VALUES(?,?,?,?);";
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, s.getString("ReaderID"));
+						pstmt.setString(2, s.getString("BookName"));
+						pstmt.setString(3, LocalDate.now().toString());
+						pstmt.setString(4,"24H pass order deleted");
+						pstmt.executeUpdate();
+						System.out.println("inserted to history");
+			
+						
 					}
 
 				}
@@ -82,7 +105,7 @@ class OrderTimeOut implements Runnable {
 			}
 
 			try {
-				Thread.sleep(1000 * 60 * 60 * 12);
+				Thread.sleep(1000 * 60 * 60 * 12);//sleep for 24 hours
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -93,15 +116,27 @@ class OrderTimeOut implements Runnable {
 	
 
 }
-
+/**
+ * this class is the server controller send data and receive from the client 
+ * @author all
+ *
+ */
 public class ServerController extends AbstractServer  {
-
+/**
+ * the data base connection settings
+ */
 	public static DbContoller db;
-
+/**
+ * start this class and start listing  to connections 
+ * @param port
+ */
 	public ServerController(int port) {
 		super(port);
 	}
-
+	/**
+	 * 
+	 * @param msg,client
+	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 
 		try {
@@ -209,13 +244,12 @@ public class ServerController extends AbstractServer  {
 
 					if (!s.next()) {
 
-						query = "INSERT INTO OrderBook (BookName,ReaderID,OrderDate,OrderStatus,BookID) values(?,?,?,?,?)";
+						query = "INSERT INTO OrderBook (BookName,ReaderID,OrderDate,OrderStatus) values(?,?,?,?)";
 						pstmt1 = con.prepareStatement(query);
 						pstmt1.setString(1, order.getBookName());
 						pstmt1.setString(2, order.getReaderId());
 						pstmt1.setString(3, order.getOrderDate());
 						pstmt1.setString(4, order.getOrderStatus());
-						pstmt1.setString(5, order.getBookId());
 						pstmt1.executeUpdate();
 						System.out.println("Your order added successfully");
 						client.sendToClient("Your order added successfully");

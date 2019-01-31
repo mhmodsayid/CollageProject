@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,17 +19,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
 import controller.ConnectionToServer;
 import javafx.scene.image.Image;
 import entity.Book;
 import entity.OrderBook;
-import entity.Reader;
 import javafx.fxml.Initializable;
 import ocsf.client.ChatIF;
 import javafx.event.ActionEvent;
+/**
+ * This class is the controller of order book GUI page 
+ * @author Mahmoud Sayid
+ *
+ */
 public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
 	JOptionPane frame = null;
     @FXML
@@ -67,7 +68,13 @@ public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
     @FXML
     private Button orderbtn;
 
-    
+    /**
+     * create new order object and fill it with data of the chosen book 
+     * get the current date and time and insert it in order as order date
+     * convert the order object to byte array and send it to the server
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     void OrderTheBook(ActionEvent event) throws SQLException {
     	
@@ -92,7 +99,11 @@ public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
 		JOptionPane.showMessageDialog(frame,e.getMessage());
 	}
     }
-    
+    /**
+     * lunch the content table file when content table bottom clicked
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void open_Contant(ActionEvent event) throws IOException {
   
@@ -108,13 +119,17 @@ public class BookOrder extends NavigationBar implements Initializable, ChatIF  {
     
 	
 
-
+/**
+ * show the message from the server via pop up screen
+ */
 	@Override
 	public void display(Object message) {
 		JOptionPane.showMessageDialog(frame,(String)message);
 		
 	}
-
+/**
+ * fill the information of the book they choose and put the image of the book and choose the right navigation bar for the user
+ */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		bookName.setText(Book.getTheBook().getBookName());

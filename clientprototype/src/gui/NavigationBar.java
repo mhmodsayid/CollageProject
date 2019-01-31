@@ -56,9 +56,11 @@ public class NavigationBar {
 	    		}catch (IOException e) {
 	    		e.printStackTrace();
 	    		}
-	    	LoginController.userName2="null";
-	    	LoginController.userType2="null";
-	    	LoginController.UserInfo2="null";
+	    	
+	    	LoginController.userName2=null;
+	    	LoginController.userType2=null;
+	    	LoginController.UserInfo2=null;
+	    	LoginController.userStatus2=null;
 	    	ReturnScreen = FXMLLoader.load(getClass().getResource("GUI_FXML/Login_Page.fxml"));
 	    	moveTo(event);
 	    }
