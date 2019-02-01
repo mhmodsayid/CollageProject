@@ -54,15 +54,10 @@ class OrderTimeOut implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			/**
-			 * create a connection to database
-			 */
 			Connection con = db.initalizeDataBase();
 			PreparedStatement pstmt;
 			String query;
-/**
- * scan all the order table where the order ready time is not null 
- */
+
 			query = "SELECT * FROM OrderBook  WHERE true";
 			try {
 				pstmt = con.prepareStatement(query);
@@ -75,9 +70,6 @@ class OrderTimeOut implements Runnable {
 					java.sql.Timestamp readyTime = (Timestamp) orderdateready;
 					System.out.println((currentTime.getTime() - readyTime.getTime()) / 3600000);
 					if ((currentTime.getTime() - readyTime.getTime()) / 3600000 > 24) {
-						/**
-						 * take the email of the reader to send him email that his order was deleted
-						 */
 						query = "select email from user where UserID=?";
 						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, s.getString("ReaderID"));
@@ -90,9 +82,7 @@ class OrderTimeOut implements Runnable {
 						pstmt = con.prepareStatement(query);
 						pstmt.setInt(1, s.getInt("OrderID"));
 						pstmt.executeUpdate();
-						/**
-						 * insert the activity in the history of the reader 
-						 */
+						
 						
 						query = "INSERT INTO `history` (`readerID`,`bookName`,`date`,`description`)" + 
 								"VALUES(?,?,?,?);";
@@ -144,9 +134,7 @@ public class ServerController extends AbstractServer  {
 		super(port);
 	}
 	/**
-	 * handle the message of the clients if its string call getmessagecommand and send the message 
-	 * thats means it a string protocol if cannot cast to string that means it bytes array another protool
-	 * and will be handled in catch
+	 * 
 	 * @param msg,client
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -155,9 +143,6 @@ public class ServerController extends AbstractServer  {
 			String s = (String) msg;
 			getmessagecommand(msg, client);
 		} catch (Exception e1) {// need file special care
-			/**
-			 * read the message that sent from the client as object
-			 */
 			ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg);
 			ObjectInput in = null;
 			Object obj = null;
@@ -171,17 +156,9 @@ public class ServerController extends AbstractServer  {
 				// TODO Auto-generated catch block
 				e3.printStackTrace();
 			}
-			/** if this is a add book page
-			 * the casting to book will success and insert the book into the DB
-			 * if its not a book that means it order object will handle in catch
-			 */
+			// if this is a add book page
 			try {
-				/**
-				 * create file in server to store the data of the book the photo and the content table
-				 * every book create new file like his name and store the spatial info
-				 * the data of the book will stored in 2 tables in db the first one is library to store the
-				 * book info and the second one book to store the copys of the book
-				 */
+
 				Book book = (Book) obj;
 				new File("booksDataFolder/" + book.getBookName()).mkdirs();
 				Path path1 = Paths.get("booksDataFolder/" + book.getBookName() + "/Contant_table.pdf");
@@ -216,14 +193,10 @@ public class ServerController extends AbstractServer  {
 				pstmt.setInt(8, book.getNumberOFCopies());
 				pstmt.executeUpdate();
 
-				client.sendToClient("addBookSuccess");//send message to the client that book added
+				client.sendToClient("addBookSuccess");
 				con.close();
 			} catch (Exception e) {
-/**
- * adding book fails test if the error is duplicate that means the book is already exists
- * send message to client the book already exists
- * or its orderbook abject
- */
+
 				try {
 					if (e.toString().contains("Duplicate")) {
 						System.out.println("the book already exists");
@@ -242,51 +215,35 @@ public class ServerController extends AbstractServer  {
 			}
 			// if its another page
 			try {
-				/**
-				 * cast the object to orderbook if success it is add order request 
-				 * before adding order first need to check if the number of order in this book is less
-				 * than the available number of copies in the library the aprove the add order
-				 * and insert it to db send conformation message to the client 
-				 * 
-				 */
 
 				OrderBook order = (OrderBook) obj;
 				Connection con = db.initalizeDataBase();
 				String query;
 				PreparedStatement pstmt1;
-				//get the number of copies of the book
+
 				query = "SELECT NumberOfCopyes from library WHERE BookName =?;";
 				pstmt1 = con.prepareStatement(query);
 				pstmt1.setString(1, order.getBookName());
 				ResultSet s = pstmt1.executeQuery();
 				s.next();
 				int numberofcopyes = s.getInt(1);
-				//count the number of orders on the ook
+
 				query = "select count(BookName) from OrderBook where OrderBook.BookName =?";
 				pstmt1 = con.prepareStatement(query);
 				pstmt1.setString(1, order.getBookName());
 				s = pstmt1.executeQuery();
 				s.next();
 				int numberoforders = s.getInt(1);
-				/**
-				 * check if the number of orders on the book less than the number of copies available
-				 */
 				if (numberofcopyes > numberoforders) {
-					/**
-					 * check if the reader already order this book
-					 */
-					query = "SELECT * FROM OrderBook WHERE OrderBook.ReaderID =? AND OrderBook.BookName =?;";
+
+					query = "SELECT * FROM OrderBook\n" + "    WHERE OrderBook.ReaderID =? AND OrderBook.BookName =?;";
 					pstmt1 = con.prepareStatement(query);
 					pstmt1.setString(2, order.getBookName());
 					pstmt1.setString(1, order.getReaderId());
 					s = pstmt1.executeQuery();
-					/**
-					 * if his order exists send message to client saying his order already exists
-					 */
+
 					if (!s.next()) {
-						/**
-						 * insert the order and send success message 
-						 */
+
 						query = "INSERT INTO OrderBook (BookName,ReaderID,OrderDate,OrderStatus) values(?,?,?,?)";
 						pstmt1 = con.prepareStatement(query);
 						pstmt1.setString(1, order.getBookName());
@@ -296,9 +253,7 @@ public class ServerController extends AbstractServer  {
 						pstmt1.executeUpdate();
 						System.out.println("Your order added successfully");
 						client.sendToClient("Your order added successfully");
-						/**
-						 * if there is more than 1 order change the status of the book to Indemand
-						 */
+
 						query = "SELECT count(BookName) FROM OrderBook" + "    WHERE true";
 						pstmt1 = con.prepareStatement(query);
 						s = pstmt1.executeQuery();
@@ -312,9 +267,6 @@ public class ServerController extends AbstractServer  {
 								System.out.println("more than 2");
 							}
 						}
-						/**
-						 * insert the order activity in history table
-						 */
 						
 						query = "INSERT INTO `history` (`readerID`,`bookName`,`date`,`description`)" + 
 								"VALUES(?,?,?,?);";
@@ -347,12 +299,7 @@ public class ServerController extends AbstractServer  {
 		}
 
 	}
-/**
- * this message will convert the data from the db result to the appropriate object and fill the data
- * @param result the data from the DB
- * @param obj the object to fill the data in 
- * @throws Exception
- */
+
 	public void createObject(ResultSet result, Object obj) throws Exception {
 		if (obj instanceof Reader) {
 			while (result.next()) {
@@ -1340,11 +1287,25 @@ public class ServerController extends AbstractServer  {
 	
 
 	public void startThreads() {
+		//int port = 5555; // Port to listen on
+		
+	/*	try {
+
+			// String test=args[3];//tempt off
+			// db=new DbContoller(args[0],args[1],args[2],args[3]);
+			db = new DbContoller("root", "password", "collageproject", "77.138.40.146");
+		} catch (ArrayIndexOutOfBoundsException t) {
+			db = new DbContoller(args[0], args[1], args[2]);
+		}*/
 		Thread thrad1 = new Thread(new OrderTimeOut(db));
 		Thread thrad2 = new Thread(new CheackingBorrowDate());
+
+	//	ServerController sv = new ServerController(port);
+
 		try {
 			thrad2.start();
 			thrad1.start();
+			//sv.listen(); // Start listening for connections
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
