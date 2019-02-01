@@ -7,8 +7,6 @@ import java.io.IOException;
  * to check if the returning day has bass and update all the details of the user
  * and to alert the reader if just remains one day for returning the book
  */
-
-
 public class CheackingBorrowDate implements Runnable {
 	
 	@Override
