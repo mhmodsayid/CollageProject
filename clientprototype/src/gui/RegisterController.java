@@ -74,8 +74,7 @@ public class RegisterController extends NavigationBar implements Initializable, 
     @FXML
     private Button borrowbutton;
 
-    @FXML
-    private CheckBox viewpass2;
+
     
     @FXML
     private Button registerbutton;

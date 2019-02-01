@@ -27,6 +27,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -72,7 +73,10 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 	public static String userType;
 	public static String userStatus;
 
-	
+    @FXML
+    private ButtonBar WorkerMenu;
+    @FXML
+    private ButtonBar ReaderMenu;
 	int statusFlag;
 	int userFlag;
 	
@@ -236,14 +240,14 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 					   System.out.println(today.until(dateReturn,ChronoUnit.DAYS));
 					   System.out.println(data.get(4));
 
-					  if(data.get(3).equals("Available")) {
-							dateReturn=today.plusDays(7);
+					  if(data.get(4).equals("notOrdered")) {
+							dateReturn=dateReturn.plusDays(7);
 							newReturnDate.setText(dateReturn.format(DateTimeFormatter.ofPattern("yyy-MM-dd")));
+							System.out.println("return Date");
 
 					   }
 					else if(data.get(3).equals("Indemand")) {
-						dateReturn=today.plusDays(3);
-						newReturnDate.setText(dateReturn.format(DateTimeFormatter.ofPattern("yyy-MM-dd")));
+						 JOptionPane.showMessageDialog(frame, "Book is in demand, can't extend borrow");
 					   }
 
 				   }
@@ -266,22 +270,24 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		UserInformation.setText(LoginController.UserInfo2);   
-		/*userType=User.getUserType();
-		   if(userType.equals("Manager")) { 
-			   userFlag=1;
-		   }
-		   else if(userType.equals("Librarian")) {
-			   userFlag=2;
-		   }
-		   else if(userType.equals("Reader")) {
-			   userFlag=3;
+		   if(LoginController.userType2.equals("Reader")) { 
+			   readerID.setText(LoginController.userID2);
+			   readerName.setText(LoginController.userName2);
+			   readerStatus.setText(LoginController.userStatus2);
 			   readerID.setEditable(false);
-			   readerID.setText(User.getUserID());
-			   readerName.setText(User.getFirstName()+" "+User.getLastName());
-			   readerStatus.setText(User.getuserStatus());
-		   }*/
-		
-	}
+			   newReturnDate.setEditable(false);
+		   }
+		   else  {
+			   newReturnDate.setEditable(true);  
+		   }
+		   if(LoginController.userType2.equals("Librarian")||LoginController.userType2.equals("Manager")) {
+				WorkerMenu.setVisible(true);
+				ReaderMenu.setVisible(false);
+				}
 
-	
+			if(LoginController.userType2.equals("Reader")) {
+				WorkerMenu.setVisible(false);
+				ReaderMenu.setVisible(true);
+			}
+	}
 }

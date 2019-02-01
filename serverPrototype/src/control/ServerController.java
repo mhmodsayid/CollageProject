@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -420,6 +421,7 @@ public class ServerController extends AbstractServer  {
 		int command = Integer.parseInt(s.substring(0, 2));
 		s = s.substring(2, s.length());
 		try {
+			List<String> ComparDate;
 			switch (command) {
 			case 1:
 				data = Arrays.asList(s.split(","));
@@ -570,19 +572,12 @@ public class ServerController extends AbstractServer  {
 							case 7:
 								SendMassege = "UserIDFound,";
 								data = Arrays.asList(s.split(","));
-								query = "select * from reader where UserID=?";//search for reader by his ID
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									SendMassege += object.getString(2);//Get the status of the user
-								}
 								query = "select * from user where UserID=?";//search for reader by his ID
 								pstmt = con.prepareStatement(query);
 								pstmt.setString(1, data.get(0));
 								object = pstmt.executeQuery();
 								while (object.next()) {
-									SendMassege += "," + object.getString(4) + " " + object.getString(5);//we get the first name and the last name 
+									SendMassege += object.getString(9)+"," + object.getString(4) + " " + object.getString(5);//we get the first name and the last name 
 								}
 								if (SendMassege.equals("UserIDFound,")) {
 									SendMassege = "notFound,UserID Not Found";//if there is no user by the id that we put in the borrow gui
@@ -635,6 +630,7 @@ public class ServerController extends AbstractServer  {
 								//in this case we return the book in the library for the returnBook gui
 							case 10:
 								String bookName = null;
+								String bookType=null;
 								data = Arrays.asList(s.split(","));
 								query = "select * from book where CatalogNumber=?";//search for the book in the DB by the CatalogNumber
 								pstmt = con.prepareStatement(query);
@@ -643,6 +639,25 @@ public class ServerController extends AbstractServer  {
 								while (object.next()) {
 									bookName = object.getString(2);//get the book name
 								}
+								query = "select * from library where BookName=?";//search for the book in the DB by the CatalogNumber
+								pstmt = con.prepareStatement(query);
+								pstmt.setString(1, bookName);
+								object = pstmt.executeQuery();
+								while (object.next()) {
+									bookType = object.getString(7);//get the book name
+								}
+								
+								query = "INSERT INTO history  values(?,?,?,?,?,?,?,?)";//insert in history 
+								pstmt = con.prepareStatement(query);
+								pstmt.setString(1, data.get(1));
+								pstmt.setString(2, bookName);
+								pstmt.setString(3,dateFormat.format(date).toString());
+								pstmt.setString(4, "Returned");
+								pstmt.setInt(5, Integer.parseInt(data.get(2)));
+								pstmt.setString(6, bookType);
+								pstmt.setString(7, "0");
+								pstmt.setInt(8, Integer.parseInt(data.get(3)));
+								pstmt.executeUpdate();
 								
 								query = "select * from `OrderBook` where BookName=?";////search for the book in the OrderBook DB by the name of the book
 								pstmt = con.prepareStatement(query);
@@ -660,14 +675,7 @@ public class ServerController extends AbstractServer  {
 								pstmt = con.prepareStatement(query);
 								pstmt.setString(1, bookName);
 								pstmt.executeUpdate();
-								
-								query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert the procees of return to the history DB
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(1));
-								pstmt.setString(2, bookName);
-								pstmt.setString(3,dateFormat.format(date).toString());
-								pstmt.setString(4, "Returned");
-								pstmt.executeUpdate();
+
 								
 								query = "SELECT MIN(OrderID) from OrderBook where OrderBookReady is null"; //seach for the first book that been ordered where the reader date for the wait time to take the book is null
 								pstmt = con.prepareStatement(query);
@@ -688,12 +696,12 @@ public class ServerController extends AbstractServer  {
 								pstmt.executeUpdate();
 
 								String ReturnReaderStatus = null;
-								query = "select * from reader where UserID=?";//search for the status of the reader 
+								query = "select * from user where UserID=?";//search for the status of the reader 
 								pstmt = con.prepareStatement(query);
 								pstmt.setString(1, data.get(1));
 								object = pstmt.executeQuery();
 								while (object.next()) {
-									ReturnReaderStatus = object.getString(2);
+									ReturnReaderStatus = object.getString(9);
 								}
 								if (ReturnReaderStatus.equals("Frozen")) {//if the reader is frozen the make him active
 									query = "update user set userStatus=? where UserID=?";
@@ -715,7 +723,6 @@ public class ServerController extends AbstractServer  {
 							case 11:
 								String UserID = null;
 								String Email = null;
-								List<String> ComparDate;
 								ComparDate = Arrays.asList(dateFormat.format(date).split("-"));
 								int currentday = Integer.parseInt(ComparDate.get(2));
 								query = "select * from borrowbook ";
@@ -820,6 +827,7 @@ public class ServerController extends AbstractServer  {
 								break;
 								//in this case we do the borrow update
 							case 12:
+								int cnt=0;
 								data = Arrays.asList(s.split(","));
 								if (data.get(7).equals("Blocked") || data.get(7).equals("Frozen")) {//if the user is blocked or frozen 
 									client.sendToClient("notFound," +"The user is :"+ data.get(7));//then send to the client that he is blocked or frozen 
@@ -844,13 +852,18 @@ public class ServerController extends AbstractServer  {
 								pstmt.setString(1, data.get(6));
 								object = pstmt.executeQuery();
 								while (object.next()) {
-									OrderStatus = object.getString(5);//get the OrderStatus
+									OrderStatus = object.getString(4);//get the OrderStatus
 									ReaderID = object.getString(2);//get the ReaderID
 									if (OrderStatus.equals("Waiting for Book") && ReaderID.equals(data.get(1))) {//if the reader is waiting the book 
 										FlagOrderStatus = 1;
-									} else {
+									} 
+									else {
 										FlagOrderStatus = 2;//if he's not in the order list or he's not waiting for the book in the order list 
 									}
+									cnt++;
+								}
+								if(cnt<quantity) {
+									FlagOrderStatus=3;
 								}
 								if (FlagOrderStatus == 2) {
 									client.sendToClient("notFound,He can't borrow the book ");
@@ -874,12 +887,17 @@ public class ServerController extends AbstractServer  {
 								pstmt.setString(6, data.get(5));
 								pstmt.executeUpdate();
 
-								query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert in history 
+								query = "INSERT INTO history (readerID,bookName,date,description,borrowPeriod,bookType) values(?,?,?,?,?,?)";//insert in history 
 								pstmt = con.prepareStatement(query);
 								pstmt.setString(1, data.get(1));
 								pstmt.setString(2, data.get(6));
 								pstmt.setString(3, dateFormat.format(date).toString());
 								pstmt.setString(4, "borrowed");//insert the procees
+								if(data.get(8).equals("Indemand"))
+									pstmt.setInt(5, 3);	
+								else
+									pstmt.setInt(5, 14);
+								pstmt.setString(6, data.get(8));
 								pstmt.executeUpdate();
 
 								query = "update library set quantity=? where BookName=?";//update the quantity in the library -1
@@ -1090,220 +1108,369 @@ public class ServerController extends AbstractServer  {
 								break;
 								
 								
-			case 27:// Extend return date
+								case 27:// Extend return date
 
-				SendMassege = "UserIDFound,";
-				data = Arrays.asList(s.split(","));
-				query = "select * from reader where UserID=?";
+									SendMassege = "UserIDFound,";
+									data = Arrays.asList(s.split(","));
+									query = "select * from reader where UserID=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, data.get(0));
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										SendMassege += object.getString(2);
+									}
+									query = "select * from user where UserID=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, data.get(0));
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										SendMassege += "," + object.getString(4) + " " + object.getString(5);
+									}
+									if (SendMassege.equals("UserIDFound,")) {
+										SendMassege = "notFound,UserID Not Found";
+									}
+
+									client.sendToClient(SendMassege);
+
+									break;
+
+								case 28: // check if book is borrowed
+
+									boolean borrowflag = false;
+									boolean orderflag = false;
+									String SendMessage2 = "";
+									data = Arrays.asList(s.split(","));
+									query = "select * from book where catalogNumber=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, data.get(0));
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										SendMessage2 += object.getString(2);
+										String bookName2 = object.getString(2);
+										query = "select * from borrowbook where catalogNumber=?";
+										pstmt = con.prepareStatement(query);
+										pstmt.setString(1, data.get(0));
+										object = pstmt.executeQuery();
+										while (object.next()) {
+											SendMessage2 += "," + object.getString(4) + "," + object.getString(5);
+											borrowflag = true;
+										}
+										if (!borrowflag) {
+											SendMessage2 = "BookNotBorrowed";
+											break;
+										}
+										data = Arrays.asList(bookName2);
+										query = "select * from OrderBook where BookName=?";
+										pstmt = con.prepareStatement(query);
+										pstmt.setString(1, data.get(0));
+										object = pstmt.executeQuery();
+										while (object.next()) {
+											SendMessage2 = "bookOrdered";
+											orderflag = true;
+										}
+										if (!orderflag) {
+											query = "select * from library where BookName=?";
+											pstmt = con.prepareStatement(query);
+											pstmt.setString(1, data.get(0));
+											object = pstmt.executeQuery();
+											while (object.next()) {
+												SendMessage2 += "," + object.getString(7) + "," + "notOrdered";
+											}
+										}
+
+									}
+									System.out.println(SendMessage2);
+									client.sendToClient(SendMessage2);
+									break;
+
+								case 29:// confirm extend date
+									String Email1="";
+									String librarianID="";
+									String userID="";
+									String catalogNum="";
+									String userName="";
+									String borrowBookName="";
+									String newReturn=("");
+									data = Arrays.asList(s.split(","));
+									
+									query = "update borrowbook set ReturnDate=? where CatalogNumber=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, data.get(0));
+									newReturn=data.get(0);
+									pstmt.setString(2, data.get(1));
+									pstmt.executeUpdate();
+									
+									query="select * from borrowbook where CatalogNumber=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, data.get(1));
+									object = pstmt.executeQuery();
+									while(object.next()) {
+										librarianID=object.getString(3);
+										userID=object.getString(2);
+										catalogNum=object.getString(1);
+									}
+									
+									query="select * from book where catalogNumber=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, catalogNum);
+									object = pstmt.executeQuery();
+									while(object.next()) {
+										borrowBookName=object.getString(2);
+									}
+									
+									query = "select * from user where UserID=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1,userID);
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										userName = object.getString(10);
+									}
+									
+									
+									query = "select * from user where UserID=?";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, librarianID);
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										Email1 = object.getString(2);
+									}
+									 String mailMessage="Borrow Extended:\n"+"Reader name: "+userName+"\nReader ID:"+userID+"\nBook: "+borrowBookName+"\nNew return date:"+newReturn;
+									System.out.println(mailMessage);
+									SendMailToClient.SendingMail(Email1,  mailMessage);
+									SendMassege = "Return date updated";
+									client.sendToClient(SendMassege);
+									break;
+
+								case 30://fill reader card info
+									SendMassege="";
+									data=Arrays.asList(s.split(","));
+									query="select * from user where UserID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,data.get(0));
+								    object = pstmt.executeQuery();
+									while(object.next()) {
+										SendMassege="UserIDFound,"+object.getString(4)+","+object.getString(5)+","+object.getString(9)+","+object.getString(2)+","+object.getString(8);
+									}
+									 System.out.println(SendMassege);
+									client.sendToClient(SendMassege);
+											
+											break;
+
+								case 31://populate history table
+									String flag="noData";
+									SendMassege1="";
+									data=Arrays.asList(s.split(","));
+									query="select * from history where readerID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,data.get(0));
+								    object = pstmt.executeQuery();
+									while(object.next()) {
+										flag="isData";
+										SendMassege1=object.getString(2)+","+object.getString(3)+","+object.getString(4)+","+object.getString(5)+",";
+										client.sendToClient(SendMassege1);
+										 System.out.println(SendMassege1);
+										SendMassege1="";
+									}
+									if(flag.equals("isData"))
+										client.sendToClient("END");
+									else
+										client.sendToClient(flag);
+											
+											break;
+											
+								case 32://save info change
+									SendMassege="";
+									data=Arrays.asList(s.split(","));
+									query="update user set email=? where UserID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(2,data.get(0));
+									pstmt.setString(1,data.get(1));
+									pstmt.executeUpdate();
+									query="update user set phone=? where UserID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,data.get(2));
+									pstmt.setString(2,data.get(0));
+									pstmt.executeUpdate();
+									client.sendToClient("Info Updated");
+											
+											break;
+											
+								case 33://activate account
+									SendMassege="";
+									data=Arrays.asList(s.split(","));
+									query="update user set userStatus=? where UserID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(2,data.get(0));
+									pstmt.setString(1,data.get(1));
+									pstmt.executeUpdate();
+									query="update reader set ReaderStatus=? where UserID=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(2,data.get(0));
+									pstmt.setString(1,data.get(1));
+									pstmt.executeUpdate();
+									client.sendToClient("Account is Active");
+											
+											break;
+								
+								case 34://populate worker table
+									SendMassege1="";
+									data=Arrays.asList(s.split(","));
+									query="select * from user where UserType='Manager' OR UserType='Librarian'";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+									while(object.next()) {
+										SendMassege1=object.getString(4)+","+object.getString(5)+","+object.getString(1)+","+object.getString(2)+","+object.getString(8)+","+object.getString(6)+","+object.getString(7);
+										client.sendToClient(SendMassege1);
+										 System.out.println(SendMassege1);
+									}
+									break;
+									
+								case 36:///////actions reports
+									int activeCount=0;
+									int BlockedCount=0;
+									int FreezeCount=0;
+									String SendMassege9=null;
+									data=Arrays.asList(s.split(","));
+									query="select * from reader";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+										if(object.getString(2).equals("Active"))
+											activeCount++;	
+
+										if(object.getString(2).equals("Blocked"))
+
+											BlockedCount++;	
+										if(object.getString(2).equals("Frozen"))
+
+											FreezeCount++;	
+								    }
+								    int countCopy=0;
+
+									query="select * from library";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+										if(!object.getString(8).equals(0))
+											countCopy+=Integer.parseInt(object.getString(8));	
+								    }
+								    
+								    int countLate=0;
+
+									query="select * from reader";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+										if(!object.getString(5).equals(0))
+											countLate+=Integer.parseInt(object.getString(5));	
+								    }
+								    
+								    SendMassege9=Integer.toString(activeCount)+","+Integer.toString(BlockedCount)+","+Integer.toString(FreezeCount)+","+Integer.toString(countCopy)+","+Integer.toString(countLate);
+									client.sendToClient(SendMassege9);
+									System.out.println(SendMassege9);
+									
+								    break;
+								    
+								case 37://add report to actions report table
+									LocalDate today=LocalDate.now();
+									int activeCount1=0;
+									int BlockedCount1=0;
+									int FreezeCount1=0;
+									SendMassege9=null;
+									data=Arrays.asList(s.split(","));
+									query="select * from reader";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+										if(object.getString(2).equals("Active"))
+											activeCount1++;	
+										if(object.getString(2).equals("Blocked"))
+											BlockedCount1++;	
+										if(object.getString(2).equals("Frozen"))
+											FreezeCount1++;	
+								    }
+								    int countCopy1=0;
+
+									query="select * from library";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+										if(!object.getString(8).equals(0))
+											countCopy1+=Integer.parseInt(object.getString(8));	
+								    }
+								    
+								    int countLate1=0;
+
+									query="select * from reader";
+									pstmt=con.prepareStatement(query);
+								    object = pstmt.executeQuery();
+								    while(object.next()) {
+											countLate1+=Integer.parseInt(object.getString(5));	
+								    }
+								    String month=today.format(DateTimeFormatter.ofPattern("MM"));
+								    query="insert into actionsReport values(?,?,?,?,?,?,?)";
+									pstmt = con.prepareStatement(query);
+									pstmt.setString(1, Integer.toString(today.getYear()));
+									pstmt.setString(2, month);
+									pstmt.setString(3, Integer.toString(activeCount1));
+									pstmt.setString(4, Integer.toString(BlockedCount1));
+									pstmt.setString(5, Integer.toString(FreezeCount1));
+									pstmt.setString(6, Integer.toString(countCopy1));
+									pstmt.setString(7,Integer.toString(countLate1));
+									pstmt.executeUpdate();
+
+									
+								    break;
+								    
+								case 38://set lateFlag in reader to 0 in first day of month
+									query="update reader set lateFlag='0' where lateFlag='1'";
+									pstmt=con.prepareStatement(query);
+									pstmt.executeUpdate();
+									client.sendToClient("lateflagInitialize");
+									break;
+									
+								case 39://load actions event
+									SendMassege1="ReportNotFound";
+									data=Arrays.asList(s.split(","));
+									query="select * from actionsReport where year=? AND month=?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,data.get(0));
+									pstmt.setString(2,data.get(1));
+								    object = pstmt.executeQuery();
+									while(object.next()) {
+										SendMassege1=object.getString(3)+","+object.getString(4)+","+object.getString(5)+","+object.getString(6)+","+object.getString(7);
+									}
+									client.sendToClient(SendMassege1);
+
+								    break;
+			    
+			case 50://in this case we get all the deteils from histroy for the borrow statistic
+				String borrowPeriod ="";
+				data=Arrays.asList(s.split(","));
+				query = "select * from history where description='Returned' AND bookType='Avalible'";//serach for the books that returned and status is Avalible
 				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
 				object = pstmt.executeQuery();
 				while (object.next()) {
-					SendMassege += object.getString(2);
+					ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
+					if(ComparDate.get(0).equals(data.get(2))&&ComparDate.get(1).equals(data.get(1))) {
+						borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Avalible in a string 
+					}
 				}
-				query = "select * from user where UserID=?";
+				borrowPeriod+="Indemand,";//cut the string into to places the first place for bookType='Avalible' ant the second is for bookType='Indemand'
+				query = "select * from history where description='Returned' AND bookType='Indemand'";
 				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
 				object = pstmt.executeQuery();
 				while (object.next()) {
-					SendMassege += "," + object.getString(4) + " " + object.getString(5);
-				}
-				if (SendMassege.equals("UserIDFound,")) {
-					SendMassege = "notFound,UserID Not Found";
-				}
-
-				client.sendToClient(SendMassege);
-
-				break;
-
-			case 28: // check if book is borrowed
-
-				boolean borrowflag = false;
-				boolean orderflag = false;
-				String SendMessage2 = "";
-				data = Arrays.asList(s.split(","));
-				query = "select * from book where catalogNumber=?";
-				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
-				object = pstmt.executeQuery();
-				while (object.next()) {
-					SendMessage2 += object.getString(2);
-					String bookName2 = object.getString(2);
-					query = "select * from borrowbook where catalogNumber=?";
-					pstmt = con.prepareStatement(query);
-					pstmt.setString(1, data.get(0));
-					object = pstmt.executeQuery();
-					while (object.next()) {
-						SendMessage2 += "," + object.getString(4) + "," + object.getString(5);
-						borrowflag = true;
+					ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
+					if(ComparDate.get(0).equals(data.get(2))&&ComparDate.get(1).equals(data.get(1))) {
+						borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Indemand in a string 
 					}
-					if (!borrowflag) {
-						SendMessage2 = "BookNotBorrowed";
-						break;
-					}
-					data = Arrays.asList(bookName2);
-					query = "select * from OrderBook where BookName=?";
-					pstmt = con.prepareStatement(query);
-					pstmt.setString(1, data.get(0));
-					object = pstmt.executeQuery();
-					while (object.next()) {
-						SendMessage2 = "bookOrdered";
-						orderflag = true;
-					}
-					if (!orderflag) {
-						query = "select * from library where BookName=?";
-						pstmt = con.prepareStatement(query);
-						pstmt.setString(1, data.get(0));
-						object = pstmt.executeQuery();
-						while (object.next()) {
-							SendMessage2 += "," + object.getString(7) + "," + "notOrdered";
-						}
-					}
-
 				}
-				System.out.println(SendMessage2);
-				client.sendToClient(SendMessage2);
+				//cut the string into to places the first place for bookType='Avalible' ant the second is for bookType='Indemand'
+
+				client.sendToClient(borrowPeriod);
+				System.out.println(borrowPeriod);
 				break;
-
-			case 29:// confirm extend date
-				data = Arrays.asList(s.split(","));
-				query = "update borrowbook set ReturnDate=? where CatalogNumber=?";
-				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, data.get(0));
-				pstmt.setString(2, data.get(1));
-				pstmt.executeUpdate();
-				SendMassege = "Return date updated";
-				client.sendToClient(SendMassege);
-				break;
-
-			case 30://fill reader card info
-				SendMassege="";
-				data=Arrays.asList(s.split(","));
-				query="select * from user where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-			    object = pstmt.executeQuery();
-				while(object.next()) {
-					SendMassege="UserIDFound,"+object.getString(4)+","+object.getString(5)+","+object.getString(9)+","+object.getString(2)+","+object.getString(8);
-				}
-				 System.out.println(SendMassege);
-				client.sendToClient(SendMassege);
-						
-						break;
-
-			case 31://populate history table
-				String flag="noData";
-				SendMassege1="";
-				data=Arrays.asList(s.split(","));
-				query="select * from history where readerID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(0));
-			    object = pstmt.executeQuery();
-				while(object.next()) {
-					flag="isData";
-					SendMassege1=object.getString(2)+","+object.getString(3)+","+object.getString(4)+","+object.getString(5)+",";
-					client.sendToClient(SendMassege1);
-					 System.out.println(SendMassege1);
-					SendMassege1="";
-				}
-				if(flag.equals("isData"))
-					client.sendToClient("END");
-				else
-					client.sendToClient(flag);
-						
-						break;
-						
-			case 32://save info change
-				SendMassege="";
-				data=Arrays.asList(s.split(","));
-				query="update user set email=? where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(2,data.get(0));
-				pstmt.setString(1,data.get(1));
-				pstmt.executeUpdate();
-				query="update user set phone=? where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(1,data.get(2));
-				pstmt.setString(2,data.get(0));
-				pstmt.executeUpdate();
-				client.sendToClient("Info Updated");
-						
-						break;
-						
-			case 33://activate account
-				SendMassege="";
-				data=Arrays.asList(s.split(","));
-				query="update user set userStatus=? where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(2,data.get(0));
-				pstmt.setString(1,data.get(1));
-				pstmt.executeUpdate();
-				query="update reader set ReaderStatus=? where UserID=?";
-				pstmt=con.prepareStatement(query);
-				pstmt.setString(2,data.get(0));
-				pstmt.setString(1,data.get(1));
-				pstmt.executeUpdate();
-				client.sendToClient("Account is Active");
-						
-						break;
-			
-			case 34://populate worker table
-				SendMassege1="";
-				data=Arrays.asList(s.split(","));
-				query="select * from user where UserType='Manager' OR UserType='Librarian'";
-				pstmt=con.prepareStatement(query);
-			    object = pstmt.executeQuery();
-				while(object.next()) {
-					SendMassege1=object.getString(4)+","+object.getString(5)+","+object.getString(1)+","+object.getString(2)+","+object.getString(8)+","+object.getString(6)+","+object.getString(7);
-					client.sendToClient(SendMassege1);
-					 System.out.println(SendMassege1);
-				}
-				break;
-				
-			case 36:///////actions reports
-				int activeCount=0;
-				int BlockedCount=0;
-				int FreezeCount=0;
-				String SendMassege9=null;
-				data=Arrays.asList(s.split(","));
-				query="select * from reader";
-				pstmt=con.prepareStatement(query);
-			    object = pstmt.executeQuery();
-			    while(object.next()) {
-					if(object.getString(2).equals("Active"))
-						activeCount++;	
-					if(object.getString(2).equals("Blocked"))
-						BlockedCount++;	
-					if(object.getString(2).equals("Frozen"))
-						FreezeCount++;	
-			    }
-			    int countCopy=0;
-
-				query="select * from library";
-				pstmt=con.prepareStatement(query);
-			    object = pstmt.executeQuery();
-			    while(object.next()) {
-					if(!object.getString(8).equals(0))
-						countCopy+=Integer.parseInt(object.getString(8));	
-			    }
-			    
-			    int countLate=0;
-
-				query="select * from reader";
-				pstmt=con.prepareStatement(query);
-			    object = pstmt.executeQuery();
-			    while(object.next()) {
-					if(!object.getString(5).equals(0))
-						countLate+=Integer.parseInt(object.getString(5));	
-			    }
-			    
-			    SendMassege9=Integer.toString(activeCount)+","+Integer.toString(BlockedCount)+","+Integer.toString(FreezeCount)+","+Integer.toString(countCopy)+","+Integer.toString(countLate);
-				client.sendToClient(SendMassege9);
-				System.out.println(SendMassege9);
-				
-			    break;
-			    
-
 			default:
 				break;
 			}

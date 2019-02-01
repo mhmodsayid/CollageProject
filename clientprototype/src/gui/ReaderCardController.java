@@ -4,16 +4,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
-
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-
 import controller.ConnectionToServer;
+import entity.BorrowReportTable;
 import entity.Reader;
 import entity.TableData;
 import entity.TableWorker;
+import gui.LoginController;
+import gui.NavigationBar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +32,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -106,6 +119,22 @@ public class ReaderCardController extends NavigationBar implements Initializable
     @FXML
     private Button closeall;
     
+    
+    
+    
+    @FXML
+    private TableView<BorrowReportTable> BorrowTableView;
+
+    @FXML
+    private TableColumn col1;
+
+    @FXML
+    private TableColumn col2;
+
+    
+    
+    
+    
     @FXML
     private TableView<TableWorker> WorkerTable;
 
@@ -147,12 +176,11 @@ public class ReaderCardController extends NavigationBar implements Initializable
     @FXML
     private Text LateSubscription1;
     
-    
     @FXML
     private TextField Year;
 
     @FXML
-    private TextField Month;
+    private ComboBox<String> monthBorrowReport1;
 
     @FXML
     private Text AvailableSubscription11;
@@ -180,29 +208,81 @@ public class ReaderCardController extends NavigationBar implements Initializable
     private ButtonBar WorkerMenu;
     
     @FXML
+    private Button searchRegular;
+
+    @FXML
+    private Text quantityRegular;
+
+    @FXML
+    private Text averageRegular;
+
+    @FXML
+    private Text medianRegular;
+
+    @FXML
+    private Text decimalRegular;
+    
+
+    @FXML
+    private Text quantityIndemand;
+
+    @FXML
+    private Text averageIndemand;
+
+    @FXML
+    private Text medianIndemand;
+
+    @FXML
+    private Text decimalIndemand;
+
+    @FXML
+    private ComboBox<String> monthBorrowReport;
+
+    @FXML
+    private TextField yearBorrowReport;
+    
+    Entry<Integer, Integer> value;
+    
+
+    @FXML
+    private Text key;
+    @FXML
+    private Text value1;
+
+    @FXML
+    private Text key7;
+
+
+    @FXML
+    private Text value7;
+  
+    
+	ObservableList<String> listMonth = FXCollections.observableArrayList("01","02","03","04","05","06","07","08","09","10","11","12");
+	ObservableList<String> listMonth1 = FXCollections.observableArrayList("01","02","03","04","05","06","07","08","09","10","11","12");
+	private String combobox11;
+	private String combobox12;
+
+	
+    @FXML
     void ShowActionsReport1(ActionEvent event) {
-    	  if(Year.getText().equals("")&&Month.getText().equals("")) 
-  			JOptionPane.showMessageDialog(frame,"You must fill in month and year");	    			
-  	    	else {
-  	    		if(Year.getText().equals("")) 
-  	    			JOptionPane.showMessageDialog(frame,"You must fill a year field");
-  	    		else {
-	    				if(Month.getText().equals("")) 
-	    					JOptionPane.showMessageDialog(frame,"You must fill a month field");
-	    				else {
-	  	    				if(Month.getText().length()!=2||Month.getText().matches("[a-zA-Z]*")) 
-	  	    					JOptionPane.showMessageDialog(frame,"Month field must contain exactly 2 digits");
-	  	    				else {
-		  	    				if(Year.getText().length()!=4||Year.getText().matches("[a-zA-Z]*")) 
-		  	    					JOptionPane.showMessageDialog(frame,"Year field must contain exactly 2 digits");
-	  	    				
-	  	    				
-	  	    				}
-	    				}
-  	    			}
-  	    	}
-    	  
- 
+    	combobox12=monthBorrowReport1.getSelectionModel().getSelectedItem();//
+    	if(combobox12.equals("Month"))
+    		JOptionPane.showMessageDialog(frame,"You must fill in month");
+    	else
+    	if(Year.getText().equals("")) {
+    		JOptionPane.showMessageDialog(frame,"You must fill in year");
+    	}
+    	else {
+        statusFlag=6;
+        
+            try {
+                String command="39"+Year.getText()+","+combobox12;
+                ConnectionToServer.sendData(this, command);
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                  }
+          
+    	}
     }
     
     
@@ -229,9 +309,30 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		WorkerDetails.setVisible(false);
 	    ActionReport .setVisible(false);
 	    BorrowReport .setVisible(true);
-	    cardReader   .setVisible(false);
+	    cardReader   .setVisible(false); 
     }
+    
+    @FXML
+    void BorrowSearch(ActionEvent event) {
+    	combobox11=monthBorrowReport.getSelectionModel().getSelectedItem();//
+    	if(combobox11.equals("Month"))
+    		JOptionPane.showMessageDialog(frame,"You must fill in month");
+    	else
+    	if(yearBorrowReport.getText().equals("")) {
+    		JOptionPane.showMessageDialog(frame,"You must fill in year");
+    	}
+    	else {
+    		statusFlag=8;
 
+    	    try {
+    			   String command = "50"+","+combobox11+","+yearBorrowReport.getText();
+    			   ConnectionToServer.sendData(this, command);
+    			   } catch (IOException e) {
+    				   e.printStackTrace();
+    			   }
+    	}
+    }
+   
     @FXML
     public void CardReaderBtn(ActionEvent event) {
 		WorkerDetails.setVisible(false);
@@ -334,7 +435,8 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		  }  
 		  return true;  
 		}
-	   
+       @FXML
+
 	   public void PopulateTable(ActionEvent event) {
 		   if(readerID.equals("")) {
 			   JOptionPane.showMessageDialog(frame, "Enter reader id");
@@ -350,6 +452,8 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		   }
 		   
 	   }
+       @FXML
+
 	   public void EditInfo(ActionEvent event) {
 		   if(statusFlag==1) {
 		   //email.setText("");
@@ -391,14 +495,41 @@ public class ReaderCardController extends NavigationBar implements Initializable
 				   }
 		   }
 	   }
-		   
-
-	
-	
-	
-	
-
-
+	   /**
+	    *  function to sort hashmap by values 
+	    * @author Ammar khutb
+	    * @param hmRegular the map to sort
+	    * @return sorted map
+	    */
+	    public  HashMap<Integer, Integer> sortByValue(Map<Integer, Integer> hmRegular) 
+	    { 
+	        // Create a list from elements of HashMap 
+	        List<Map.Entry<Integer, Integer> > list = 
+	               new LinkedList<Map.Entry<Integer, Integer> >(hmRegular.entrySet()); 
+	  
+	        // Sort the list 
+	        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer> >() { 
+	            public int compare(Map.Entry<Integer, Integer> o1,  
+	                               Map.Entry<Integer, Integer> o2) 
+	            { 
+	                return (o1.getValue()).compareTo(o2.getValue()); 
+	            } 
+	        }); 
+	        value = list.get((list.size()/2));
+	        // put data from sorted list to hashmap  
+	        HashMap<Integer, Integer> temp = new LinkedHashMap<Integer, Integer>(); 
+	        for (Map.Entry<Integer, Integer> aa : list) { 
+	            temp.put(aa.getKey(), aa.getValue()); 
+	        } 
+	        return temp; 
+	    } 
+	    /**
+	     * @author khutb statusFlag==8
+	     * in this statusFlag case we work on the boorowStatistic the quantity of the books from the Indemand and not Indemand
+	     * and the AVG for Indemand and not Indemand
+	     * and the miden for Indemand and not Indemand
+	     * and the decimal distribution for Indemand and not Indemand
+	     */
 	@Override
 	public void display(Object obj) {
 		   String message=(String)obj;
@@ -464,16 +595,148 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   CopiesNumber1.setText(data.get(3));
 			   LateSubscription1.setText(data.get(4));
 			   }
+		   if(statusFlag==6) {
+			   if(data.get(0).equals("ReportNotFound")) {
+				 	JOptionPane.showMessageDialog(frame, "Report Not Found");
+					   AvailableSubscription11.setText("---");
+					   UnavailableSubscription11.setText("---");
+					   LockedSubscription11.setText("---");
+					   CopiesNumber11.setText("---");
+					   LateSubscription11.setText("---");
+			   }
+			   else {
+			   AvailableSubscription11.setText(data.get(0));
+			   UnavailableSubscription11.setText(data.get(1));
+			   LockedSubscription11.setText(data.get(2));
+			   CopiesNumber11.setText(data.get(3));
+			   LateSubscription11.setText(data.get(4));
+		   }
+		   }
 		   
+		   if(statusFlag==8) {
+			    quantityRegular.setText("---");
+				   averageRegular.setText("---");
+				   medianRegular.setText("---");
+				   key.setText("---");
+		        	value1.setText("---");
+					key7.setText("---");
+	        	value7.setText("---");
+				   quantityIndemand.setText("---");
+				   averageIndemand.setText("---");
+				   medianIndemand.setText("---");
+			  if(data.get(0).equals("Indemand")) {
+				   	JOptionPane.showMessageDialog(frame, "Report Not Found");
+				    quantityRegular.setText("---");
+					   averageRegular.setText("---");
+					   medianRegular.setText("---");
+					   key.setText("---");
+   		        	value1.setText("---");
+   					key7.setText("---");
+		        	value7.setText("---");
+					   quantityIndemand.setText("---");
+					   averageIndemand.setText("---");
+					   medianIndemand.setText("---");
+					   
+			   }
+		else {
+			   int i=0;
+			   int cnt=0;
+			   int x;
+			   double decimal=0; 
+			   double AvgRegular=0;
+			   double AvgIndemand=0;
+			   Map< Integer,Integer> hmRegular =  new HashMap< Integer,Integer>(); //this map is for the Regular demand book
+			   Map< Integer,Integer> hmIndemand =  new HashMap< Integer,Integer>(); //this map is for the Indemand book
+			   while(!data.get(i).equals("Indemand")) {//the client receved  array of a time borrow Period of string form the server and the array is divided into two Sections
+				   //the first Section is for the avileble books and the second Section is for the Indemand books 
+				   //then we insert to map to calculator the static 
+				   if(hmRegular.containsKey(Integer.parseInt(data.get(i)))){//if there the same key 
+					   x=hmRegular.get(Integer.parseInt(data.get(i)));//get the value
+					   hmRegular.put(Integer.parseInt(data.get(i)),x+1);//and add 1 to the value
+				   }
+				   else
+					   hmRegular.put(Integer.parseInt(data.get(i)), 1);//put the new key with value = 1
+				   
+				   AvgRegular+=Integer.parseInt(data.get(i));//get the sum of all borrow Period time
+				   i++;
+			   }
+			   Map<Integer, Integer> hm1 = sortByValue(hmRegular);//sort the map
+			   AvgRegular =  AvgRegular/i;//the avg
+			   quantityRegular.setText(String.valueOf(i));
+			   averageRegular.setText(String.format ("%.3f", AvgRegular));
+			   medianRegular.setText(Long.toString(value.getValue()));//we get the medin value from the sorted map
+			   
+
+				  String key1="";
+				  String value4="";
+
+		        for (Entry<Integer, Integer> entry : hmRegular.entrySet())  {
+		        	double x1 =entry.getValue();
+		        	double x2 =entry.getKey();
+		        	decimal = x1/i;
+		        	key1+=" |           "+Double.toString(x2).subSequence(0, Double.toString(x2).indexOf("."));
+		        	value4+=" | "+Double.toString(decimal).subSequence(0, 7);
+		        	//System.out.println(" Value / i= " +decimal);
+		        	
+		        }
+		        		        	key.setText(key1);
+		        		        	value1.setText(value4);
+		        		           
+				   i++; 
+		        
+			   for (int j = i; j < data.size(); j++,cnt++) {
+				   if(hmIndemand.containsKey(Integer.parseInt(data.get(j)))){
+					   x=hmIndemand.get(Integer.parseInt(data.get(j)));
+					   hmIndemand.put(Integer.parseInt(data.get(j)), x+1); 
+				   }
+				   else
+					   hmIndemand.put(Integer.parseInt(data.get(j)), 1);
+				   AvgIndemand+=Integer.parseInt(data.get(j));
+			}
+			   Map<Integer, Integer> hm2 = sortByValue(hmIndemand);
+			   AvgIndemand=AvgIndemand/cnt;
+			   quantityIndemand.setText(String.valueOf(cnt));
+			   averageIndemand.setText(String.format ("%.3f", AvgIndemand));
+			   medianIndemand.setText(Long.toString(value.getValue()));
+			   
+			   
+			   
+			   
+			   
+			   String key11="";
+			   String value14="";
+		        for (Entry<Integer, Integer> entry : hmIndemand.entrySet()) {
+		        	double x1 =entry.getValue();
+		        	double x2 =entry.getKey();
+		        	decimal = x1/cnt;
+		        	key11+=" |           "+Double.toString(x2).subSequence(0, Double.toString(x2).indexOf("."));
+		        	value14+=" | "+Double.toString(decimal).subSequence(0, 7);
+		        	//System.out.println(" Value / i= " +decimal);
+		        	System.out.println(" Value / cnt= " +decimal);
+		        					key7.setText(key11);
+		        		        	value7.setText(value14);
+		        }	
+		        
+
+		        					
+			}  
+		   }         
+		  
+		        
+		        
+		        
+		}
 		   
-
-	}
-	
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//managerTab.setVisible(false);
+	
 		
+		
+		monthBorrowReport.setItems(listMonth);
+		monthBorrowReport1.setItems(listMonth1);
+
 		if(LoginController.userType2.equals("Reader")) {
 				UserInformation.setText(LoginController.UserInfo2);
 
@@ -497,8 +760,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		usertypecol.setCellValueFactory(new PropertyValueFactory<TableData,String>("userType"));
 		userstatuscol.setCellValueFactory(new PropertyValueFactory<TableData,String>("userStatus"));
 		
-		
-		
+
 		
 		
 		WorkerTable.setItems(workerTable);

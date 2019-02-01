@@ -5,14 +5,19 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JOptionPane;
 import controller.ConnectionToServer;
 import entity.Book;
+import gui.LoginController;
+import gui.NavigationBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,45 +56,11 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
          * @param event
          */
     public void ClearAll(ActionEvent event) {
-    	BookID.setText(" ");
+    	BookID.setText("");
     	BorrowDate.setText(" ");
     	ReturnDate.setText(" ");
     	ReturnedOn.setText(" ");
     }
-    /**
-     * this function is for check if the string is number and have 9 digital
-     * @param str the string that we want to check
-     * @return if the string is number and have 9 digital return true else false
-     */
-       public boolean isNumeric(String str)  
-    	{  
-    	  try  
-    	  {  
-    		int i = str.length();
-    		  if(i!=9) {
-    			  throw new NumberFormatException();
-    		  }	
-    		double d = Double.parseDouble(str);  
-    	  }  
-    	  catch(NumberFormatException nfe)  
-    	  {  
-    	    return false;  
-    	  }  
-    	  return true;  
-    	}
-       public boolean isNumericForBook(String str)  
-    	{  
-    	  try  
-    	  {  
-    		double d = Double.parseDouble(str);  
-    	  }  
-    	  catch(NumberFormatException nfe)  
-    	  {  
-    	    return false;  
-    	  }  
-    	  return true;  
-    	}
-    
     /**
      * in this function we give the gui Catalog Number and then  press button of search
      * @param event
@@ -98,10 +69,7 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
      */
     public void SearchButton(ActionEvent event) throws Exception {
     	if (BookID.getText().equals("")) {
-			JOptionPane.showMessageDialog(frame, "please fill the fields");
-    	}
-    	else if(isNumericForBook(BookID.getText())==false) {
-    		JOptionPane.showMessageDialog(frame, "please give me number");
+			JOptionPane.showMessageDialog(frame, "please fill in the missing fields");
     	}
 		else {
 			try {
@@ -117,13 +85,26 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
      * in this function if we want to return the book to the library we have to press button 
      * @param event
      * and then it well send to the server the Catalog Number and the Reader ID to update all the details
+     * @throws ParseException 
      */
-    public void ReturnBookButton(ActionEvent event) {
+    public void ReturnBookButton(ActionEvent event) throws ParseException {
     	if (book.getCatalogNumber()==null)
-			JOptionPane.showMessageDialog(frame, "please fill the fields");
+			JOptionPane.showMessageDialog(frame, "please fill in the missing fields");
 		else {
 			try {
-				String command = "10"+book.getCatalogNumber()+","+ReaderID;
+				long date;
+				SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			    Date date1 = myFormat.parse(BorrowDate.getText());
+			    Date date2 = myFormat.parse(ReturnedOn.getText());
+			    Date date3 = myFormat.parse(ReturnDate.getText());
+			    long diff = date2.getTime() - date1.getTime();
+			    if(date2.compareTo(date3)<0) {
+			    	date=0;
+			    }else {
+			    	date =date2.getTime() - date3.getTime();
+			    }
+			    	String theLateDate = Long.toString(TimeUnit.DAYS.convert(date, TimeUnit.MILLISECONDS));
+				String command = "10"+book.getCatalogNumber()+","+ReaderID+","+Long.toString(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS))+","+theLateDate;
 				 ConnectionToServer.sendData(this,command);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -152,7 +133,7 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 		   }
 		   if(data.get(0).equals("done")) {
 				JOptionPane.showMessageDialog(frame, "the book has returned successfuly");
-		    	BookID.setText(" ");
+		    	BookID.setText("");
 		    	BorrowDate.setText(" ");
 		    	ReturnDate.setText(" ");
 		    	ReturnedOn.setText(" ");		   

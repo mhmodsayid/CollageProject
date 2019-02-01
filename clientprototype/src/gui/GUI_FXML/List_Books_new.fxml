@@ -220,6 +220,11 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <Button fx:id="extendbutton1" defaultButton="true" mnemonicParsing="false" onAction="#moveToExtendScreen" style="-fx-background-color: #202020;" text="Extend " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
             <Button fx:id="logoutbutton1" defaultButton="true" onAction="#moveToLogInScreen" style="-fx-background-color: #DF3232;" text="Log out" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
