@@ -21,6 +21,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 @SuppressWarnings("restriction")
+/**
+ * This class in the gui controller
+ * @author mahmoud sayid
+ *
+ */
 public class ServerGuiController extends Application implements Initializable {
 	@FXML
 	private TextField PasswordSQL;
@@ -42,7 +47,10 @@ public class ServerGuiController extends Application implements Initializable {
 
 		launch(args);
 	}
-
+	/**
+	 * IF the bottom clicked start the server and the threads of the server 
+	 * @param event
+	 */
 	@FXML
 	void ConnectServer(ActionEvent event)  {
 		JOptionPane frame = null;
@@ -67,7 +75,11 @@ public class ServerGuiController extends Application implements Initializable {
 		
 
 	}
-
+	/**
+	 * close the server 
+	 * @param event
+	 * @throws SQLException
+	 */
 	@FXML
 	void DisconectButton1(ActionEvent event) throws SQLException {
 		System.exit(0);
@@ -82,7 +94,9 @@ public class ServerGuiController extends Application implements Initializable {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+/**
+ * Default data of the server
+ */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		successfullyConnected.setVisible(false);

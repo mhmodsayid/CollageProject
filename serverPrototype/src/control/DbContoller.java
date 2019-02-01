@@ -2,7 +2,11 @@ package control;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * This class contains the information to connect to the DB
+ * @author mahmoud sayid
+ *
+ */
 public class DbContoller {
 	 String username;
 	 String password;
@@ -26,6 +30,11 @@ public class DbContoller {
 		this.db = db;
 		this.ip = "localhost";
 	}
+	
+	/**
+	 * Initialize the data base connection
+	 * @return
+	 */
 	public  java.sql.Connection initalizeDataBase() {
 		 try {
 			return DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db,username,password);
