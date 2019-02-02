@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -1106,10 +1107,8 @@ public class ServerController extends AbstractServer  {
 									pstmt.setString(2,data.get(0));
 									pstmt.executeUpdate();
 								break;
-								
-								
 								case 27:// Extend return date
-
+									
 									SendMassege = "UserIDFound,";
 									data = Arrays.asList(s.split(","));
 									query = "select * from reader where UserID=?";
@@ -1129,25 +1128,25 @@ public class ServerController extends AbstractServer  {
 									if (SendMassege.equals("UserIDFound,")) {
 										SendMassege = "notFound,UserID Not Found";
 									}
-
+					
 									client.sendToClient(SendMassege);
-
+					
 									break;
-
+					
 								case 28: // check if book is borrowed
-
+					
 									boolean borrowflag = false;
 									boolean orderflag = false;
 									String SendMessage2 = "";
 									data = Arrays.asList(s.split(","));
-									query = "select * from book where catalogNumber=?";
+									query = "select * from book where catalogNumber=?";//get book name
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1, data.get(0));
 									object = pstmt.executeQuery();
 									while (object.next()) {
 										SendMessage2 += object.getString(2);
 										String bookName2 = object.getString(2);
-										query = "select * from borrowbook where catalogNumber=?";
+										query = "select * from borrowbook where catalogNumber=?";//search in borrowbook table
 										pstmt = con.prepareStatement(query);
 										pstmt.setString(1, data.get(0));
 										object = pstmt.executeQuery();
@@ -1160,7 +1159,7 @@ public class ServerController extends AbstractServer  {
 											break;
 										}
 										data = Arrays.asList(bookName2);
-										query = "select * from OrderBook where BookName=?";
+										query = "select * from OrderBook where BookName=?";//check if book is ordered
 										pstmt = con.prepareStatement(query);
 										pstmt.setString(1, data.get(0));
 										object = pstmt.executeQuery();
@@ -1169,7 +1168,7 @@ public class ServerController extends AbstractServer  {
 											orderflag = true;
 										}
 										if (!orderflag) {
-											query = "select * from library where BookName=?";
+											query = "select * from library where BookName=?";//check if book is on demand
 											pstmt = con.prepareStatement(query);
 											pstmt.setString(1, data.get(0));
 											object = pstmt.executeQuery();
@@ -1177,12 +1176,12 @@ public class ServerController extends AbstractServer  {
 												SendMessage2 += "," + object.getString(7) + "," + "notOrdered";
 											}
 										}
-
+					
 									}
 									System.out.println(SendMessage2);
 									client.sendToClient(SendMessage2);
 									break;
-
+					
 								case 29:// confirm extend date
 									String Email1="";
 									String librarianID="";
@@ -1193,14 +1192,14 @@ public class ServerController extends AbstractServer  {
 									String newReturn=("");
 									data = Arrays.asList(s.split(","));
 									
-									query = "update borrowbook set ReturnDate=? where CatalogNumber=?";
+									query = "update borrowbook set ReturnDate=? where CatalogNumber=?";//update return date
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1, data.get(0));
 									newReturn=data.get(0);
 									pstmt.setString(2, data.get(1));
 									pstmt.executeUpdate();
 									
-									query="select * from borrowbook where CatalogNumber=?";
+									query="select * from borrowbook where CatalogNumber=?";//get user and librairan id
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1, data.get(1));
 									object = pstmt.executeQuery();
@@ -1210,7 +1209,7 @@ public class ServerController extends AbstractServer  {
 										catalogNum=object.getString(1);
 									}
 									
-									query="select * from book where catalogNumber=?";
+									query="select * from book where catalogNumber=?";//get book name
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1, catalogNum);
 									object = pstmt.executeQuery();
@@ -1218,7 +1217,7 @@ public class ServerController extends AbstractServer  {
 										borrowBookName=object.getString(2);
 									}
 									
-									query = "select * from user where UserID=?";
+									query = "select * from user where UserID=?";//get user name
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1,userID);
 									object = pstmt.executeQuery();
@@ -1227,7 +1226,7 @@ public class ServerController extends AbstractServer  {
 									}
 									
 									
-									query = "select * from user where UserID=?";
+									query = "select * from user where UserID=?";//get librarian email and send message
 									pstmt = con.prepareStatement(query);
 									pstmt.setString(1, librarianID);
 									object = pstmt.executeQuery();
@@ -1240,11 +1239,11 @@ public class ServerController extends AbstractServer  {
 									SendMassege = "Return date updated";
 									client.sendToClient(SendMassege);
 									break;
-
+					
 								case 30://fill reader card info
 									SendMassege="";
 									data=Arrays.asList(s.split(","));
-									query="select * from user where UserID=?";
+									query="select * from user where UserID=?";//get user details from user table
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(1,data.get(0));
 								    object = pstmt.executeQuery();
@@ -1255,38 +1254,38 @@ public class ServerController extends AbstractServer  {
 									client.sendToClient(SendMassege);
 											
 											break;
-
+					
 								case 31://populate history table
 									String flag="noData";
-									SendMassege1="";
+									int rowCnt=0;
+									SendMassege1="rowCounter";
 									data=Arrays.asList(s.split(","));
-									query="select * from history where readerID=?";
+									query="select * from history where readerID=?";//get all user history
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(1,data.get(0));
 								    object = pstmt.executeQuery();
 									while(object.next()) {
 										flag="isData";
-										SendMassege1=object.getString(2)+","+object.getString(3)+","+object.getString(4)+","+object.getString(5)+",";
-										client.sendToClient(SendMassege1);
-										 System.out.println(SendMassege1);
-										SendMassege1="";
+										rowCnt++;
+										SendMassege1+=","+object.getString(3)+","+object.getString(4)+","+object.getString(2)+","+object.getString(7);
 									}
+									SendMassege=SendMassege1.replaceFirst("rowCounter", Integer.toString(rowCnt));
 									if(flag.equals("isData"))
-										client.sendToClient("END");
+										client.sendToClient(SendMassege);
 									else
-										client.sendToClient(flag);
+										client.sendToClient(flag);//no user found
 											
 											break;
 											
 								case 32://save info change
 									SendMassege="";
 									data=Arrays.asList(s.split(","));
-									query="update user set email=? where UserID=?";
+									query="update user set email=? where UserID=?";//update email
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(2,data.get(0));
 									pstmt.setString(1,data.get(1));
 									pstmt.executeUpdate();
-									query="update user set phone=? where UserID=?";
+									query="update user set phone=? where UserID=?";//update phone
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(1,data.get(2));
 									pstmt.setString(2,data.get(0));
@@ -1297,16 +1296,30 @@ public class ServerController extends AbstractServer  {
 											
 								case 33://activate account
 									SendMassege="";
+									LocalDate today1=LocalDate.now();
+									DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+									String formattedString = today1.format(formatter);
 									data=Arrays.asList(s.split(","));
-									query="update user set userStatus=? where UserID=?";
+									query="update user set userStatus=? where UserID=?";//update userstatus in user table
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(2,data.get(0));
 									pstmt.setString(1,data.get(1));
 									pstmt.executeUpdate();
-									query="update reader set ReaderStatus=? where UserID=?";
+									query="update reader set ReaderStatus=? where UserID=?";//update reader status in reader table
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(2,data.get(0));
 									pstmt.setString(1,data.get(1));
+									pstmt.executeUpdate();
+									query="insert into history values(?,?,?,?,?,?,?,?)";//insert status change into history table
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,data.get(0));
+									pstmt.setString(2,"");
+									pstmt.setString(3,formattedString);
+									pstmt.setString(4,"Active");
+									pstmt.setString(5,"0");
+									pstmt.setString(6,"");
+									pstmt.setString(7,"0");
+									pstmt.setString(8,"0");
 									pstmt.executeUpdate();
 									client.sendToClient("Account is Active");
 											
@@ -1315,7 +1328,7 @@ public class ServerController extends AbstractServer  {
 								case 34://populate worker table
 									SendMassege1="";
 									data=Arrays.asList(s.split(","));
-									query="select * from user where UserType='Manager' OR UserType='Librarian'";
+									query="select * from user where UserType='Manager' OR UserType='Librarian'";//get workers details from user table
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
 									while(object.next()) {
@@ -1331,23 +1344,20 @@ public class ServerController extends AbstractServer  {
 									int FreezeCount=0;
 									String SendMassege9=null;
 									data=Arrays.asList(s.split(","));
-									query="select * from reader";
+									query="select * from reader";//get readers status details
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
-								    while(object.next()) {
+								    while(object.next()) {//add counters
 										if(object.getString(2).equals("Active"))
 											activeCount++;	
-
 										if(object.getString(2).equals("Blocked"))
-
 											BlockedCount++;	
 										if(object.getString(2).equals("Frozen"))
-
 											FreezeCount++;	
 								    }
 								    int countCopy=0;
-
-									query="select * from library";
+					
+									query="select * from library";//count library copies
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
 								    while(object.next()) {
@@ -1356,8 +1366,8 @@ public class ServerController extends AbstractServer  {
 								    }
 								    
 								    int countLate=0;
-
-									query="select * from reader";
+					
+									query="select * from reader";//count late returns 
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
 								    while(object.next()) {
@@ -1371,7 +1381,7 @@ public class ServerController extends AbstractServer  {
 									
 								    break;
 								    
-								case 37://add report to actions report table
+								case 37://save data to actionsreport table at end of month
 									LocalDate today=LocalDate.now();
 									int activeCount1=0;
 									int BlockedCount1=0;
@@ -1390,7 +1400,7 @@ public class ServerController extends AbstractServer  {
 											FreezeCount1++;	
 								    }
 								    int countCopy1=0;
-
+					
 									query="select * from library";
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
@@ -1400,7 +1410,7 @@ public class ServerController extends AbstractServer  {
 								    }
 								    
 								    int countLate1=0;
-
+					
 									query="select * from reader";
 									pstmt=con.prepareStatement(query);
 								    object = pstmt.executeQuery();
@@ -1418,31 +1428,108 @@ public class ServerController extends AbstractServer  {
 									pstmt.setString(6, Integer.toString(countCopy1));
 									pstmt.setString(7,Integer.toString(countLate1));
 									pstmt.executeUpdate();
-
+					
 									
 								    break;
 								    
 								case 38://set lateFlag in reader to 0 in first day of month
-									query="update reader set lateFlag='0' where lateFlag='1'";
+									query="update reader set lateFlag=0 where lateFlag=1";
 									pstmt=con.prepareStatement(query);
 									pstmt.executeUpdate();
 									client.sendToClient("lateflagInitialize");
 									break;
 									
 								case 39://load actions event
-									SendMassege1="ReportNotFound";
+									SendMassege1="";
 									data=Arrays.asList(s.split(","));
-									query="select * from actionsReport where year=? AND month=?";
+									query="select * from actionsReport where year=? AND month=?";//search report at entered year and month
 									pstmt=con.prepareStatement(query);
 									pstmt.setString(1,data.get(0));
 									pstmt.setString(2,data.get(1));
 								    object = pstmt.executeQuery();
 									while(object.next()) {
 										SendMassege1=object.getString(3)+","+object.getString(4)+","+object.getString(5)+","+object.getString(6)+","+object.getString(7);
+										client.sendToClient(SendMassege1);
 									}
-									client.sendToClient(SendMassege1);
-
 								    break;
+								    
+								case 40://populate late returns tables
+									int rowCnt1=0;
+									SendMassege1="rowCounter"+",";
+									SendMassege="";
+									String bookN="";
+									String whileFlag="no";
+									data=Arrays.asList(s.split(","));
+									String searchDate=data.get(0)+"-"+data.get(1)+"-"+"01";
+									DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+									//convert String to LocalDate
+									LocalDate localDate1 = LocalDate.parse(searchDate, formatter2);
+									LocalDate today2=LocalDate.now();
+									LocalDate first = localDate1.with(TemporalAdjusters.firstDayOfMonth());
+									LocalDate last = localDate1.with(TemporalAdjusters.lastDayOfMonth());
+									String searchDate1 = first.format(formatter2);
+									String searchDate2 = last.format(formatter2);
+					
+									
+					
+									//avg,median and decimal distribution to all late books in the given month
+								    query="select avg(late) from (select latePeriod as late from history where "
+								    		+ "lateFlag > 0 and date>=? and date<= ? and description='Returned') as av";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,searchDate1);
+									pstmt.setString(2,searchDate2);
+								    object = pstmt.executeQuery();
+								    if(object.next())
+								    SendMassege="total"+","+object.getString(1);
+								    
+								    query="select (max(latePeriod)+min(latePeriod))/2 from history where lateFlag > 0"
+								    		+ " and  date>=? and date<= ? and description='Returned'";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,searchDate1);
+									pstmt.setString(2,searchDate2);
+								    object = pstmt.executeQuery();
+								    if(object.next())
+								    SendMassege+=","+object.getString(1)+","+"0";
+								    
+								    
+								    
+								  //avg,median and decimal distribution to each one of the late books in  given month
+								    query="select * from history where description='Returned' and lateFlag > 0 and date>=? and date<= ?";
+									pstmt=con.prepareStatement(query);
+									pstmt.setString(1,searchDate1);
+									pstmt.setString(2,searchDate2);
+								    object = pstmt.executeQuery();
+									while(object.next()) {
+										rowCnt1++;
+										whileFlag="yes";
+										bookN=object.getString(2);
+										query="select avg(late) from(select latePeriod as late from history where lateFlag>0"
+												+ " and date>=? and date<= ? and bookName=? and description='Returned') as av";
+										pstmt=con.prepareStatement(query);
+										pstmt.setString(1,searchDate1);
+										pstmt.setString(2,searchDate2);
+										pstmt.setString(3,bookN);
+									    object = pstmt.executeQuery();
+									    if(object.next())
+									    SendMassege1+=bookN+","+object.getString(1);
+									    
+									    query="select (max(latePeriod)+min(latePeriod))/2 from history where lateFlag > 0"
+									    		+ " and  date>=? and date<= ? and description='Returned' and bookName=?";
+										pstmt=con.prepareStatement(query);
+										pstmt.setString(1,searchDate1);
+										pstmt.setString(2,searchDate2);
+										pstmt.setString(3,bookN);
+									    object = pstmt.executeQuery();
+									    if(object.next())
+									    SendMassege1+=","+object.getString(1)+","+"0";
+									}
+									SendMassege1=SendMassege1.replaceFirst("rowCounter", Integer.toString(rowCnt1));
+									System.out.println(SendMassege+","+SendMassege1);
+									client.sendToClient(SendMassege+","+SendMassege1);
+									
+									
+									
+									break;
 			    
 								case 50://in this case we get all the deteils from histroy for the borrow statistic
 									String borrowPeriod ="";

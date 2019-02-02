@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ReaderCardController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ReaderCardController">
    <children>
       <ImageView fitHeight="695.0" fitWidth="1114.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -593,12 +593,12 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="closeall" layoutX="55.0" layoutY="287.0" minWidth="67.0" mnemonicParsing="false" onAction="#CloseAll" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #DF3232;" text="Close All" textFill="WHITE">
+      <Button fx:id="closeall" layoutX="55.0" layoutY="323.0" minWidth="67.0" mnemonicParsing="false" onAction="#CloseAll" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #DF3232;" text="Close All" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <AnchorPane fx:id="cardReader" blendMode="SRC_ATOP" layoutX="173.0" layoutY="137.0" prefHeight="500.0" prefWidth="738.0" style="-fx-background-color: #E6E6E6;" visible="false">
+      <AnchorPane fx:id="cardReader" blendMode="SRC_ATOP" layoutX="173.0" layoutY="137.0" prefHeight="500.0" prefWidth="738.0" style="-fx-background-color: #E6E6E6;">
          <children>
             <Separator layoutY="21.0" prefHeight="18.0" prefWidth="738.0" />
             <Text fill="#55a6e0" fontSmoothingType="LCD" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reader Card">
@@ -650,10 +650,9 @@
             </Button>
             <TableView fx:id="table" layoutY="206.0" prefHeight="294.0" prefWidth="738.0">
                <columns>
-                  <TableColumn fx:id="bookNameCol" prefWidth="188.0" text="Book Name" />
-                  <TableColumn fx:id="borrowDateCol" prefWidth="548.0" text="Borrow Date" />
-                  <TableColumn fx:id="returnDateCol" prefWidth="548.0" text="Return Date" />
-                  <TableColumn fx:id="returnStatusCol" prefWidth="548.0" text="Borrow Status" />
+                  <TableColumn fx:id="dateCol" prefWidth="188.0" text="Date" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="548.0" text="Description" />
+                  <TableColumn fx:id="otherCol" prefWidth="548.0" text="Additional details" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -715,5 +714,146 @@
             <Insets left="-50.0" />
          </padding>
       </ButtonBar>
+      <Button fx:id="lateReport" layoutX="55.0" layoutY="288.0" minWidth="67.0" mnemonicParsing="false" onAction="#LateReportBtn" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #202020;" text="Late Reports" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Pane fx:id="lateReportPane" layoutX="172.0" layoutY="137.0" prefHeight="500.0" prefWidth="738.0" style="-fx-background-color: #E6E6E6;" visible="false">
+         <children>
+            <ImageView fitHeight="132.0" fitWidth="126.0" layoutX="39.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../source/statistics1.png" />
+               </image>
+            </ImageView>
+            <Separator layoutY="32.0" prefHeight="16.0" prefWidth="738.0" />
+            <TableView fx:id="lateStatistic" layoutX="204.0" layoutY="331.0" prefHeight="91.0" prefWidth="492.0">
+               <columns>
+                  <TableColumn fx:id="bookcol" prefWidth="75.0" text="Book" />
+                  <TableColumn fx:id="averagecol" prefWidth="144.0" text="Average" />
+                  <TableColumn fx:id="mediancol" prefWidth="144.0" text="Median" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <Text fill="#55a6e0" fontSmoothingType="LCD" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Late Report">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="reportbtn" layoutX="446.0" layoutY="52.0" mnemonicParsing="false" onAction="#LateReport" text="Report" />
+            <Text layoutX="202.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total statictics:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="211.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" />
+            <TextField fx:id="month" layoutX="258.0" layoutY="52.0" prefHeight="25.0" prefWidth="39.0" />
+            <Text layoutX="325.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
+            <TextField fx:id="year" layoutX="368.0" layoutY="52.0" prefHeight="25.0" prefWidth="43.0" />
+            <Text fx:id="numOflateReturns" layoutX="360.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fill="#55a6e0" layoutX="229.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Average">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#55a6e0" layoutX="382.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Median">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Separator layoutX="341.0" layoutY="131.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="21.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Separator layoutX="494.0" layoutY="131.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="21.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Separator layoutX="203.0" layoutY="158.0" prefHeight="16.0" prefWidth="303.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Separator layoutX="202.0" layoutY="123.0" prefHeight="16.0" prefWidth="303.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Separator layoutX="203.0" layoutY="192.0" prefHeight="16.0" prefWidth="303.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Separator layoutX="195.0" layoutY="131.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="21.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#979797" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </Separator>
+            <Text fx:id="totalAverage" layoutX="269.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="----">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="totalMedian" layoutX="416.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="----">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="200.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book statistics :">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="DecimalTotal" layoutX="203.0" layoutY="215.0" prefHeight="51.0" prefWidth="492.0" />
+            <Separator layoutY="269.0" prefHeight="16.0" prefWidth="738.0" />
+            <Separator layoutX="1.0" layoutY="77.0" prefHeight="16.0" prefWidth="738.0" />
+         </children>
+      </Pane>
    </children>
 </Pane>

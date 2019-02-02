@@ -81,8 +81,11 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 	int userFlag;
 	
 
-	/*
-	 *this function clears all the fields when clear all button is pressed 
+	/**
+	 *clear all fields in the extend page when the 
+	 *clear all button is pressed
+	 * @author bayan
+	 *
 	 */
 	@FXML
 	void ClearAll(ActionEvent event) {
@@ -98,6 +101,13 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 		
 	}
 	
+	/**
+	 * checks the input id numbers and checks that it is 
+	 * 0 digits long and contains only numbers
+	 * @param str
+	 * @return
+	 * @author bayan
+	 */
 	   public boolean isNumeric(String str)  
 		{  
 		  try  
@@ -115,20 +125,14 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 		  return true;  
 		}
 	   
-	   @FXML
-	   public void CheckUserType(ActionEvent event) {
-
-	   }
 
 
 	   /**
-	    * in this function you but the reader ID 
-	    * @param ReaderID
-	    * and after that you press the button 
+	    * when the search button is pressed near the reader id filed
+	    * the id is sent to the server to case 27.
+	    * if the user id is not found a message is presented to the user.
 	    * @param event
-	    * and then send to the server to check all the details of the reader
-	    * the sending is by command  = 07 and we add the reader ID to the message to check the details
-	    * if the reader is blocked or frozen or active or if he in the DB 
+	    * @author bayan
 	    */
 	@FXML
 	   public void SearchForReaderID(ActionEvent event) {	  
@@ -149,6 +153,14 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 		  
 	  }
 	
+	/**
+	 * after the user press search button near the book catalog number
+	 * if the field is empty a message is shown.
+	 * send the book catalog number the case 28 in the server
+	 * which checks if the book is borrowed by the user.
+	 * @param event
+	 * @author bayan
+	 */
 	@FXML
 	public void ShowBorrowedBooks(ActionEvent event) {
 		  try {
@@ -169,6 +181,12 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 		  }
 	}
 	
+	/**
+	 * takes the new return date and sends it to case 29 in the server
+	 * which will update the return date for the borrowed book in DB
+	 * @param event
+	 * @author bayan
+	 */
 	@FXML
 	public void SetNewReturnDate(ActionEvent event) {
 		
@@ -186,14 +204,18 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * the answer from the server is handeled here according 
+	 * to the statusFlag which is determined in the methods accordingly
+	 * @author bayan
+	 */
 	@Override
 	public void display(Object obj) {//the answer from the sever
 		
 		   String message=(String)obj;
 		   List<String> data=Arrays.asList(message.split(","));
-		   //if the reader ID is correct
-		   //if(data.get(3).equals("Librarian")) {
-		   if(statusFlag==0) {
+		   if(statusFlag==0) {//user id serach button
 			   if(data.get(0).equals("UserIDFound")) {
 				   readerName.setText(data.get(2)); 
 				   userStatus=data.get(1);
@@ -205,9 +227,8 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 				   JOptionPane.showMessageDialog(frame, "User not found");
 			   }
 			   
-		   //}
 		   }
-		   if(statusFlag==2) {
+		   if(statusFlag==2) {//book catalog number search button
 
 			  
 			   if(data.get(0).equals("BookNotBorrowed")||data.get(0).equals("")) {
@@ -258,7 +279,7 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 				   ClearAll(null);
 			   }
 			 }
-		   if(statusFlag==3) {
+		   if(statusFlag==3) {//return date update confirmation
 			   JOptionPane.showMessageDialog(frame, data.get(0));
 		   }
 		    }
@@ -267,6 +288,10 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 
 	
 
+	/**
+	 * initialize the GUI page at startup
+	 * @author bayan
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		UserInformation.setText(LoginController.UserInfo2);   

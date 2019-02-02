@@ -4,27 +4,30 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.WritableObjectValue;
 
+/**
+ * store the history report data from reader card.
+ * the class gets three parameters and stores them in the builder which is stored in an observable string array 
+ * to show the data in a table view
+ * @author bayan
+ *
+ */
 public class TableData {
 
-	private final SimpleStringProperty bookName;
-	private final SimpleStringProperty borrowDate;
-	private final SimpleStringProperty returnDate;
+	private final SimpleStringProperty date;
+	private final SimpleStringProperty description;
 	private final SimpleStringProperty returnStatus;
 	
-	public TableData(String bookName, String borrowDate, String returnDate, String borrowStatus) {
-		this.bookName=new SimpleStringProperty(bookName);
-		this.borrowDate= new SimpleStringProperty(borrowDate);
-		this.returnDate=new SimpleStringProperty(returnDate);
-		this.returnStatus=new SimpleStringProperty(borrowStatus);
+	public TableData(String date, String description, String returnStatus) {
+		this.date=new SimpleStringProperty(date);
+		this.description= new SimpleStringProperty(description);
+		this.returnStatus=new SimpleStringProperty(returnStatus);
 	}
-	public String getBookName() { return bookName.get();}
-	public void setBookName(String bName) {bookName.set(bName);}
-	public String getBorrowDate() { return borrowDate.get();}
-	public void setBorrowDate(String bDate) {borrowDate.set(bDate);}
-	public String getReturnDate() { return returnDate.get();}
-	public void setReturnDate(String rDate) {returnDate.set(rDate);}
+	public String getDate() { return date.get();}
+	public void setDate(String date1) {date.set(date1);}
+	public String getDescription() { return description.get();}
+	public void setDescription(String description1) {description.set(description1);}
 	public String getReturnStatus() { return returnStatus.get();}
-	public void setReturnStatus(String bStatus) {returnStatus.set(bStatus);}
+	public void setReturnStatus(String rStatus) {returnStatus.set(rStatus);}
 	
 	
 

@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import controller.ConnectionToServer;
 import entity.BorrowReportTable;
 import entity.Reader;
+import entity.ReportData;
 import entity.TableData;
 import entity.TableWorker;
 import gui.LoginController;
@@ -95,6 +96,16 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	private TableColumn returnDateCol;
 	@FXML
 	private TableColumn returnStatusCol;
+    @FXML
+    private TableColumn dateCol;
+
+    @FXML
+    private TableColumn descriptionCol;
+
+    @FXML
+    private TableColumn otherCol;
+    @FXML
+    private Pane lateReportPane;
 	@FXML
 	private Pane managerTab;
 	
@@ -124,6 +135,32 @@ public class ReaderCardController extends NavigationBar implements Initializable
     
     @FXML
     private Button closeall;
+    @FXML
+    private Text totalDecimal;
+
+    @FXML
+    private TableView<ReportData> lateStatistic;
+
+    @FXML
+    private TableColumn<ReportData,String> bookcol;
+
+    @FXML
+    private TableColumn<ReportData,String> averagecol;
+
+    @FXML
+    private TableColumn<ReportData,String> mediancol;
+
+    @FXML
+    private TableColumn decimalcol;
+
+    @FXML
+    private Text numOflateReturns;
+
+    @FXML
+    private Text totalAverage;
+
+    @FXML
+    private Text totalMedian;
     
     
     
@@ -184,6 +221,8 @@ public class ReaderCardController extends NavigationBar implements Initializable
     
     @FXML
     private TextField Year;
+    @FXML
+    private TextField Month;
 
     @FXML
     private ComboBox<String> monthBorrowReport1;
@@ -258,40 +297,122 @@ public class ReaderCardController extends NavigationBar implements Initializable
     @FXML
     private Text key7;
 
-
     @FXML
     private Text value7;
-  
     
+    @FXML
+    private Button reportbtn;
+
+    @FXML
+    private TextField month;
+
+    @FXML
+    private TextField year;
+
+	JOptionPane frame;
+	Reader reader;
+	int statusFlag=0;
+	int rowCnt=0;
+	public static String userType;
+	public static String userStatus;
+  
+	private final ObservableList<TableData> tableData=FXCollections.observableArrayList();//history table view
+	private final ObservableList<TableWorker> workerTable=FXCollections.observableArrayList();//worker report table view
+	private final ObservableList<ReportData> lateDataStats=FXCollections.observableArrayList();//late report table view
 	ObservableList<String> listMonth = FXCollections.observableArrayList("01","02","03","04","05","06","07","08","09","10","11","12");
 	ObservableList<String> listMonth1 = FXCollections.observableArrayList("01","02","03","04","05","06","07","08","09","10","11","12");
 	private String combobox11;
 	private String combobox12;
 
 	
+    /**
+     * report button in late report is pressed.
+     * gather the year and month input from user and send to case 40 
+     * in the server. check if the input is correct
+     * @param event
+     * @author bayan
+     */
+    @FXML
+    void LateReport(ActionEvent event) {
+ 
+      	statusFlag=7;
+  	  if(year.getText().equals("")&&month.getText().equals("")) 
+			JOptionPane.showMessageDialog(frame,"You must fill in month and year");	    			
+	    	else {
+	    		if(year.getText().equals("")) 
+	    			JOptionPane.showMessageDialog(frame,"You must fill a year field");
+	    		else {
+	    				if(month.getText().equals("")) 
+	    					JOptionPane.showMessageDialog(frame,"You must fill a month field");
+	    				else {
+	  	    				if(month.getText().length()!=2||month.getText().matches("[a-zA-Z]*")) 
+	  	    					JOptionPane.showMessageDialog(frame,"Month field must contain exactly 2 digits");
+	  	    				else {
+		  	    				if(year.getText().length()!=4||year.getText().matches("[a-zA-Z]*")) 
+		  	    					JOptionPane.showMessageDialog(frame,"Year field must contain exactly 2 digits");
+	  	    				
+	  	    				
+	  	    				}
+	    				}
+	    			}
+	    	}
+  	  try {
+  		  String command="40"+year.getText()+","+month.getText();
+  		  ConnectionToServer.sendData(this, command);
+  		  
+  	  }catch(IOException e) {
+  		  e.printStackTrace();
+  	  }
+    }
+	
+    
+    /**
+     * if the show report is pressed in the actions report
+     * gather the year and month input from the user and send to case 39 in the server.
+     * check if the input is correct
+     * @param event
+     * @author bayan
+     */
     @FXML
     void ShowActionsReport1(ActionEvent event) {
-    	combobox12=monthBorrowReport1.getSelectionModel().getSelectedItem();//
-    	if(combobox12.equals("Month"))
-    		JOptionPane.showMessageDialog(frame,"You must fill in month");
-    	else
-    	if(Year.getText().equals("")) {
-    		JOptionPane.showMessageDialog(frame,"You must fill in year");
-    	}
-    	else {
-        statusFlag=6;
-        
-            try {
-                String command="39"+Year.getText()+","+combobox12;
-                ConnectionToServer.sendData(this, command);
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                  }
-          
-    	}
+      	String year=Year.getText();
+      	String month=Month.getText();
+      	statusFlag=6;
+    	  if(Year.getText().equals("")&&Month.getText().equals("")) 
+  			JOptionPane.showMessageDialog(frame,"You must fill in month and year");	    			
+  	    	else {
+  	    		if(Year.getText().equals("")) 
+  	    			JOptionPane.showMessageDialog(frame,"You must fill a year field");
+  	    		else {
+	    				if(Month.getText().equals("")) 
+	    					JOptionPane.showMessageDialog(frame,"You must fill a month field");
+	    				else {
+	  	    				if(Month.getText().length()!=2||Month.getText().matches("[a-zA-Z]*")) 
+	  	    					JOptionPane.showMessageDialog(frame,"Month field must contain exactly 2 digits");
+	  	    				else {
+		  	    				if(Year.getText().length()!=4||Year.getText().matches("[a-zA-Z]*")) 
+		  	    					JOptionPane.showMessageDialog(frame,"Year field must contain exactly 2 digits");
+	  	    				
+	  	    				
+	  	    				}
+	    				}
+  	    			}
+  	    	}
+    		try {
+          		String command="39"+year+","+month;
+    			ConnectionToServer.sendData(this, command);
+    			   } catch (IOException e) {
+    				   e.printStackTrace();
+    			   }
     }
     
     
+    /**
+     * click on the actions report button.
+     * send to case 36 in the server which will return the current data.
+     * @param event
+     * @author bayan
+     */
     @FXML
     public void ActionReportBtn(ActionEvent event) {
 		LocalDate today=LocalDate.now();
@@ -300,6 +421,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	    ActionReport .setVisible(true);
 	    BorrowReport .setVisible(false);
 	    cardReader   .setVisible(false);
+	    lateReportPane.setVisible(false);
 		statusFlag=5;
 
 	    try {
@@ -309,13 +431,113 @@ public class ReaderCardController extends NavigationBar implements Initializable
 				   e.printStackTrace();
 			   }
     }
+    
+    /**
+     * press the late report button. 
+     * show the late report and hide the others
+     * @param event
+     */
+    @FXML
+    public void LateReportBtn(ActionEvent event) {
+		WorkerDetails.setVisible(false);
+	    ActionReport .setVisible(false);
+	    BorrowReport .setVisible(false);
+	    cardReader   .setVisible(false);
+	    lateReportPane.setVisible(true);
+    }
+    
+    
+    /**
+     * press the Reader card  button. 
+     * show the reader card and hide the others
+     * @param event
+     */
+    @FXML
+    public void CardReaderBtn(ActionEvent event) {
+		WorkerDetails.setVisible(false);
+	    ActionReport .setVisible(false);
+	    BorrowReport .setVisible(false);
+	    cardReader   .setVisible(true);
+	    lateReportPane.setVisible(false);
+    }
 
+    /**
+     * press the worker details button. 
+     * send to server case 34 which will return the workers detailes.
+     * @param event
+     */
+    @FXML
+    public void WorkerDetailsBtn(ActionEvent event) {
+
+    	WorkerDetails.setVisible(true);
+	    ActionReport .setVisible(false);
+	    BorrowReport .setVisible(false);
+	    cardReader   .setVisible(false);
+	    lateReportPane.setVisible(false);
+	   if( clickflag==0) {
+		statusFlag=4;
+		   try {
+		   String command = "34";
+		   ConnectionToServer.sendData(this, command);
+		   } catch (IOException e) {
+			   e.printStackTrace();
+		   }
+		   clickflag=1;
+	   }
+	    
+    
+    }
+    
+    /**
+     * close all button pressed.
+     * closes all the panes.
+     * @param event
+     */
+    @FXML
+    public void CloseAll(ActionEvent event) {
+		WorkerDetails.setVisible(false);
+	    ActionReport .setVisible(false);
+	    BorrowReport .setVisible(false);
+	    cardReader   .setVisible(false);
+	    lateReportPane.setVisible(false);
+    
+    }
+    
+
+	
+
+	
+    /**
+     * clear all fields in reader card
+     * @param event
+     * @author bayan
+     */
+	@FXML
+	void ClearAll(ActionEvent event) {
+		readerID.setText("");
+		readerName.setText("");
+		email.setText("");
+		phone.setText("");
+		readerStatus.setText("");
+		statusFlag=0;
+		rowCnt=0;
+		tableData.clear();
+		activate.setVisible(false);
+		
+	}
+
+    /**
+     * press the borrow's report button. 
+     * show the borrow report and hide the others
+     * @param event
+     */
     @FXML
     public void BorrowReportBtn(ActionEvent event) {
 		WorkerDetails.setVisible(false);
 	    ActionReport .setVisible(false);
 	    BorrowReport .setVisible(true);
 	    cardReader   .setVisible(false); 
+	    lateReportPane.setVisible(false);
     }
     
     public boolean isNumeric1(String str)  
@@ -331,6 +553,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
    	  }  
    	  return true;  
    	}
+    
     /**
      * this func for search for the borrowReport
      * @author Ammar khutba
@@ -354,73 +577,14 @@ public class ReaderCardController extends NavigationBar implements Initializable
        			   }
        	}
        }
-   
-    @FXML
-    public void CardReaderBtn(ActionEvent event) {
-		WorkerDetails.setVisible(false);
-	    ActionReport .setVisible(false);
-	    BorrowReport .setVisible(false);
-	    cardReader   .setVisible(true);
-    }
-
-    @FXML
-    public void WorkerDetailsBtn(ActionEvent event) {
-
-    	WorkerDetails.setVisible(true);
-	    ActionReport .setVisible(false);
-	    BorrowReport .setVisible(false);
-	    cardReader   .setVisible(false);
-	   if( clickflag==0) {
-		statusFlag=4;
-		   try {
-		   String command = "34";
-		   ConnectionToServer.sendData(this, command);
-		   } catch (IOException e) {
-			   e.printStackTrace();
-		   }
-		   clickflag=1;
-	   }
-	    
-    
-    }
-    @FXML
-    public void CloseAll(ActionEvent event) {
-		WorkerDetails.setVisible(false);
-	    ActionReport .setVisible(false);
-	    BorrowReport .setVisible(false);
-	    cardReader   .setVisible(false);
-    
-    }
-    
-	private final ObservableList<TableData> tableData=FXCollections.observableArrayList();
-	private final ObservableList<TableWorker> workerTable=FXCollections.observableArrayList();
-	JOptionPane frame;
-	Reader reader;
-	int statusFlag=0;
-	int rowCnt=0;
-	public static String userType;
-	public static String userStatus;
-	
 
 	
-	/*
-	 *this function clears all the fields when clear all button is pressed 
-	 */
-	@FXML
-	void ClearAll(ActionEvent event) {
-		readerID.setText("");
-		readerName.setText("");
-		email.setText("");
-		phone.setText("");
-		readerStatus.setText("");
-		statusFlag=0;
-		rowCnt=0;
-		tableData.clear();
-		activate.setVisible(false);
-		
-	}
-	
-	
+   	/**
+   	 * get the entered id and send to server case 30.
+   	 * check if an ID was entered
+   	 * @param event
+   	 * @author bayan
+   	 */
 	public void ReaderCardInfo(ActionEvent event) {
 
 		  if(readerID.getText().equals("") ||isNumeric(readerID.getText())==false) {
@@ -459,6 +623,13 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		}
        @FXML
 
+	   /**
+	    * Reader Card:
+	    * show history button is pressed, check that id was entered
+	    * and send to server case 31 that will return the history for the id.
+	    * @param event
+	    * @author bayan
+	    */
 	   public void PopulateTable(ActionEvent event) {
 		   if(readerID.equals("")) {
 			   JOptionPane.showMessageDialog(frame, "Enter reader id");
@@ -474,12 +645,20 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		   }
 		   
 	   }
+       
+	   
+	   /**
+	    * Reader Card:
+	    * edit info button is pressed, check that id was entered
+	    * change the email and phone text fields to editable.
+	    * save button is visible.
+	    * @param event
+	    * @author bayan
+	    */
        @FXML
 
 	   public void EditInfo(ActionEvent event) {
 		   if(statusFlag==1) {
-		   //email.setText("");
-		  // phone.setText("");
 		   edit.setVisible(false);
 		   save.setVisible(true);
 		   email.setEditable(true);
@@ -490,6 +669,15 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		   }
 		   
 	   }
+       
+	   /**
+	    * Reader Card:
+	    * save info button was pressed.
+	    * check that the fields are not empty and send to 
+	    * server case 32 that will update the details. 
+	    * @param event
+	    * @author bayan
+	    */
 	   public void SaveInfo(ActionEvent event) {
 		   if(email.getText().equals("")||phone.getText().equals("")) {
 			   JOptionPane.showMessageDialog(frame, "Enter email and phone");
@@ -505,6 +693,16 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		   }
 		   
 	   }
+	   
+	   /**
+	    * Reader Card:
+	    * if librarian or manager is logged in, check if the searched id
+	    * is frozen or blocked the show the activate button.
+	    * press on activate send details to server case 33 that will update
+	    * the user status
+	    * @param event
+	    * @author bayan
+	    */ 
 	   public void ChangeStatusToActive(ActionEvent event) {
 		   
 		   int action = JOptionPane.showOptionDialog(frame, "if reader status is 'BLOCKED', ask for manager approval.\nif reader status is 'FROZEN' return book first.\nconfirm activating account? ", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -546,6 +744,16 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	        return temp; 
 	    } 
 	    /**
+	     * handle answer from server.
+	     * enter to cases according to statusFlag or data.get(0) value.
+		 * if statusFlag=0 handle reader id search.
+		 * if statusFlag=2 handle the data from server to populate the history tableview
+		 * data.get(0).equals("Info Updated") show message that reader info was updates.
+		 *  if(data.get(0).equals("Account is Active")) show message that the account was activated and change status to active
+		 *  if statusFlag=4 populate worker detatils table with data from server.
+		 *  if statusFlag=5, set text the current report on the actionsReport.
+		 *  if statusFlag=7, set text to the saved information report on the actions report.
+		 *  if statusFlag=7, populate table and fields on the late report page.
 	     * @author khutb statusFlag==8
 	     * in this statusFlag case we work on the boorowStatistic the quantity of the books from the Indemand and not Indemand
 	     * and the AVG for Indemand and not Indemand
@@ -556,8 +764,6 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	public void display(Object obj) {
 		   String message=(String)obj;
 		   List<String> data=Arrays.asList(message.split(","));
-		   //if the reader ID is correct
-		   //if(data.get(3).equals("Librarian")) {
 	
 		   if(statusFlag==0) {
 			   if(data.get(0).equals("UserIDFound")) {
@@ -576,19 +782,29 @@ public class ReaderCardController extends NavigationBar implements Initializable
 				   JOptionPane.showMessageDialog(frame, "reader not found");
 			   }
 		   }
+		   
 		   if(statusFlag==2) {
 			   if(data.get(0).equals("noData")) {
 				   JOptionPane.showMessageDialog(frame, "no history found");
 			   }
-			   else if(data.get(0).equals("END")){
-					table.setItems(tableData);
-			   }
 			   else {
-			   tableData.add(new TableData(data.get(0),data.get(1),data.get(2),data.get(3)));
-			   rowCnt++;
-			   System.out.println(rowCnt);
+				   int rowCnt=Integer.parseInt(data.get(0));
+				   int whileCnt=1;
+				   while(whileCnt<(rowCnt*4+1)) {
+				   if(data.get(whileCnt+1).equals("borrowed")||data.get(whileCnt+1).equals("Returned")||data.get(whileCnt+1).equals("ordered")) {
+					   if(!data.get(whileCnt+3).equals("0"))
+						   tableData.add(new TableData(data.get(whileCnt),(data.get(whileCnt+1)+" "+data.get(whileCnt+2)),"late return"));
+					   else
+						   tableData.add(new TableData(data.get(whileCnt),(data.get(whileCnt+1)+" "+data.get(whileCnt+2)),""));
+				   }
+				   else {
+					   tableData.add(new TableData(data.get(whileCnt),data.get(whileCnt+1)+ " "+data.get(whileCnt+2),""));
+				   }
+				   whileCnt+=4;
+				   }
 			   }
 		   }
+		   
 		   if(data.get(0).equals("Info Updated")) {
 			   JOptionPane.showMessageDialog(frame, "Reader information updated");
 			   save.setVisible(false);
@@ -596,18 +812,15 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   email.setEditable(false);
 			   phone.setEditable(false);
 		   }
+		   
 		   if(data.get(0).equals("Account is Active")) {
 			   JOptionPane.showMessageDialog(frame, "Reader status is 'Active'");
 			   activate.setVisible(false);
 			   readerStatus.setText("Active");
 		   }
+		   
 		   if(statusFlag==4) {
-			  
-			 
-			   
-			   workerTable.add(new TableWorker(data.get(0),data.get(1),data.get(2),data.get(3),data.get(4),data.get(5),data.get(6)));
-			   rowCnt++;
-			   System.out.println(rowCnt);
+			  workerTable.add(new TableWorker(data.get(0),data.get(1),data.get(2),data.get(3),data.get(4),data.get(5),data.get(6)));
 			   }
 		    
 		   if(statusFlag==5) {
@@ -617,6 +830,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   CopiesNumber1.setText(data.get(3));
 			   LateSubscription1.setText(data.get(4));
 			   }
+		   
 		   if(statusFlag==6) {
 			   if(data.get(0).equals("ReportNotFound")) {
 				 	JOptionPane.showMessageDialog(frame, "Report Not Found");
@@ -633,6 +847,29 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   CopiesNumber11.setText(data.get(3));
 			   LateSubscription11.setText(data.get(4));
 		   }
+		   }
+		   
+		   if(statusFlag==7) {
+			   int rowCnt=Integer.parseInt(data.get(4));
+			   System.out.println(data);
+			   if(data.get(1).equals("null")) {
+				   totalAverage.setText("");
+				   totalMedian.setText("");
+				   totalDecimal.setText("");
+				   lateDataStats.clear();
+				   JOptionPane.showMessageDialog(frame, "No data available for the selected month");
+			   }
+			   else if(data.get(0).equals("total")||!(data.get(1).equals(null))) {
+				   totalAverage.setText(data.get(1));
+				   totalMedian.setText(data.get(2));
+				   //totalDecimal.setText(data.get(3));
+				   int whileCnt=5;
+				   while(whileCnt<(rowCnt*4+5)) {
+						   lateDataStats.add(new ReportData(data.get(whileCnt),data.get(whileCnt+1),data.get(whileCnt+2)));
+						   whileCnt+=4;
+				   }
+			   }
+	
 		   }
 		   if(statusFlag==8) {
 			   String RegularDecimal = "";
@@ -694,11 +931,16 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		        
 		        
 		}
-		   
+	
+	/**
+	 * initialize info at start.
+	 * get user type and shoe buttons accordingly.
+	 * initialize table views columns.
+	 * if reader is logged in send data to server case 30 to ge reader details.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//managerTab.setVisible(false);
 
 		if(LoginController.userType2.equals("Reader")) {
 				UserInformation.setText(LoginController.UserInfo2);
@@ -722,21 +964,25 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		phonecol.setCellValueFactory(new PropertyValueFactory<TableData,String>("phone"));
 		usertypecol.setCellValueFactory(new PropertyValueFactory<TableData,String>("userType"));
 		userstatuscol.setCellValueFactory(new PropertyValueFactory<TableData,String>("userStatus"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("date"));
+		descriptionCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("description"));
+		otherCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("returnStatus"));
 		
 
 		
-		
+
+		lateStatistic.setItems(lateDataStats);
+		table.setItems(tableData);
 		WorkerTable.setItems(workerTable);
+		
 		UserInformation.setText(LoginController.UserInfo2);	
 		UserInformation.textProperty().unbindBidirectional(LoginController.UserInfo2);
 		WorkerDetails.setVisible(false);
 	    ActionReport .setVisible(false);
 	    BorrowReport .setVisible(false);
 	    cardReader   .setVisible(false);
-		bookNameCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("bookName"));
-		borrowDateCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("borrowDate"));
-		returnDateCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("returnDate"));
-		returnStatusCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("returnStatus"));
+	    lateReportPane.setVisible(false);
+
 		String loggedUser=UserInformation.getText();
 		email.setEditable(false);
 		phone.setEditable(false);
@@ -744,14 +990,17 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		userType=logInData.get(1);
 		activate.setVisible(false);
 		save.setVisible(false);
+		
 		if(logInData.get(1).equals("Manager")) {
 			managerTab.setVisible(true);
 		}
+		
 		if(!LoginController.userType2.equals("Reader")) {
 			readerID.setEditable(true);
 			readerStatus.setEditable(false);
 			readerName.setEditable(false);
 		}
+		
 		else if(LoginController.userType2.equals("Reader")) {//get user id from login
 			card.setVisible(false);
 			worker .setVisible(false);
