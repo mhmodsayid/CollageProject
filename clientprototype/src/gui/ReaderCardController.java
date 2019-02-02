@@ -36,6 +36,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +48,11 @@ import ocsf.client.ChatIF;
 public class ReaderCardController extends NavigationBar implements Initializable, ChatIF {
 	@FXML
 	private TextField readerID;
+    @FXML
+    private TextArea DecimalRegular;
+
+    @FXML
+    private TextArea DecimalIndemand;
 	@FXML
 	private TextField readerName;
 	@FXML
@@ -236,7 +242,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
     private Text decimalIndemand;
 
     @FXML
-    private ComboBox<String> monthBorrowReport;
+    private TextField monthBorrowReport;
 
     @FXML
     private TextField yearBorrowReport;
@@ -312,26 +318,42 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	    cardReader   .setVisible(false); 
     }
     
-    @FXML
-    void BorrowSearch(ActionEvent event) {
-    	combobox11=monthBorrowReport.getSelectionModel().getSelectedItem();//
-    	if(combobox11.equals("Month"))
-    		JOptionPane.showMessageDialog(frame,"You must fill in month");
-    	else
-    	if(yearBorrowReport.getText().equals("")) {
-    		JOptionPane.showMessageDialog(frame,"You must fill in year");
-    	}
-    	else {
-    		statusFlag=8;
+    public boolean isNumeric1(String str)  
+   	{  		  
 
-    	    try {
-    			   String command = "50"+","+combobox11+","+yearBorrowReport.getText();
-    			   ConnectionToServer.sendData(this, command);
-    			   } catch (IOException e) {
-    				   e.printStackTrace();
-    			   }
-    	}
-    }
+   	  try  
+   	  {  
+   		double d = Double.parseDouble(str);  
+   	  }  
+   	  catch(NumberFormatException nfe)  
+   	  {  
+   	    return false;  
+   	  }  
+   	  return true;  
+   	}
+    /**
+     * this func for search for the borrowReport
+     * @author Ammar khutba
+     */
+       @FXML
+       void BorrowSearch(ActionEvent event) {
+       	if(monthBorrowReport.getText().equals("")||yearBorrowReport.getText().equals("")) {
+       		JOptionPane.showMessageDialog(frame,"You must fill in month and year");
+       	}
+       	else if(isNumeric1(monthBorrowReport.getText())==false||isNumeric1(yearBorrowReport.getText())==false) {
+       		JOptionPane.showMessageDialog(frame,"You must fill in month and year currect");
+       	}
+       	else {
+       		statusFlag=8;
+
+       	    try {  	    	
+       			   String command = "50"+","+monthBorrowReport.getText()+","+yearBorrowReport.getText();
+       			   ConnectionToServer.sendData(this, command);
+       			   } catch (IOException e) {
+       				   e.printStackTrace();
+       			   }
+       	}
+       }
    
     @FXML
     public void CardReaderBtn(ActionEvent event) {
@@ -612,33 +634,9 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   LateSubscription11.setText(data.get(4));
 		   }
 		   }
-		   
 		   if(statusFlag==8) {
-			    quantityRegular.setText("---");
-				   averageRegular.setText("---");
-				   medianRegular.setText("---");
-				   key.setText("---");
-		        	value1.setText("---");
-					key7.setText("---");
-	        	value7.setText("---");
-				   quantityIndemand.setText("---");
-				   averageIndemand.setText("---");
-				   medianIndemand.setText("---");
-			  if(data.get(0).equals("Indemand")) {
-				   	JOptionPane.showMessageDialog(frame, "Report Not Found");
-				    quantityRegular.setText("---");
-					   averageRegular.setText("---");
-					   medianRegular.setText("---");
-					   key.setText("---");
-   		        	value1.setText("---");
-   					key7.setText("---");
-		        	value7.setText("---");
-					   quantityIndemand.setText("---");
-					   averageIndemand.setText("---");
-					   medianIndemand.setText("---");
-					   
-			   }
-		else {
+			   String RegularDecimal = "";
+			   String IndemandDecimal ="";
 			   int i=0;
 			   int cnt=0;
 			   int x;
@@ -664,26 +662,14 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   AvgRegular =  AvgRegular/i;//the avg
 			   quantityRegular.setText(String.valueOf(i));
 			   averageRegular.setText(String.format ("%.3f", AvgRegular));
-			   medianRegular.setText(Long.toString(value.getValue()));//we get the medin value from the sorted map
-			   
-
-				  String key1="";
-				  String value4="";
-
+			   medianRegular.setText(Long.toString(value.getValue()));//we get the medin value from the sorted map 
 		        for (Entry<Integer, Integer> entry : hmRegular.entrySet())  {
 		        	double x1 =entry.getValue();
-		        	double x2 =entry.getKey();
 		        	decimal = x1/i;
-		        	key1+=" |           "+Double.toString(x2).subSequence(0, Double.toString(x2).indexOf("."));
-		        	value4+=" | "+Double.toString(decimal).subSequence(0, 7);
-		        	//System.out.println(" Value / i= " +decimal);
-		        	
+		        	RegularDecimal+="the number of the day :"+entry.getKey().toString()+"  the Distribution : "+String.format ("%.3f", decimal)+"\n";
 		        }
-		        		        	key.setText(key1);
-		        		        	value1.setText(value4);
-		        		           
+		        DecimalRegular.setText(RegularDecimal);
 				   i++; 
-		        
 			   for (int j = i; j < data.size(); j++,cnt++) {
 				   if(hmIndemand.containsKey(Integer.parseInt(data.get(j)))){
 					   x=hmIndemand.get(Integer.parseInt(data.get(j)));
@@ -698,31 +684,13 @@ public class ReaderCardController extends NavigationBar implements Initializable
 			   quantityIndemand.setText(String.valueOf(cnt));
 			   averageIndemand.setText(String.format ("%.3f", AvgIndemand));
 			   medianIndemand.setText(Long.toString(value.getValue()));
-			   
-			   
-			   
-			   
-			   
-			   String key11="";
-			   String value14="";
 		        for (Entry<Integer, Integer> entry : hmIndemand.entrySet()) {
 		        	double x1 =entry.getValue();
-		        	double x2 =entry.getKey();
 		        	decimal = x1/cnt;
-		        	key11+=" |           "+Double.toString(x2).subSequence(0, Double.toString(x2).indexOf("."));
-		        	value14+=" | "+Double.toString(decimal).subSequence(0, 7);
-		        	//System.out.println(" Value / i= " +decimal);
-		        	System.out.println(" Value / cnt= " +decimal);
-		        					key7.setText(key11);
-		        		        	value7.setText(value14);
+		        	IndemandDecimal+="the number of the day :"+entry.getKey().toString()+"  the Distribution : "+String.format ("%.3f", decimal)+"\n";
 		        }	
-		        
-
-		        					
-			}  
-		   }         
-		  
-		        
+		        DecimalIndemand.setText(IndemandDecimal);
+		}
 		        
 		        
 		}
@@ -731,11 +699,6 @@ public class ReaderCardController extends NavigationBar implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//managerTab.setVisible(false);
-	
-		
-		
-		monthBorrowReport.setItems(listMonth);
-		monthBorrowReport1.setItems(listMonth1);
 
 		if(LoginController.userType2.equals("Reader")) {
 				UserInformation.setText(LoginController.UserInfo2);

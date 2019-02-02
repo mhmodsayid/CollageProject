@@ -416,12 +416,12 @@ public class ServerController extends AbstractServer  {
 		Connection con = db.initalizeDataBase();
 		PreparedStatement pstmt;
 		String s = (String) message;
+		List<String> ComparDate;
 		String query;
 		List<String> data;
 		int command = Integer.parseInt(s.substring(0, 2));
 		s = s.substring(2, s.length());
 		try {
-			List<String> ComparDate;
 			switch (command) {
 			case 1:
 				data = Arrays.asList(s.split(","));
@@ -569,350 +569,350 @@ public class ServerController extends AbstractServer  {
 				break;
 
 				// in this case we look for userID in the DB for the borrow gui
-							case 7:
-								SendMassege = "UserIDFound,";
-								data = Arrays.asList(s.split(","));
-								query = "select * from user where UserID=?";//search for reader by his ID
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									SendMassege += object.getString(9)+"," + object.getString(4) + " " + object.getString(5);//we get the first name and the last name 
-								}
-								if (SendMassege.equals("UserIDFound,")) {
-									SendMassege = "notFound,UserID Not Found";//if there is no user by the id that we put in the borrow gui
-								}
-								client.sendToClient(SendMassege);
+			case 7:
+				SendMassege = "UserIDFound,";
+				data = Arrays.asList(s.split(","));
+				query = "select * from user where UserID=?";//search for reader by his ID
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += object.getString(9)+"," + object.getString(4) + " " + object.getString(5);//we get the first name and the last name 
+				}
+				if (SendMassege.equals("UserIDFound,")) {
+					SendMassege = "notFound,UserID Not Found";//if there is no user by the id that we put in the borrow gui
+				}
+				client.sendToClient(SendMassege);
 
-								break;
-								//in this case we search for the book by the catalogNumber for the borrow book gui
-							case 8:
-								String orderName = null;
-								SendMassege = "BookFound,";
-								data = Arrays.asList(s.split(","));
-								query = "select * from book where catalogNumber=?";//searching in the DB for the book by catalogNumber
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									SendMassege += object.getString(2);//get the book name
-									orderName = object.getString(2);
-								}
-								if (SendMassege.equals("BookFound,")) {
-									SendMassege = "notFound,catalogNumber Not Found";//if there no book by the catalogNumber
-									client.sendToClient(SendMassege);
-								}
-								query = "select * from library where BookName=?";//search for the book in the libarary DB by the name
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, orderName);
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									SendMassege += "," + object.getString(7);//get the book status
-								}
-								client.sendToClient(SendMassege);
-								break;
-								//in this case we search for the book that has been borrowed in the DB for the returnBook gui
-							case 9:
-								SendMassege = "BookFound,";
-								data = Arrays.asList(s.split(","));
-								query = "select * from borrowbook where CatalogNumber=?";//search for the book in the borrow DB by the CatalogNumber
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									SendMassege += object.getString(2) + "," + object.getString(4) + "," + object.getString(5);//get the reader id and the borrow date and the return date
-								}
-								if (SendMassege.equals("BookFound,")) {
-									SendMassege = "NoBookFound";//if there is no book has been borrowed
-								}
-								client.sendToClient(SendMassege);
-								break;
-								//in this case we return the book in the library for the returnBook gui
-							case 10:
-								String bookName = null;
-								String bookType=null;
-								data = Arrays.asList(s.split(","));
-								query = "select * from book where CatalogNumber=?";//search for the book in the DB by the CatalogNumber
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									bookName = object.getString(2);//get the book name
-								}
-								query = "select * from library where BookName=?";//search for the book in the DB by the CatalogNumber
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, bookName);
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									bookType = object.getString(7);//get the book name
-								}
-								
-								query = "INSERT INTO history  values(?,?,?,?,?,?,?,?)";//insert in history 
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(1));
-								pstmt.setString(2, bookName);
-								pstmt.setString(3,dateFormat.format(date).toString());
-								pstmt.setString(4, "Returned");
-								pstmt.setInt(5, Integer.parseInt(data.get(2)));
-								pstmt.setString(6, bookType);
-								pstmt.setString(7, "0");
-								pstmt.setInt(8, Integer.parseInt(data.get(3)));
-								pstmt.executeUpdate();
-								
-								query = "select * from `OrderBook` where BookName=?";////search for the book in the OrderBook DB by the name of the book
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, bookName);
-								object = pstmt.executeQuery();
-								if (!object.next()) {//if there no book in OrderBook DB 
-									query = "update book set borrowStatus=? where catalogNumber=?";//then update in book DB borrowStatus form  indemand to normal 
-									pstmt = con.prepareStatement(query);
-									pstmt.setString(1, "Normal");
-									pstmt.setString(2, data.get(0));
-									pstmt.executeUpdate();
-								}
-								
-								query = "update library set quantity=quantity + 1 where BookName=?";//update the libarary quantity of the book to +1
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, bookName);
-								pstmt.executeUpdate();
+				break;
+				//in this case we search for the book by the catalogNumber for the borrow book gui
+			case 8:
+				String orderName = null;
+				SendMassege = "BookFound,";
+				data = Arrays.asList(s.split(","));
+				query = "select * from book where catalogNumber=?";//searching in the DB for the book by catalogNumber
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += object.getString(2);//get the book name
+					orderName = object.getString(2);
+				}
+				if (SendMassege.equals("BookFound,")) {
+					SendMassege = "notFound,catalogNumber Not Found";//if there no book by the catalogNumber
+					client.sendToClient(SendMassege);
+				}
+				query = "select * from library where BookName=?";//search for the book in the libarary DB by the name
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, orderName);
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += "," + object.getString(7);//get the book status
+				}
+				client.sendToClient(SendMassege);
+				break;
+				//in this case we search for the book that has been borrowed in the DB for the returnBook gui
+			case 9:
+				SendMassege = "BookFound,";
+				data = Arrays.asList(s.split(","));
+				query = "select * from borrowbook where CatalogNumber=?";//search for the book in the borrow DB by the CatalogNumber
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					SendMassege += object.getString(2) + "," + object.getString(4) + "," + object.getString(5);//get the reader id and the borrow date and the return date
+				}
+				if (SendMassege.equals("BookFound,")) {
+					SendMassege = "NoBookFound";//if there is no book has been borrowed
+				}
+				client.sendToClient(SendMassege);
+				break;
+				//in this case we return the book in the library for the returnBook gui
+			case 10:
+				String bookName = null;
+				String bookType=null;
+				data = Arrays.asList(s.split(","));
+				query = "select * from book where CatalogNumber=?";//search for the book in the DB by the CatalogNumber
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					bookName = object.getString(2);//get the book name
+				}
+				query = "select * from library where BookName=?";//search for the book in the DB by the CatalogNumber
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, bookName);
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					bookType = object.getString(7);//get the book name
+				}
+				
+				query = "INSERT INTO history  values(?,?,?,?,?,?,?,?)";//insert in history 
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(1));
+				pstmt.setString(2, bookName);
+				pstmt.setString(3,dateFormat.format(date).toString());
+				pstmt.setString(4, "Returned");
+				pstmt.setInt(5, Integer.parseInt(data.get(2)));
+				pstmt.setString(6, bookType);
+				pstmt.setString(7, "0");
+				pstmt.setInt(8, Integer.parseInt(data.get(3)));
+				pstmt.executeUpdate();
+				
+				query = "select * from `OrderBook` where BookName=?";////search for the book in the OrderBook DB by the name of the book
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, bookName);
+				object = pstmt.executeQuery();
+				if (!object.next()) {//if there no book in OrderBook DB 
+					query = "update book set borrowStatus=? where catalogNumber=?";//then update in book DB borrowStatus form  indemand to normal 
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, "Normal");
+					pstmt.setString(2, data.get(0));
+					pstmt.executeUpdate();
+				}
+				
+				query = "update library set quantity=quantity + 1 where BookName=?";//update the libarary quantity of the book to +1
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, bookName);
+				pstmt.executeUpdate();
 
-								
-								query = "SELECT MIN(OrderID) from OrderBook where OrderBookReady is null"; //seach for the first book that been ordered where the reader date for the wait time to take the book is null
+				
+				query = "SELECT MIN(OrderID) from OrderBook where OrderBookReady is null"; //seach for the first book that been ordered where the reader date for the wait time to take the book is null
+				pstmt = con.prepareStatement(query);
+				object = pstmt.executeQuery();
+				object.next();
+				int x = object.getInt(1);
+
+				query = "UPDATE OrderBook SET OrderBookReady=?  WHERE BookName=? and OrderID=? ";//put the date of the return book in OrderBookReady
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, date.toString());
+				pstmt.setString(2, bookName);
+				pstmt.setInt(3, x);
+				pstmt.executeUpdate();
+
+				query = "DELETE FROM borrowbook WHERE CatalogNumber=?";//DELETE the borrow from the borrowbook DB
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				pstmt.executeUpdate();
+
+				String ReturnReaderStatus = null;
+				query = "select * from user where UserID=?";//search for the status of the reader 
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(1));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					ReturnReaderStatus = object.getString(9);
+				}
+				if (ReturnReaderStatus.equals("Frozen")) {//if the reader is frozen the make him active
+					query = "update user set userStatus=? where UserID=?";
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, "Active");
+					pstmt.setString(2, data.get(1));
+					pstmt.executeUpdate();
+
+					query = "update reader set ReaderStatus=? where UserID=?";
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, "Active");
+					pstmt.setString(2, data.get(1));
+					pstmt.executeUpdate();
+				}
+				client.sendToClient("done");//send to the client that the borrowed has been done
+				break;
+				//in this case we send massege to the client if remain one day or if the user has not return the book in the right time update his status
+				//and inset to the history the procees of the update
+			case 11:
+				String UserID = null;
+				String Email = null;
+				ComparDate = Arrays.asList(dateFormat.format(date).split("-"));
+				int currentday = Integer.parseInt(ComparDate.get(2));
+				query = "select * from borrowbook ";
+				pstmt = con.prepareStatement(query);
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					UserID = object.getString(2);
+					ComparDate = Arrays.asList(object.getString(5).split("-"));
+					int ReturnDate = Integer.parseInt(ComparDate.get(2));
+					if (currentday + 1 == ReturnDate && dateFormat.format(date).compareTo(object.getString(5)) < 0) {// If
+																														// just
+																														// remains
+																														// one
+																														// day
+																														// for
+																														// returning
+																														// the
+																														// book
+						query = "select * from user where UserID=?";
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, UserID);
+						ResultSet object1 = pstmt.executeQuery();
+						while (object1.next()) {
+							Email = object1.getString(2);
+						}
+						SendMailToClient.SendingMail(Email, "One day left to return the book back to the library!!!");
+					}
+					// if the reader has not return the book in time then update all the details of
+					// the reader
+					else {
+						if (dateFormat.format(date).compareTo(object.getString(5)) > 0) {
+							int LateReturn = 0;
+							String borrowStatus = object.getString(6);//to control the flow of the update allowing you to check for the update if has been done while your function progresses
+							query = "select * from reader where UserID=?";//serach for the number of time that the reader has been late
+							pstmt = con.prepareStatement(query);
+							pstmt.setString(1, UserID);
+							ResultSet object2 = pstmt.executeQuery();
+							while (object2.next()) {
+								LateReturn = object2.getInt(3);//get the time of how much the reader has been late
+							}
+							if (borrowStatus.equals("borrowed") && LateReturn < 2) {//if the update has not been done  and the time of the late return is <2
+								query = "update reader set LateReturn=? , ReaderStatus=?  where UserID=?";//then update the time of the late return to +1 and the ReaderStatus to frozen
 								pstmt = con.prepareStatement(query);
-								object = pstmt.executeQuery();
-								object.next();
-								int x = object.getInt(1);
-
-								query = "UPDATE OrderBook SET OrderBookReady=?  WHERE BookName=? and OrderID=? ";//put the date of the return book in OrderBookReady
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, date.toString());
-								pstmt.setString(2, bookName);
-								pstmt.setInt(3, x);
-								pstmt.executeUpdate();
-
-								query = "DELETE FROM borrowbook WHERE CatalogNumber=?";//DELETE the borrow from the borrowbook DB
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								pstmt.executeUpdate();
-
-								String ReturnReaderStatus = null;
-								query = "select * from user where UserID=?";//search for the status of the reader 
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(1));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									ReturnReaderStatus = object.getString(9);
-								}
-								if (ReturnReaderStatus.equals("Frozen")) {//if the reader is frozen the make him active
-									query = "update user set userStatus=? where UserID=?";
-									pstmt = con.prepareStatement(query);
-									pstmt.setString(1, "Active");
-									pstmt.setString(2, data.get(1));
-									pstmt.executeUpdate();
-
-									query = "update reader set ReaderStatus=? where UserID=?";
-									pstmt = con.prepareStatement(query);
-									pstmt.setString(1, "Active");
-									pstmt.setString(2, data.get(1));
-									pstmt.executeUpdate();
-								}
-								client.sendToClient("done");//send to the client that the borrowed has been done
-								break;
-								//in this case we send massege to the client if remain one day or if the user has not return the book in the right time update his status
-								//and inset to the history the procees of the update
-							case 11:
-								String UserID = null;
-								String Email = null;
-								ComparDate = Arrays.asList(dateFormat.format(date).split("-"));
-								int currentday = Integer.parseInt(ComparDate.get(2));
-								query = "select * from borrowbook ";
-								pstmt = con.prepareStatement(query);
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									UserID = object.getString(2);
-									ComparDate = Arrays.asList(object.getString(5).split("-"));
-									int ReturnDate = Integer.parseInt(ComparDate.get(2));
-									if (currentday + 1 == ReturnDate && dateFormat.format(date).compareTo(object.getString(5)) < 0) {// If
-																																		// just
-																																		// remains
-																																		// one
-																																		// day
-																																		// for
-																																		// returning
-																																		// the
-																																		// book
-										query = "select * from user where UserID=?";
-										pstmt = con.prepareStatement(query);
-										pstmt.setString(1, UserID);
-										ResultSet object1 = pstmt.executeQuery();
-										while (object1.next()) {
-											Email = object1.getString(2);
-										}
-										SendMailToClient.SendingMail(Email, "One day left to return the book back to the library!!!");
-									}
-									// if the reader has not return the book in time then update all the details of
-									// the reader
-									else {
-										if (dateFormat.format(date).compareTo(object.getString(5)) > 0) {
-											int LateReturn = 0;
-											String borrowStatus = object.getString(6);//to control the flow of the update allowing you to check for the update if has been done while your function progresses
-											query = "select * from reader where UserID=?";//serach for the number of time that the reader has been late
-											pstmt = con.prepareStatement(query);
-											pstmt.setString(1, UserID);
-											ResultSet object2 = pstmt.executeQuery();
-											while (object2.next()) {
-												LateReturn = object2.getInt(3);//get the time of how much the reader has been late
-											}
-											if (borrowStatus.equals("borrowed") && LateReturn < 2) {//if the update has not been done  and the time of the late return is <2
-												query = "update reader set LateReturn=? , ReaderStatus=?  where UserID=?";//then update the time of the late return to +1 and the ReaderStatus to frozen
-												pstmt = con.prepareStatement(query);
-												pstmt.setInt(1, LateReturn + 1);
-												pstmt.setString(2, "Frozen");
-												pstmt.setString(3, UserID);
-												pstmt.executeUpdate();
-
-												query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert the process of the frezing to the history DB
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, UserID);
-												pstmt.setString(2, "");
-												pstmt.setString(3, dateFormat.format(date).toString());
-												pstmt.setString(4, "Frozen");
-												pstmt.executeUpdate();
-
-												query = "update borrowbook set borrowStatus=? where ReaderID=?";//UPDATE the borrow Status to LateReturn
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, "LateReturn");
-												pstmt.setString(2, UserID);
-												pstmt.executeUpdate();
-
-												query = "update user set userStatus=? where UserID=?";//update userStatus in user to Frozen
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, "Frozen");
-												pstmt.setString(2, UserID);
-												pstmt.executeUpdate();
-											} else if (borrowStatus.equals("borrowed") && LateReturn == 2) {// if the update has not been done and the reader has been
-																											// two time late and has
-																											// late anther time he will
-																											// bee blocked
-												query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert the process of the Blocked to the history DB
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, UserID);
-												pstmt.setString(2, "");
-												pstmt.setString(3, dateFormat.format(date).toString());
-												pstmt.setString(4, "Blocked");
-												pstmt.executeUpdate();
-												
-												query = "update reader set LateReturn=? , ReaderStatus=?  where UserID=?";// update the LateReturn to +1 and ReaderStatus to blocked
-												pstmt = con.prepareStatement(query);
-												pstmt.setInt(1, LateReturn + 1);
-												pstmt.setString(2, "Blocked");
-												pstmt.setString(3, UserID);
-												pstmt.executeUpdate();
-
-												query = "update borrowbook set borrowStatus=? where ReaderID=?";//update the borrowStatus to LateReturn in borrow book
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, "LateReturn");
-												pstmt.setString(2, UserID);
-												pstmt.executeUpdate();
-
-												query = "update user set userStatus=? where UserID=?";//update the userStatus to blocked in the user table
-												pstmt = con.prepareStatement(query);
-												pstmt.setString(1, "Blocked");
-												pstmt.setString(2, UserID);
-												pstmt.executeUpdate();
-											}
-										}
-									}
-								}
-								break;
-								//in this case we do the borrow update
-							case 12:
-								int cnt=0;
-								data = Arrays.asList(s.split(","));
-								if (data.get(7).equals("Blocked") || data.get(7).equals("Frozen")) {//if the user is blocked or frozen 
-									client.sendToClient("notFound," +"The user is :"+ data.get(7));//then send to the client that he is blocked or frozen 
-									break;
-								}
-								String OrderStatus = null;
-								String ReaderID = null;
-								int FlagOrderStatus = 0;
-								query = "select * from library where BookName=?";//search form library by the name
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(6));
-								ResultSet object2 = pstmt.executeQuery();
-								while (object2.next()) {
-									quantity = object2.getInt(4);//get the quantity
-								}
-								if (quantity == 0) {
-									client.sendToClient("notFound,There is no book by this name in the library at this moment back in anther time ");
-									break;
-								}
-								query = "select * from OrderBook where BookName=?";//search form OrderBook by the name
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(6));
-								object = pstmt.executeQuery();
-								while (object.next()) {
-									OrderStatus = object.getString(4);//get the OrderStatus
-									ReaderID = object.getString(2);//get the ReaderID
-									if (OrderStatus.equals("Waiting for Book") && ReaderID.equals(data.get(1))) {//if the reader is waiting the book 
-										FlagOrderStatus = 1;
-									} 
-									else {
-										FlagOrderStatus = 2;//if he's not in the order list or he's not waiting for the book in the order list 
-									}
-									cnt++;
-								}
-								if(cnt<quantity) {
-									FlagOrderStatus=3;
-								}
-								if (FlagOrderStatus == 2) {
-									client.sendToClient("notFound,He can't borrow the book ");
-									break;
-								}
-								if (FlagOrderStatus == 1) {
-									query = "DELETE FROM OrderBook WHERE BookName=? and ReaderID = ? ";//delete the order 
-									pstmt = con.prepareStatement(query);
-									pstmt.setString(1, data.get(6));
-									pstmt.setString(2, ReaderID);
-									pstmt.executeUpdate();
-								}
-								//if there no order
-								query = "INSERT INTO borrowbook values(?,?,?,?,?,?)";//insert in borrowbook
-								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(0));
-								pstmt.setString(2, data.get(1));
-								pstmt.setString(3, data.get(2));
-								pstmt.setString(4, data.get(3));
-								pstmt.setString(5, data.get(4));
-								pstmt.setString(6, data.get(5));
+								pstmt.setInt(1, LateReturn + 1);
+								pstmt.setString(2, "Frozen");
+								pstmt.setString(3, UserID);
 								pstmt.executeUpdate();
 
-								query = "INSERT INTO history (readerID,bookName,date,description,borrowPeriod,bookType) values(?,?,?,?,?,?)";//insert in history 
+								query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert the process of the frezing to the history DB
 								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, data.get(1));
-								pstmt.setString(2, data.get(6));
+								pstmt.setString(1, UserID);
+								pstmt.setString(2, "");
 								pstmt.setString(3, dateFormat.format(date).toString());
-								pstmt.setString(4, "borrowed");//insert the procees
-								if(data.get(8).equals("Indemand"))
-									pstmt.setInt(5, 3);	
-								else
-									pstmt.setInt(5, 14);
-								pstmt.setString(6, data.get(8));
+								pstmt.setString(4, "Frozen");
 								pstmt.executeUpdate();
 
-								query = "update library set quantity=? where BookName=?";//update the quantity in the library -1
+								query = "update borrowbook set borrowStatus=? where ReaderID=?";//UPDATE the borrow Status to LateReturn
 								pstmt = con.prepareStatement(query);
-								pstmt.setInt(1, quantity - 1);
-								pstmt.setString(2, data.get(6));
+								pstmt.setString(1, "LateReturn");
+								pstmt.setString(2, UserID);
 								pstmt.executeUpdate();
 
-								query = "update book set borrowStatus=? where catalogNumber=?";//update the borrowstatus in book
+								query = "update user set userStatus=? where UserID=?";//update userStatus in user to Frozen
 								pstmt = con.prepareStatement(query);
-								pstmt.setString(1, "borrowed");
-								pstmt.setString(2, data.get(0));
+								pstmt.setString(1, "Frozen");
+								pstmt.setString(2, UserID);
 								pstmt.executeUpdate();
-								client.sendToClient("notFound,Borrowed has been done");//after finishing the borrow send massege
-								break;
+							} else if (borrowStatus.equals("borrowed") && LateReturn == 2) {// if the update has not been done and the reader has been
+																							// two time late and has
+																							// late anther time he will
+																							// bee blocked
+								query = "INSERT INTO history (readerID,bookName,date,description) values(?,?,?,?)";//insert the process of the Blocked to the history DB
+								pstmt = con.prepareStatement(query);
+								pstmt.setString(1, UserID);
+								pstmt.setString(2, "");
+								pstmt.setString(3, dateFormat.format(date).toString());
+								pstmt.setString(4, "Blocked");
+								pstmt.executeUpdate();
+								
+								query = "update reader set LateReturn=? , ReaderStatus=?  where UserID=?";// update the LateReturn to +1 and ReaderStatus to blocked
+								pstmt = con.prepareStatement(query);
+								pstmt.setInt(1, LateReturn + 1);
+								pstmt.setString(2, "Blocked");
+								pstmt.setString(3, UserID);
+								pstmt.executeUpdate();
+
+								query = "update borrowbook set borrowStatus=? where ReaderID=?";//update the borrowStatus to LateReturn in borrow book
+								pstmt = con.prepareStatement(query);
+								pstmt.setString(1, "LateReturn");
+								pstmt.setString(2, UserID);
+								pstmt.executeUpdate();
+
+								query = "update user set userStatus=? where UserID=?";//update the userStatus to blocked in the user table
+								pstmt = con.prepareStatement(query);
+								pstmt.setString(1, "Blocked");
+								pstmt.setString(2, UserID);
+								pstmt.executeUpdate();
+							}
+						}
+					}
+				}
+				break;
+				//in this case we do the borrow update
+			case 12:
+				int cnt=0;
+				data = Arrays.asList(s.split(","));
+				if (data.get(7).equals("Blocked") || data.get(7).equals("Frozen")) {//if the user is blocked or frozen 
+					client.sendToClient("notFound," +"The user is :"+ data.get(7));//then send to the client that he is blocked or frozen 
+					break;
+				}
+				String OrderStatus = null;
+				String ReaderID = null;
+				int FlagOrderStatus = 0;
+				query = "select * from library where BookName=?";//search form library by the name
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(6));
+				ResultSet object2 = pstmt.executeQuery();
+				while (object2.next()) {
+					quantity = object2.getInt(4);//get the quantity
+				}
+				if (quantity == 0) {
+					client.sendToClient("notFound,There is no book by this name in the library at this moment back in anther time ");
+					break;
+				}
+				query = "select * from OrderBook where BookName=?";//search form OrderBook by the name
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(6));
+				object = pstmt.executeQuery();
+				while (object.next()) {
+					OrderStatus = object.getString(4);//get the OrderStatus
+					ReaderID = object.getString(2);//get the ReaderID
+					if (OrderStatus.equals("Waiting for Book") && ReaderID.equals(data.get(1))) {//if the reader is waiting the book 
+						FlagOrderStatus = 1;
+					} 
+					else {
+						FlagOrderStatus = 2;//if he's not in the order list or he's not waiting for the book in the order list 
+					}
+					cnt++;
+				}
+				if(cnt<quantity) {
+					FlagOrderStatus=3;
+				}
+				if (FlagOrderStatus == 2) {
+					client.sendToClient("notFound,He can't borrow the book ");
+					break;
+				}
+				if (FlagOrderStatus == 1) {
+					query = "DELETE FROM OrderBook WHERE BookName=? and ReaderID = ? ";//delete the order 
+					pstmt = con.prepareStatement(query);
+					pstmt.setString(1, data.get(6));
+					pstmt.setString(2, ReaderID);
+					pstmt.executeUpdate();
+				}
+				//if there no order
+				query = "INSERT INTO borrowbook values(?,?,?,?,?,?)";//insert in borrowbook
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(0));
+				pstmt.setString(2, data.get(1));
+				pstmt.setString(3, data.get(2));
+				pstmt.setString(4, data.get(3));
+				pstmt.setString(5, data.get(4));
+				pstmt.setString(6, data.get(5));
+				pstmt.executeUpdate();
+
+				query = "INSERT INTO history (readerID,bookName,date,description,borrowPeriod,bookType) values(?,?,?,?,?,?)";//insert in history 
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, data.get(1));
+				pstmt.setString(2, data.get(6));
+				pstmt.setString(3, dateFormat.format(date).toString());
+				pstmt.setString(4, "borrowed");//insert the procees
+				if(data.get(8).equals("Indemand"))
+					pstmt.setInt(5, 3);	
+				else
+					pstmt.setInt(5, 14);
+				pstmt.setString(6, data.get(8));
+				pstmt.executeUpdate();
+
+				query = "update library set quantity=? where BookName=?";//update the quantity in the library -1
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, quantity - 1);
+				pstmt.setString(2, data.get(6));
+				pstmt.executeUpdate();
+
+				query = "update book set borrowStatus=? where catalogNumber=?";//update the borrowstatus in book
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, "borrowed");
+				pstmt.setString(2, data.get(0));
+				pstmt.executeUpdate();
+				client.sendToClient("notFound,Borrowed has been done");//after finishing the borrow send massege
+				break;
 								case 22:///////login
 									SendMassege="false";
 									String userTypeAndID="false";
@@ -1444,33 +1444,30 @@ public class ServerController extends AbstractServer  {
 
 								    break;
 			    
-			case 50://in this case we get all the deteils from histroy for the borrow statistic
-				String borrowPeriod ="";
-				data=Arrays.asList(s.split(","));
-				query = "select * from history where description='Returned' AND bookType='Avalible'";//serach for the books that returned and status is Avalible
-				pstmt = con.prepareStatement(query);
-				object = pstmt.executeQuery();
-				while (object.next()) {
-					ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
-					if(ComparDate.get(0).equals(data.get(2))&&ComparDate.get(1).equals(data.get(1))) {
-						borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Avalible in a string 
-					}
-				}
-				borrowPeriod+="Indemand,";//cut the string into to places the first place for bookType='Avalible' ant the second is for bookType='Indemand'
-				query = "select * from history where description='Returned' AND bookType='Indemand'";
-				pstmt = con.prepareStatement(query);
-				object = pstmt.executeQuery();
-				while (object.next()) {
-					ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
-					if(ComparDate.get(0).equals(data.get(2))&&ComparDate.get(1).equals(data.get(1))) {
-						borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Indemand in a string 
-					}
-				}
-				//cut the string into to places the first place for bookType='Avalible' ant the second is for bookType='Indemand'
-
-				client.sendToClient(borrowPeriod);
-				System.out.println(borrowPeriod);
-				break;
+								case 50://in this case we get all the deteils from histroy for the borrow statistic
+									String borrowPeriod ="";
+									data=Arrays.asList(s.split(","));
+									query = "select * from history where description='Returned' AND bookType='Avalible'";//serach for the books that returned and status is Avalible
+									pstmt = con.prepareStatement(query);
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
+										if(Integer.parseInt(ComparDate.get(0))==Integer.parseInt(data.get(2))&&Integer.parseInt(ComparDate.get(1))==Integer.parseInt(data.get(1))) {
+											borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Avalible in a string 
+										}
+									}
+									borrowPeriod+="Indemand,";//cut the string into to places the first place for bookType='Avalible' ant the second is for bookType='Indemand'
+									query = "select * from history where description='Returned' AND bookType='Indemand'";
+									pstmt = con.prepareStatement(query);
+									object = pstmt.executeQuery();
+									while (object.next()) {
+										ComparDate = Arrays.asList(object.getString(3).split("-"));//get the date of the given date from the client
+										if(Integer.parseInt(ComparDate.get(0))==Integer.parseInt(data.get(2))&&Integer.parseInt(ComparDate.get(1))==Integer.parseInt(data.get(1))) {
+											borrowPeriod+=object.getString(5)+",";//fill in the borrow period for every book that returned and status is Indemand in a string 
+										}
+									}
+									client.sendToClient(borrowPeriod);
+									break;
 			default:
 				break;
 			}

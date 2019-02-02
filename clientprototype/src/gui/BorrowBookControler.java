@@ -14,9 +14,12 @@ import javax.swing.JOptionPane;
 import controller.ConnectionToServer;
 import entity.Book;
 import entity.Reader;
+import gui.LoginController;
+import gui.NavigationBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import ocsf.client.ChatIF;
@@ -42,13 +45,13 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	    private Text SubscriberStatus;
 
 	    @FXML
-	    private Text BookStatus;
+	    private TextField BookStatus;
 
 	    @FXML
 	    private Text SubscriberName;
 
 	    @FXML
-	    private Text BookName;
+	    private TextArea BookName;
 
 	    @FXML
 	    private TextField BorrowDate;
@@ -61,6 +64,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
          Book book;
 
          Reader reader;
+         String ErrorMsg=null;
          @FXML
          private Text UserInformation;
     
@@ -70,12 +74,12 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
      * this function receive  in event press key of Clear All
      */
    public void ClearAll(ActionEvent event) {
-	   ReaderID.setText(" ");
-	   BookCatalogNumber.setText(" ");
+	   ReaderID.setText("");
+	   BookCatalogNumber.setText("");
 	   SubscriberStatus.setText("______________________");
-	   BookName.setText("_________________________");
+	   BookName.setText("");
 	   SubscriberName.setText("______________________");
-	   BookStatus.setText("_________________________");
+	   BookStatus.setText("");
 	   ReturnDate.setText(" ");
 	   BorrowDate.setText(" ");
    }
@@ -90,28 +94,18 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	  {  
 		int i = str.length();
 		  if(i!=9) {
+			  ErrorMsg = "Give me the right amount of the Reader ID";
 			  throw new NumberFormatException();
 		  }	
 		double d = Double.parseDouble(str);  
 	  }  
 	  catch(NumberFormatException nfe)  
 	  {  
+		  ErrorMsg="please give me the right password";
 	    return false;  
 	  }  
 	  return true;  
 	}
-   public boolean isNumericForBook(String str)  
- 	{  
- 	  try  
- 	  {  
- 		double d = Double.parseDouble(str);  
- 	  }  
- 	  catch(NumberFormatException nfe)  
- 	  {  
- 	    return false;  
- 	  }  
- 	  return true;  
- 	}
    /**
     * in this function you but the reader ID 
     * @param ReaderID
@@ -122,9 +116,12 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
     * if the reader is blocked or frozen or active or if he in the DB 
     */
    public void SearchForReaderID(ActionEvent event) {	  
-	  if(ReaderID.getText().equals("") ||isNumeric(ReaderID.getText())==false) {
+	  if(ReaderID.getText().equals("") ) {
 		   JOptionPane.showMessageDialog(frame, "please fill the fields");
 	   }
+	  else if(isNumeric(ReaderID.getText())==false) {
+		  JOptionPane.showMessageDialog(frame,ErrorMsg);
+	  }
 	   else {
 			try {
 				reader.setStudent_id(ReaderID.getText());
@@ -148,9 +145,6 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   if ( BookCatalogNumber.getText().equals("")) {
 			JOptionPane.showMessageDialog(frame, "please fill the fields");
 	   }
-	   	else if(isNumericForBook(BookCatalogNumber.getText())==false) {
-    		JOptionPane.showMessageDialog(frame, "please give me number");
-    	}
 		else {
 			try {
 				book.setCatalogNumber(BookCatalogNumber.getText());
@@ -175,7 +169,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   }
 	   else {
 		 try {
-				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+LoginController.userID2+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText();
+				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+LoginController.userID2+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText()+","+BookStatus.getText();
 				 ConnectionToServer.sendData(this,command);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -222,12 +216,12 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   //if there is a user or a book 
 	 }else if(data.get(0).equals("notFound")) {
 		  JOptionPane.showMessageDialog(frame,data.get(1));
-		  ReaderID.setText(" ");
-		   BookCatalogNumber.setText(" ");
+		  ReaderID.setText("");
+		   BookCatalogNumber.setText("");
 		   SubscriberStatus.setText("______________________");
-		   BookName.setText("_________________________");
+		   BookName.setText("");
 		   SubscriberName.setText("______________________");
-		   BookStatus.setText("_________________________");
+		   BookStatus.setText("");
 		   ReturnDate.setText(" ");
 		   BorrowDate.setText(" ");
 	   }
@@ -237,7 +231,6 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
    public void initialize(URL location, ResourceBundle resources) {
      	book = new Book();
     	reader = new Reader();
-
 		UserInformation.setText(LoginController.UserInfo2);
    }  
 }
