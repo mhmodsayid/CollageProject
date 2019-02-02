@@ -93,6 +93,7 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 		else {
 			try {
 				long date;
+				String lateFlag="";
 				SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 			    Date date1 = myFormat.parse(BorrowDate.getText());
 			    Date date2 = myFormat.parse(ReturnedOn.getText());
@@ -100,11 +101,13 @@ public class ReturnBookControler extends NavigationBar implements Initializable,
 			    long diff = date2.getTime() - date1.getTime();
 			    if(date2.compareTo(date3)<0) {
 			    	date=0;
+			    	lateFlag="0";
 			    }else {
 			    	date =date2.getTime() - date3.getTime();
+			    	lateFlag="1";
 			    }
 			    	String theLateDate = Long.toString(TimeUnit.DAYS.convert(date, TimeUnit.MILLISECONDS));
-				String command = "10"+book.getCatalogNumber()+","+ReaderID+","+Long.toString(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS))+","+theLateDate;
+				String command = "10"+book.getCatalogNumber()+","+ReaderID+","+Long.toString(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS))+","+theLateDate+","+lateFlag;
 				 ConnectionToServer.sendData(this,command);
 			} catch (IOException e) {
 				e.printStackTrace();

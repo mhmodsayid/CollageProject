@@ -49,6 +49,8 @@ import ocsf.client.ChatIF;
 public class ReaderCardController extends NavigationBar implements Initializable, ChatIF {
 	@FXML
 	private TextField readerID;
+	@FXML
+	private TextArea DecimalTotal;
     @FXML
     private TextArea DecimalRegular;
 
@@ -336,6 +338,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
     void LateReport(ActionEvent event) {
  
       	statusFlag=7;
+      	lateDataStats.clear();
   	  if(year.getText().equals("")&&month.getText().equals("")) 
 			JOptionPane.showMessageDialog(frame,"You must fill in month and year");	    			
 	    	else {
@@ -586,6 +589,7 @@ public class ReaderCardController extends NavigationBar implements Initializable
    	 * @author bayan
    	 */
 	public void ReaderCardInfo(ActionEvent event) {
+		statusFlag=0;
 
 		  if(readerID.getText().equals("") ||isNumeric(readerID.getText())==false) {
 			   JOptionPane.showMessageDialog(frame, "please fill reader ID");
@@ -851,11 +855,10 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		   
 		   if(statusFlag==7) {
 			   int rowCnt=Integer.parseInt(data.get(4));
-			   System.out.println(data);
 			   if(data.get(1).equals("null")) {
 				   totalAverage.setText("");
 				   totalMedian.setText("");
-				   totalDecimal.setText("");
+				   //totalDecimal.setText("");
 				   lateDataStats.clear();
 				   JOptionPane.showMessageDialog(frame, "No data available for the selected month");
 			   }
@@ -865,9 +868,42 @@ public class ReaderCardController extends NavigationBar implements Initializable
 				   //totalDecimal.setText(data.get(3));
 				   int whileCnt=5;
 				   while(whileCnt<(rowCnt*4+5)) {
+					   if(!data.get(whileCnt+1).equals(null))
 						   lateDataStats.add(new ReportData(data.get(whileCnt),data.get(whileCnt+1),data.get(whileCnt+2)));
 						   whileCnt+=4;
 				   }
+				   String Decimal ="";
+				   int i=0;
+				   int cnt=0;
+				   int x;
+				   double decimal=0;
+				   whileCnt+=1;
+				   Map< Integer,Integer> totalhm =  new HashMap< Integer,Integer>(); //this map is for the total decimal distribution
+				   while(cnt<rowCnt) {
+					   //then we insert to map to calculator the static 
+					   if(totalhm.containsKey(Integer.parseInt(data.get(whileCnt)))){//if there the same key 
+						   x=totalhm.get(Integer.parseInt(data.get(whileCnt)));//get the value
+						   totalhm.put(Integer.parseInt(data.get(whileCnt)),x+1);//and add 1 to the value
+					   }
+					   else {
+						   totalhm.put(Integer.parseInt(data.get(whileCnt)), 1);//put the new key with value = 1
+
+					   }
+					   whileCnt++;
+					   cnt++;
+					   i++;
+					   
+
+				   }
+				   Map<Integer, Integer> hm2 = sortByValue(totalhm);//sort the map
+
+			        for (Entry<Integer, Integer> entry1 : totalhm.entrySet())  {
+			        	double x1 =entry1.getValue();
+			        	decimal = x1/i;
+			        	Decimal+="the number of late days :"+entry1.getKey().toString()+"  the Distribution : "+String.format ("%.3f", decimal)+"\n";
+			        }
+			        DecimalTotal.setText(Decimal);
+					
 			   }
 	
 		   }
@@ -967,6 +1003,11 @@ public class ReaderCardController extends NavigationBar implements Initializable
 		dateCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("date"));
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("description"));
 		otherCol.setCellValueFactory(new PropertyValueFactory<TableData,String>("returnStatus"));
+		
+		bookcol.setCellValueFactory(new PropertyValueFactory<ReportData,String>("bookName"));
+		averagecol.setCellValueFactory(new PropertyValueFactory<ReportData,String>("average"));
+		mediancol.setCellValueFactory(new PropertyValueFactory<ReportData,String>("median"));
+		//decimalcol.setCellValueFactory(new PropertyValueFactory<ReportData,String>("decimal"));
 		
 
 		

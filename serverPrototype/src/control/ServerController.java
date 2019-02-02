@@ -27,7 +27,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import SendingMail.SendMailToClient;
 import entity.Book;
@@ -578,7 +580,7 @@ public class ServerController extends AbstractServer  {
 				pstmt.setString(1, data.get(0));
 				object = pstmt.executeQuery();
 				while (object.next()) {
-					SendMassege += object.getString(9)+"," + object.getString(4) + " " + object.getString(5);//we get the first name and the last name 
+					SendMassege += object.getString(9)+"," + object.getString(4) + " " + object.getString(5)+","+object.getString(6);//we get the first name and the last name 
 				}
 				if (SendMassege.equals("UserIDFound,")) {
 					SendMassege = "notFound,UserID Not Found";//if there is no user by the id that we put in the borrow gui
@@ -656,7 +658,7 @@ public class ServerController extends AbstractServer  {
 				pstmt.setString(4, "Returned");
 				pstmt.setInt(5, Integer.parseInt(data.get(2)));
 				pstmt.setString(6, bookType);
-				pstmt.setString(7, "0");
+				pstmt.setString(7, data.get(4));
 				pstmt.setInt(8, Integer.parseInt(data.get(3)));
 				pstmt.executeUpdate();
 				
@@ -1123,7 +1125,7 @@ public class ServerController extends AbstractServer  {
 									pstmt.setString(1, data.get(0));
 									object = pstmt.executeQuery();
 									while (object.next()) {
-										SendMassege += "," + object.getString(4) + " " + object.getString(5);
+										SendMassege += "," + object.getString(4) + " " + object.getString(5)+","+object.getString(6);
 									}
 									if (SendMassege.equals("UserIDFound,")) {
 										SendMassege = "notFound,UserID Not Found";
@@ -1440,7 +1442,7 @@ public class ServerController extends AbstractServer  {
 									break;
 									
 								case 39://load actions event
-									SendMassege1="";
+									SendMassege1="ReportNotFound";
 									data=Arrays.asList(s.split(","));
 									query="select * from actionsReport where year=? AND month=?";//search report at entered year and month
 									pstmt=con.prepareStatement(query);
@@ -1457,8 +1459,12 @@ public class ServerController extends AbstractServer  {
 									int rowCnt1=0;
 									SendMassege1="rowCounter"+",";
 									SendMassege="";
+									String bookString="";
+									int bCnt=0;
 									String bookN="";
 									String whileFlag="no";
+									String average="";
+									String median="";
 									data=Arrays.asList(s.split(","));
 									String searchDate=data.get(0)+"-"+data.get(1)+"-"+"01";
 									DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -1499,10 +1505,31 @@ public class ServerController extends AbstractServer  {
 									pstmt.setString(1,searchDate1);
 									pstmt.setString(2,searchDate2);
 								    object = pstmt.executeQuery();
-									while(object.next()) {
-										rowCnt1++;
+								    String latePeriod="";
+								    while(object.next()) {
+								    	latePeriod+=object.getString(8)+",";
+								    	bookString+=","+object.getString(2)+",";
+								    	bCnt++;
+								    }
+								    List<String> bookList=Arrays.asList(bookString.split(","));
+							        // Create a new LinkedHashSet 
+							        Set<String> set = new LinkedHashSet<>(); 
+							  
+							        // Add the elements to set 
+							        set.addAll(bookList); 
+							  
+							        // Clear the list 
+							        ArrayList<String> clearList = new ArrayList<String>();						  
+							        // add the elements of set 
+							        // with no duplicates to the list 
+							        clearList.addAll(set);
+							        bCnt=clearList.size();
+								    rowCnt=0;
+									while((bCnt-1)>0) {
 										whileFlag="yes";
-										bookN=object.getString(2);
+										bookN=clearList.get(bCnt-1);
+										System.out.println(bookN);
+										rowCnt1++;
 										query="select avg(late) from(select latePeriod as late from history where lateFlag>0"
 												+ " and date>=? and date<= ? and bookName=? and description='Returned') as av";
 										pstmt=con.prepareStatement(query);
@@ -1510,7 +1537,7 @@ public class ServerController extends AbstractServer  {
 										pstmt.setString(2,searchDate2);
 										pstmt.setString(3,bookN);
 									    object = pstmt.executeQuery();
-									    if(object.next())
+									    while(object.next())
 									    SendMassege1+=bookN+","+object.getString(1);
 									    
 									    query="select (max(latePeriod)+min(latePeriod))/2 from history where lateFlag > 0"
@@ -1520,12 +1547,12 @@ public class ServerController extends AbstractServer  {
 										pstmt.setString(2,searchDate2);
 										pstmt.setString(3,bookN);
 									    object = pstmt.executeQuery();
-									    if(object.next())
-									    SendMassege1+=","+object.getString(1)+","+"0";
+									    while(object.next())
+									    SendMassege1+=","+object.getString(1)+","+"0"+",";
+									    bCnt--;
 									}
 									SendMassege1=SendMassege1.replaceFirst("rowCounter", Integer.toString(rowCnt1));
-									System.out.println(SendMassege+","+SendMassege1);
-									client.sendToClient(SendMassege+","+SendMassege1);
+									client.sendToClient(SendMassege+","+SendMassege1+","+latePeriod+","+"END");
 									
 									
 									

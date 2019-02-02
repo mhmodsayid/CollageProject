@@ -67,6 +67,7 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
          String ErrorMsg=null;
          @FXML
          private Text UserInformation;
+         String subType;
     
     /**
      * this function is to clear all the details that you entered by clicking in clearAll
@@ -167,6 +168,9 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   if(book.getCatalogNumber()==null || reader.getStudent_id()==null) {
 		   JOptionPane.showMessageDialog(frame, "please fill the fields");
 	   }
+	   else if(subType.equals("Librarian")||subType.equals("Manager")) {
+		   JOptionPane.showMessageDialog(frame, "A "+subType+" can't borrow a book!");
+	   }
 	   else {
 		 try {
 				String command = "12"+book.getCatalogNumber()+","+reader.getStudent_id()+","+LoginController.userID2+","+BorrowDate.getText()+","+ReturnDate.getText()+","+"borrowed"+","+BookName.getText()+","+SubscriberStatus.getText()+","+BookStatus.getText();
@@ -191,7 +195,8 @@ public class BorrowBookControler extends NavigationBar implements Initializable,
 	   //if there is a user that have the same ID
 	   if(data.get(0).equals("UserIDFound")) {
 		   SubscriberStatus.setText(data.get(1));
-		   SubscriberName.setText(data.get(2));  
+		   SubscriberName.setText(data.get(2));
+		   subType=data.get(3);
 	   }
 	   //IF there is a book found in the library
 	   if(data.get(0).equals("BookFound")) {

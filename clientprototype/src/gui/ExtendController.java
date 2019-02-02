@@ -71,6 +71,7 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 	JOptionPane frame;
 	Reader reader;
 	public static String userType;
+	public static String userType1;
 	public static String userStatus;
 
     @FXML
@@ -220,7 +221,14 @@ public class ExtendController extends NavigationBar implements Initializable, Ch
 				   readerName.setText(data.get(2)); 
 				   userStatus=data.get(1);
 				   readerStatus.setText(userStatus);
+				   userType1=data.get(3);
+				   if(userType1.equals("Librarian")||userType1.equals("Manager")) {
+					   JOptionPane.showMessageDialog(frame, "A "+userType1+" can't borrow books!");
+					   ClearAll(null);
+				   }
+				   else {
 				   statusFlag=1;
+				   }
 				  
 			   }
 			   else {
