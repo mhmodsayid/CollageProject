@@ -55,10 +55,10 @@ public class ServerGuiController extends Application implements Initializable {
 	void ConnectServer(ActionEvent event)  {
 		JOptionPane frame = null;
 		int port = 5555; // Port to listen on
-		PasswordSQL.setText("password");
+		/*PasswordSQL.setText("password");
 		NameDB.setText("collageproject");
 		IpAddress.setText("77.138.40.146");
-		UserNameSQL.setText("root");
+		UserNameSQL.setText("root");*/
 		WorkerDetails.setVisible(false);
 
 		try {
