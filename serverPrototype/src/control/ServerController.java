@@ -62,7 +62,7 @@ class OrderTimeOut implements Runnable {
 			 * create a connection to database
 			 */
 			Connection con = db.initalizeDataBase();
-			PreparedStatement pstmt;
+			PreparedStatement pstmt; 
 			String query;
 /**
  * scan all the order table where the order ready time is not null 
